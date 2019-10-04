@@ -7,21 +7,33 @@
  */
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 import org.springframework.boot.gradle.tasks.bundling.BootWar
+import com.github.jengelman.gradle.plugins.shadow.ShadowExtension
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import ratpack.gradle.RatpackExtension
 
 plugins {
     // Apply the java plugin to add support for Java
     java
     application
-	
 	war
+`java-library`
 	id("org.springframework.boot")  version "2.1.9.RELEASE"
+	    id("com.github.johnrengelman.shadow") version "4.0.1" apply false
+    id("io.ratpack.ratpack-java") version "1.5.4" apply false
 }
 
 allprojects {
-    repositories {
+	apply(plugin = "io.spring.dependency-management")
+	
+	group = "com.eascapeco.sinemapr"
+    version = "1.0.0"
+	
+	repositories {
         mavenCentral()
     }
 }
+
+
 //tasks.getByName<BootJar>("bootJar") {
 //	mainClassName = "test2.App"
 //}
@@ -31,25 +43,28 @@ allprojects {
 //}
 
 subprojects {
-    apply(plugin = "io.spring.dependency-management")
-    apply(plugin = "org.springframework.boot")
-	//group = "com.eascapeco.sinemapr"
-    // version = "1.0.0"
-	
+
 }
 
 project("scinemapr.core") {
+	apply(plugin = "java-library")
+	
     dependencies {
+		implementation("org.apache.commons:commons-lang3:3.9")
     }
 }
 
 project("scinemapr.api") {
+	apply(plugin = "java-library")
+	
     dependencies {
-		compile(project(":scinemapr.core"))
     }
 }
 
 project("scinemapr.bo") {
-    dependencies {
-    }
+    apply(plugin = "java-library")
+	
+	dependencies {
+    
+	}
 }
