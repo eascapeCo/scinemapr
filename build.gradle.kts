@@ -13,12 +13,9 @@ import ratpack.gradle.RatpackExtension
 
 plugins {
     // Apply the java plugin to add support for Java
-    java
     application
-	war
-`java-library`
 	id("org.springframework.boot")  version "2.1.9.RELEASE"
-	    id("com.github.johnrengelman.shadow") version "4.0.1" apply false
+	id("com.github.johnrengelman.shadow") version "4.0.1" apply false
     id("io.ratpack.ratpack-java") version "1.5.4" apply false
 }
 
