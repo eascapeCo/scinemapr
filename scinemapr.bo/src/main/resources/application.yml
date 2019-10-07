@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: 
+    url: 
+    username: 
+    password: 
+  thymeleaf:
+    prefix: classpath:templates/
+    check-template-location: false
+    suffix: .html
+    mode: HTML
+    cache: false
+    template-resolver-order: 0

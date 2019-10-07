@@ -9,19 +9,16 @@ import org.springframework.boot.gradle.tasks.bundling.BootJar
 import org.springframework.boot.gradle.tasks.bundling.BootWar
 import com.github.jengelman.gradle.plugins.shadow.ShadowExtension
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import ratpack.gradle.RatpackExtension
 
 plugins {
     // Apply the java plugin to add support for Java
+
     application
 	id("org.springframework.boot")  version "2.1.9.RELEASE"
 	id("com.github.johnrengelman.shadow") version "4.0.1" apply false
-    id("io.ratpack.ratpack-java") version "1.5.4" apply false
 }
 
 allprojects {
-	apply(plugin = "io.spring.dependency-management")
-	
 	group = "com.eascapeco.sinemapr"
     version = "1.0.0"
 	
@@ -40,28 +37,52 @@ allprojects {
 //}
 
 subprojects {
-
+    apply(plugin = "org.springframework.boot")
+    apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "java-library")
 }
 
 project("scinemapr.core") {
-	apply(plugin = "java-library")
+	// apply(plugin = "java-library")
 	
     dependencies {
 		implementation("org.apache.commons:commons-lang3:3.9")
     }
 }
 
+
 project("scinemapr.api") {
-	apply(plugin = "java-library")
-	
+	// apply(plugin = "java-library")
     dependencies {
+        compile(project(":scinemapr.core"))
+
+        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0")
+        implementation("org.mariadb.jdbc:mariadb-java-client:2.5.0")
+
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 }
 
 project("scinemapr.bo") {
-    apply(plugin = "java-library")
-	
+    // apply(plugin = "java-library")
+    apply(plugin = "war")
 	dependencies {
-    
+        compile(project(":scinemapr.api"))
+
+    	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+        // implementation("org.springframework.boot:spring-boot-starter-security")
+        runtime("org.springframework.boot:spring-boot-starter-tomcat")
+        
+        // testImplementation("org.springframework.boot:spring-boot-starter-test")
 	}
+
+    tasks.getByName<BootJar>("bootJar") {
+        mainClassName = "com.eascapeco.scinemapr.bo.BoApplication"
+    }
+
+    tasks.getByName<BootWar>("bootWar") {
+    	mainClassName = "com.eascapeco.scinemapr.bo.BoApplication"
+    }
 }
+
