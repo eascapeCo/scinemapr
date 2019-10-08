@@ -54,11 +54,11 @@ project("scinemapr.core") {
 project("scinemapr.api") {
 	// apply(plugin = "java-library")
     dependencies {
-        compile(project(":scinemapr.core"))
+        "api"(project(":scinemapr.core"))
 
-        implementation("org.springframework.boot:spring-boot-starter-web")
-        implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0")
-        implementation("org.mariadb.jdbc:mariadb-java-client:2.5.0")
+        "api"("org.springframework.boot:spring-boot-starter-web")
+        "api"("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0")
+        "api"("org.mariadb.jdbc:mariadb-java-client:2.5.0")
 
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
@@ -68,9 +68,9 @@ project("scinemapr.bo") {
     // apply(plugin = "java-library")
     apply(plugin = "war")
 	dependencies {
-        compile(project(":scinemapr.api"))
+        "api"(project(":scinemapr.api"))
 
-    	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    	"api"("org.springframework.boot:spring-boot-starter-thymeleaf")
         // implementation("org.springframework.boot:spring-boot-starter-security")
         runtime("org.springframework.boot:spring-boot-starter-tomcat")
         
