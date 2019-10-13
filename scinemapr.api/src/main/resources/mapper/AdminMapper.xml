@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Admin">
+    
+    <!--
+        작성자 : jaehankim
+        작성일 : 2019. 10. 10
+        기능 : 관리자 정보를 조회
+    -->
+	<select id="selectAdmin" parameterType="Admin" resultType="Admin">
+		SELECT 
+		  A.*,
+		  (select GROUP_CONCAT(rol_nm separator ',') from adm_role ar INNER JOIN roles r ON ar.role_no = r.rol_no WHERE ar.adm_no = a.adm_no) as roleName
+		FROM ADMIN A 
+		WHERE ID = #{id} 
+	</select>
+</mapper>

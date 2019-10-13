@@ -7,6 +7,7 @@
  */
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 import org.springframework.boot.gradle.tasks.bundling.BootWar
+import org.springframework.boot.gradle.tasks.run.BootRun
 import com.github.jengelman.gradle.plugins.shadow.ShadowExtension
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
@@ -48,6 +49,11 @@ project("scinemapr.core") {
     dependencies {
 		implementation("org.apache.commons:commons-lang3:3.9")
     }
+/*
+    tasks.getByName<Jar>("jar") {
+	    enabled = true
+    }
+ */
 }
 
 
@@ -59,9 +65,15 @@ project("scinemapr.api") {
         "api"("org.springframework.boot:spring-boot-starter-web")
         "api"("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0")
         "api"("org.mariadb.jdbc:mariadb-java-client:2.5.0")
+        "api"("com.auth0:java-jwt:3.4.0")
 
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
+/*
+    tasks.getByName<Jar>("jar") {
+	    enabled = true
+    }
+ */
 }
 
 project("scinemapr.bo") {
@@ -84,5 +96,10 @@ project("scinemapr.bo") {
     tasks.getByName<BootWar>("bootWar") {
     	mainClassName = "com.eascapeco.scinemapr.bo.BoApplication"
     }
+/*
+    tasks.getByName<BootRun>("bootRun") {
+	    sourceResources(sourceSets["main"])
+    }
+ */
 }
 
