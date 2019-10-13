@@ -265,4 +265,10 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+### vue webpack build static files ###
+/scinemapr.bo/src/main/resources/static
+
+### webpack config folder ###
+!**/frontend/build/
+
 # End of https://www.gitignore.io/api/gradle,kotlin,java,idea,eclipse,intellij,macos,windows
