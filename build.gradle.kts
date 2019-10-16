@@ -14,7 +14,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 plugins {
     // Apply the java plugin to add support for Java
 
-    application
+    //application
 	id("org.springframework.boot")  version "2.1.9.RELEASE"
 	id("com.github.johnrengelman.shadow") version "4.0.1" apply false
 }
@@ -28,37 +28,31 @@ allprojects {
     }
 }
 
-
-//tasks.getByName<BootJar>("bootJar") {
-//	mainClassName = "test2.App"
-//}
-
-//tasks.getByName<BootWar>("bootWar") {
-//	mainClassName = "test2.App"
-//}
-
 subprojects {
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "java-library")
+
+    configure<JavaPluginConvention> {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
 }
 
 project("scinemapr.core") {
-	// apply(plugin = "java-library")
-	
     dependencies {
-		implementation("org.apache.commons:commons-lang3:3.9")
+		"api"("org.apache.commons:commons-lang3:3.9")
     }
-/*
+
     tasks.getByName<Jar>("jar") {
 	    enabled = true
     }
- */
+
 }
 
 
 project("scinemapr.api") {
-	// apply(plugin = "java-library")
     dependencies {
         "api"(project(":scinemapr.core"))
 
@@ -67,26 +61,26 @@ project("scinemapr.api") {
         "api"("org.mariadb.jdbc:mariadb-java-client:2.5.0")
         "api"("com.auth0:java-jwt:3.4.0")
 
-        testImplementation("org.springframework.boot:spring-boot-starter-test")
+        "testImplementation"("org.springframework.boot:spring-boot-starter-test")
     }
-/*
+
     tasks.getByName<Jar>("jar") {
 	    enabled = true
     }
- */
+
 }
 
 project("scinemapr.bo") {
-    // apply(plugin = "java-library")
     apply(plugin = "war")
-	dependencies {
+	
+    dependencies {
         "api"(project(":scinemapr.api"))
 
     	"api"("org.springframework.boot:spring-boot-starter-thymeleaf")
-        // implementation("org.springframework.boot:spring-boot-starter-security")
-        runtime("org.springframework.boot:spring-boot-starter-tomcat")
+        // "api"("org.springframework.boot:spring-boot-starter-security")
+        "runtime"("org.springframework.boot:spring-boot-starter-tomcat")
         
-        // testImplementation("org.springframework.boot:spring-boot-starter-test")
+        // "testImplementation"("org.springframework.boot:spring-boot-starter-test")
 	}
 
     tasks.getByName<BootJar>("bootJar") {

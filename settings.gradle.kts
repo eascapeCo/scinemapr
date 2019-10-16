@@ -1,9 +1,4 @@
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-    }
-}
-
+/* Root Project */
 rootProject.name = "scinemapr"
 
 /**
