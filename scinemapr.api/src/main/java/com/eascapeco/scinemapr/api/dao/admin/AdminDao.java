@@ -13,7 +13,7 @@ import com.eascapeco.scinemapr.api.model.Admin;
  * @author jaehankim
  * @date 2019. 10. 10
  */
-@Repository
+//@Repository
 public class AdminDao {
 	@Autowired
 	SqlSessionTemplate sqlSession;
