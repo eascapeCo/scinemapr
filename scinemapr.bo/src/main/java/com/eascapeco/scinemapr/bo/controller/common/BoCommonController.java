@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.eascapeco.scinemapr.api.model.Admin;
 import com.eascapeco.scinemapr.api.model.Result;
@@ -26,7 +27,17 @@ public class BoCommonController {
 		Result re = adminService.adminLogin(admin);
 		
 		log.debug("pwd {}", re.getMessage());
+		log.trace("Trace");
+		log.debug("Debug");
+		log.info("Info");
+        log.warn("Warn");
+        log.error("Error");
 		
+		return "index";
+	}
+	
+	@GetMapping("/loginForm")
+	public String loginForm(ModelMap model) {
 		return "index";
 	}
 }

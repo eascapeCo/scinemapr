@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.eascapeco.scinemapr.api.dao.admin.AdminDao;
+import com.eascapeco.scinemapr.api.dao.admin.AdminMapper;
 import com.eascapeco.scinemapr.api.model.Admin;
 import com.eascapeco.scinemapr.api.model.Result;
 
@@ -21,12 +21,11 @@ public class AdminServiceImpl implements AdminService {
 	private final Logger log = LoggerFactory.getLogger(AdminServiceImpl.class);
 	
 	@Autowired
-	private AdminDao adminDao;
+	private AdminMapper adminDao;
 
 	@Override
 	public Result adminLogin(Admin admin) {
 		log.debug("서비스!");
-		System.out.println("Tjqltm");
 		Admin adminInfo = adminDao.selectAdmin(admin);
 		
 		Result result = new Result();

@@ -1,6 +1,11 @@
 package com.eascapeco.scinemapr.api.model;
 
 import java.io.Serializable;
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 
 /**
  * 관리자 정보 model
@@ -9,7 +14,7 @@ import java.io.Serializable;
  * @date 2019. 10. 10
  */
 @SuppressWarnings("serial")
-public class Admin implements /* UserDetails, */ Serializable{
+public class Admin implements UserDetails, Serializable{
 	
     private Integer no;			// 관리자 번호
     private String id;			// 아이디
@@ -18,7 +23,7 @@ public class Admin implements /* UserDetails, */ Serializable{
     private String modDate;		// 수정일
     private Integer modNo;		// 수정자 
     private String roleName;	// 권한
-    //private Collection<GrantedAuthority> authorities;
+    private Collection<GrantedAuthority> authorities;
 
     public Integer getNo() {
         return no;
@@ -86,7 +91,7 @@ public class Admin implements /* UserDetails, */ Serializable{
         this.modDate = param.getModDate();
         this.modNo = param.getModNo();
     }
-/*
+
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
@@ -132,5 +137,4 @@ public class Admin implements /* UserDetails, */ Serializable{
 	public void setAuthorities(Collection<GrantedAuthority> authorities) {
 		this.authorities = authorities;
 	}
-*/
 }

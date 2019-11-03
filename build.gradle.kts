@@ -61,6 +61,7 @@ project("scinemapr.api") {
         "api"("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0")
         "api"("org.mariadb.jdbc:mariadb-java-client:2.5.0")
         "api"("com.auth0:java-jwt:3.4.0")
+        "api"("org.springframework.boot:spring-boot-starter-security")
 
         "testImplementation"("org.springframework.boot:spring-boot-starter-test")
     }
@@ -78,7 +79,7 @@ project("scinemapr.bo") {
         "api"(project(":scinemapr.api"))
 
     	"api"("org.springframework.boot:spring-boot-starter-thymeleaf")
-        "api"("org.springframework.boot:spring-boot-starter-security")
+        //"api"("org.springframework.boot:spring-boot-starter-security")
         "runtime"("org.springframework.boot:spring-boot-starter-tomcat")
         
         "testImplementation"("org.springframework.boot:spring-boot-starter-test")
