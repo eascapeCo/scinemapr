@@ -24,16 +24,9 @@ public class AdminServiceImpl implements AdminService {
 	private AdminMapper adminDao;
 
 	@Override
-	public Result adminLogin(Admin admin) {
-		log.debug("서비스!");
+	public Admin getAdmin(Admin admin) {
 		Admin adminInfo = adminDao.selectAdmin(admin);
 		
-		Result result = new Result();
-		if (adminInfo != null) {
-			result.setMessage(adminInfo.getPwd());
-		}
-		
-		return result;
-	
+		return adminInfo;
 	}
 }

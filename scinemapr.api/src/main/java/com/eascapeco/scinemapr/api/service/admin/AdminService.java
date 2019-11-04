@@ -16,5 +16,5 @@ public interface AdminService {
 	 * @param admin
 	 * @return
 	 */
-	Result adminLogin (Admin admin);
+    Admin getAdmin (Admin admin);
 }
