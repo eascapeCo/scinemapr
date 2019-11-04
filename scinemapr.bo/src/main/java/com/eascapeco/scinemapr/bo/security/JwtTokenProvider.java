@@ -34,12 +34,12 @@ public class JwtTokenProvider {
      * @return
      */
     public Optional<String> createJwtToken(String id, String pwd) {
-        pwd = "1234";
         Admin param = new Admin();
-        param.setId("admin");
+        param.setId(id);
         
         Admin findAdmin = adminService.getAdmin(param);
         
+        System.out.println(pwd);
         System.out.println(findAdmin.getPwd());
         System.out.println(passwordEncoder.matches(pwd, findAdmin.getPwd()));
         
