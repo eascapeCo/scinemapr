@@ -1,5 +1,7 @@
 package com.eascapeco.scinemapr.bo.security;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 
@@ -53,7 +55,7 @@ public class JwtTokenProvider {
         // 토큰 생성
         String token = JWT.create()
                 .withSubject(findAdmin.getId())
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
+                .withExpiresAt(Date.from(LocalDateTime.now().plusSeconds(1200).atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC256("secret"));
         
         System.out.println(token);

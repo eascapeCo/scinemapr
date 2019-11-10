@@ -6,8 +6,11 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.filter.GenericFilterBean;
+
+import com.eascapeco.scinemapr.bo.security.JwtTokenProvider;
 
 /**
  * JWT Authentication Filter
@@ -17,10 +20,20 @@ import org.springframework.web.filter.GenericFilterBean;
  */
 public class JWTAuthenticationFilter extends GenericFilterBean {
 
+	private JwtTokenProvider jwtTokenProvider;
+	
+	public JWTAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
+		this.jwtTokenProvider = jwtTokenProvider; 
+	}
+	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		System.out.println("!!");
+		HttpServletRequest req = (HttpServletRequest) request;
+		String token = req.getHeader("X-AUTH-TOKEN");
+		/*if (token != null && ) {
+			
+		}*/
 		chain.doFilter(request, response);
 	}
 

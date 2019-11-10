@@ -16,6 +16,10 @@ import com.eascapeco.scinemapr.bo.filter.JWTAuthenticationFilter;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+	private JwtTokenProvider jwttokenProvider;
+	
 	/*
     @Bean
     @Override
@@ -36,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 				.exceptionHandling().authenticationEntryPoint(new RestAuthenticationEntryPoint())
 			.and()
-				.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+				.addFilterBefore(new JWTAuthenticationFilter(jwttokenProvider), UsernamePasswordAuthenticationFilter.class);
 		super.configure(http);
 	}
 	
