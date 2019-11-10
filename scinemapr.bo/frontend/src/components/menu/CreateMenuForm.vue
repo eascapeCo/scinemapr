@@ -15,7 +15,6 @@
 					</div>
 				</div>
 			</div>
-<<<<<<< HEAD
 			<div class="col-lg-6 grid-margin stretch-card">
 				<div class="card">
 					<div class="card-body">
@@ -52,8 +51,6 @@
 					</div>
 				</div>
 			</div>
-=======
->>>>>>> branch 'develop' of https://github.com/eascapeCo/CinemaPr.git
 		</div>
 	</section>
 </template>
