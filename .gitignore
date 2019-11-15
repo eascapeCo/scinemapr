@@ -271,4 +271,7 @@ $RECYCLE.BIN/
 ### webpack config folder ###
 !**/frontend/build/
 
+### application.yml ###
+/scinemapr.bo/src/main/resources/application.yml
+
 # End of https://www.gitignore.io/api/gradle,kotlin,java,idea,eclipse,intellij,macos,windows
