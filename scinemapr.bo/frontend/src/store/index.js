@@ -13,7 +13,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        accessToken: null
+        accessToken: null,
+        refreshToken: null
     },
     getters: {
         getJwt: function(state) {
@@ -23,7 +24,9 @@ export default new Vuex.Store({
     mutations: {
         LOGIN_SUCCESS(state, headers) {
             console.log('muta -> ' + JSON.stringify(headers) /*+ headers*/ );
-            state.accessToken = headers.token;
+
+            state.accessToken = headers.tokenList.accessToken;
+            state.refreshToken = headers.tokenList.refreshToken;
         },
     },
     actions: {

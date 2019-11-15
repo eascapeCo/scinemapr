@@ -61,12 +61,9 @@ export default {
         pwd: this.pwd
       }).then((response) => {
         if (response.status === 200) {
-          console.log('성공');
-          console.log(self.id);
-          console.log(response.data.token);
           console.log(response.data.message);
             this.$store.commit(types.LOGIN_SUCCESS, {
-              token: response.data.message,
+              tokenList: response.data.info,
               id: self.id
             })
             this.$router.push('/view/s');

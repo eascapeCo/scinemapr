@@ -26,25 +26,27 @@ import com.eascapeco.scinemapr.bo.security.JwtTokenProvider;
 @RestController
 public class BoAuthController {
 
-	private final Logger log = LoggerFactory.getLogger(BoAuthController.class);
-	
-	@Autowired
-	JwtTokenProvider jwtTokenProvider;
-	
-	@PostMapping("/api/admin/login")
-	public Result login(@RequestBody Admin admin) {
-		log.debug("id {}", admin.getId());
-		log.debug("pwd {}", admin.getPwd());
-		
-		Optional<String> token = jwtTokenProvider.createJwtToken(admin.getId(), admin.getPwd());
-		
-		Result result = new Result();
-		if (token.isPresent()) {
-		    log.debug("token {}", token.get());
-		    result.setCode("200");
-		    result.setMessage(token.get());
-		}
-		
-		return result;
-	}
+    private final Logger log = LoggerFactory.getLogger(BoAuthController.class);
+
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
+
+    @PostMapping("/api/admin/login")
+    public Result login(@RequestBody Admin admin) {
+        log.debug("id {}", admin.getId());
+        log.debug("pwd {}", admin.getPwd());
+
+        Optional<String> token = jwtTokenProvider.createJwtToken(admin.getId(), admin.getPwd());
+
+        Result result = new Result();
+        if (token.isPresent()) {
+            Optional<String> refreshToken = jwtTokenProvider.refreshJwtToken(admin);
+            log.debug("token {}", token.get());
+            result.setCode("200");
+            result.setMessage("Login Success");
+            result.setInfo("accessToken", token.get());
+            result.setInfo("refreshToken", refreshToken.get());
+        }
+        return result;
+    }
 }

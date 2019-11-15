@@ -53,14 +53,37 @@ public class JwtTokenProvider {
         // 계정 잠김 여부 추가 필요
         
         // 토큰 생성
-        String token = JWT.create()
-                .withSubject(findAdmin.getId())
-                .withExpiresAt(Date.from(LocalDateTime.now().plusSeconds(1200).atZone(ZoneId.systemDefault()).toInstant()))
+        String token = JWT.create().withClaim("name", findAdmin.getId())
+                .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
+                .withIssuedAt(Date.from(LocalDateTime.now().plusSeconds(1800).atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC256("secret"));
         
         System.out.println(token);
         
         return Optional.of(token);
+    }
+    
+    /**
+     * 리프레쉬 토큰 생성 메소드
+     * 
+     * @param admin
+     * @param pwd
+     * @return Optional
+     */
+    public Optional<String> refreshJwtToken(Admin admin) {
+        
+        String userName = admin.getId();
+
+        
+//         RefreshToken 생성
+        String refreshToken = JWT.create().withClaim("name", userName)
+                                          .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
+                                          .withExpiresAt(Date.from(LocalDateTime.now().plusDays(14).atZone(ZoneId.systemDefault()).toInstant()))
+                                          .sign(Algorithm.HMAC256("secret"));
+
+        System.out.println(refreshToken);
+
+        return Optional.of(refreshToken);
     }
     
     /**
