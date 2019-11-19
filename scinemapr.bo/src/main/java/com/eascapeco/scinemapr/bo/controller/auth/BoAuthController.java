@@ -6,11 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eascapeco.scinemapr.api.model.Admin;
+import com.eascapeco.scinemapr.api.model.AdminToken;
 import com.eascapeco.scinemapr.api.model.Result;
 import com.eascapeco.scinemapr.bo.security.JwtTokenProvider;
 
@@ -36,16 +38,19 @@ public class BoAuthController {
         log.debug("id {}", admin.getId());
         log.debug("pwd {}", admin.getPwd());
 
-        Optional<String> token = jwtTokenProvider.createJwtToken(admin.getId(), admin.getPwd());
+        AdminToken admintoken = jwtTokenProvider.createJwtToken(admin.getId(), admin.getPwd());
 
         Result result = new Result();
-        if (token.isPresent()) {
-            Optional<String> refreshToken = jwtTokenProvider.refreshJwtToken(admin);
-            log.debug("token {}", token.get());
-            result.setCode("200");
-            result.setMessage("Login Success");
-            result.setInfo("accessToken", token.get());
-            result.setInfo("refreshToken", refreshToken.get());
+        if (!admintoken.getTkn().isEmpty()) {
+            Optional<String> refreshToken = jwtTokenProvider.refreshJwtToken(admintoken);
+            
+            if(refreshToken.isPresent()) {
+                log.debug("token {}", admintoken.getTkn());
+                result.setCode("200");
+                result.setMessage("Login Success");
+                result.setInfo("accessToken", admintoken.getTkn());
+                result.setInfo("refreshToken", refreshToken.get());
+            }
         }
         return result;
     }

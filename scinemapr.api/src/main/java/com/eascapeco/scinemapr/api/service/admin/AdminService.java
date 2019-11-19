@@ -1,6 +1,9 @@
 package com.eascapeco.scinemapr.api.service.admin;
 
+import java.util.Map;
+
 import com.eascapeco.scinemapr.api.model.Admin;
+import com.eascapeco.scinemapr.api.model.AdminToken;
 import com.eascapeco.scinemapr.api.model.Result;
 
 /**
@@ -17,4 +20,6 @@ public interface AdminService {
 	 * @return
 	 */
     Admin getAdmin (Admin admin);
+
+    void insertRefreshToken(AdminToken adminTkn);
 }

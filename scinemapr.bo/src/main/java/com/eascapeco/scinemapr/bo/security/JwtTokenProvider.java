@@ -3,6 +3,8 @@ package com.eascapeco.scinemapr.bo.security;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.eascapeco.scinemapr.api.model.Admin;
+import com.eascapeco.scinemapr.api.model.AdminToken;
 import com.eascapeco.scinemapr.api.service.admin.AdminService;
 
 @Component
@@ -35,11 +38,13 @@ public class JwtTokenProvider {
      * @param pwd
      * @return
      */
-    public Optional<String> createJwtToken(String id, String pwd) {
+    public AdminToken createJwtToken(String id, String pwd) {
         Admin param = new Admin();
         param.setId(id);
         
         Admin findAdmin = adminService.getAdmin(param);
+        
+        AdminToken adminToken = new AdminToken();
         
         System.out.println(pwd);
         System.out.println(findAdmin.getPwd());
@@ -50,38 +55,41 @@ public class JwtTokenProvider {
             throw new RuntimeException();
         }
         
+        
         // 계정 잠김 여부 추가 필요
         
         // 토큰 생성
-        String token = JWT.create().withClaim("name", findAdmin.getId())
-                .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
-                .withIssuedAt(Date.from(LocalDateTime.now().plusSeconds(1800).atZone(ZoneId.systemDefault()).toInstant()))
-                .sign(Algorithm.HMAC256("secret"));
+        String token = JWT.create().withClaim("adminNo", findAdmin.getNo())
+                                    .withClaim("name", findAdmin.getUsername())
+                                    .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
+                                    .withIssuedAt(Date.from(LocalDateTime.now().plusSeconds(1800).atZone(ZoneId.systemDefault()).toInstant()))
+                                    .sign(Algorithm.HMAC256("secret"));
+        
+        adminToken.setAdm_no(findAdmin.getNo());
+        adminToken.setTkn(token);
         
         System.out.println(token);
-        
-        return Optional.of(token);
+        return adminToken;
     }
     
     /**
      * 리프레쉬 토큰 생성 메소드
      * 
-     * @param admin
+     * @param admintoken
      * @param pwd
      * @return Optional
      */
-    public Optional<String> refreshJwtToken(Admin admin) {
-        
-        String userName = admin.getId();
-
+    public Optional<String> refreshJwtToken(AdminToken admintoken) {
         
 //         RefreshToken 생성
-        String refreshToken = JWT.create().withClaim("name", userName)
+        String refreshToken = JWT.create().withClaim("adminNo", admintoken.getAdm_no())
                                           .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                                           .withExpiresAt(Date.from(LocalDateTime.now().plusDays(14).atZone(ZoneId.systemDefault()).toInstant()))
                                           .sign(Algorithm.HMAC256("secret"));
-
-        System.out.println(refreshToken);
+        
+        admintoken.setTkn(refreshToken);
+        
+        adminService.insertRefreshToken(admintoken);
 
         return Optional.of(refreshToken);
     }
@@ -95,4 +103,5 @@ public class JwtTokenProvider {
     public Authentication getAuthentication(String token) {
         return null;
     }
+    
 }

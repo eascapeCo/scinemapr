@@ -15,4 +15,17 @@
 		FROM ADMIN A 
 		WHERE ID = #{id} 
 	</select>
+	
+	<insert id="insertRefreshToken" parameterType="AdminToken">
+	   INSERT 
+	     INTO tkn_vald
+	        ( tkn
+	        , adm_no 
+	        ) 
+	   VALUES
+	        ( #{tkn}
+	        , #{adm_no}
+	        )
+	       
+	</insert>
 </mapper>
