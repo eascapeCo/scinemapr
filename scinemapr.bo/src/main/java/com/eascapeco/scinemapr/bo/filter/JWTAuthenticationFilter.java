@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.filter.GenericFilterBean;
 
+import com.eascapeco.scinemapr.api.util.CookieUtils;
 import com.eascapeco.scinemapr.bo.security.JwtTokenProvider;
 
 /**
@@ -31,6 +32,7 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		String token = req.getHeader("X-AUTH-TOKEN");
+		System.out.println("refrsh +" + CookieUtils.getCookie("refreshToken", req));
 		/*if (token != null && ) {
 			
 		}*/

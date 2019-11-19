@@ -2,6 +2,8 @@ package com.eascapeco.scinemapr.bo.controller.auth;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eascapeco.scinemapr.api.model.Admin;
 import com.eascapeco.scinemapr.api.model.AdminToken;
 import com.eascapeco.scinemapr.api.model.Result;
+import com.eascapeco.scinemapr.api.util.CookieUtils;
 import com.eascapeco.scinemapr.bo.security.JwtTokenProvider;
 
 /**
@@ -34,7 +37,7 @@ public class BoAuthController {
     JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/api/admin/login")
-    public Result login(@RequestBody Admin admin) {
+    public Result login(@RequestBody Admin admin, HttpServletResponse response) {
         log.debug("id {}", admin.getId());
         log.debug("pwd {}", admin.getPwd());
 
@@ -49,7 +52,9 @@ public class BoAuthController {
                 result.setCode("200");
                 result.setMessage("Login Success");
                 result.setInfo("accessToken", admintoken.getTkn());
-                result.setInfo("refreshToken", refreshToken.get());
+                // result.setInfo("refreshToken", refreshToken.get());
+                CookieUtils.setCookie("refreshToken", refreshToken.get(), response);
+                
             }
         }
         return result;
