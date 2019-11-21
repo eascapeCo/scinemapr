@@ -63,4 +63,24 @@ public class CookieUtils {
         
         return value;
     }
+    
+    /**
+     * key에 해당되는 쿠키 삭제
+     * 
+     * @param keyName
+     * @param request
+     * @param response
+     */
+    public static void expireCookie(String keyName, HttpServletRequest request, HttpServletResponse response) {
+        Cookie cookies[] = request.getCookies();
+        
+        if(cookies != null){
+            for (Cookie thisCookie : cookies) {
+                String _cName = thisCookie.getName();
+                if (StringUtils.equals(_cName, keyName)) {
+                    setCookie(_cName, "", 0, response);
+                }
+            }
+        }
+    }
 }
