@@ -2,6 +2,7 @@ package com.eascapeco.scinemapr.bo.controller.auth;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -37,10 +38,12 @@ public class BoAuthController {
     JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/api/admin/login")
-    public Result login(@RequestBody Admin admin, HttpServletResponse response) {
+    public Result login(@RequestBody Admin admin, HttpServletRequest request, HttpServletResponse response) {
         log.debug("id {}", admin.getId());
         log.debug("pwd {}", admin.getPwd());
 
+        CookieUtils.expireCookie("refreshToken", request, response);
+        
         AdminToken admintoken = jwtTokenProvider.createJwtToken(admin.getId(), admin.getPwd());
 
         Result result = new Result();
@@ -52,8 +55,8 @@ public class BoAuthController {
                 result.setCode("200");
                 result.setMessage("Login Success");
                 result.setInfo("accessToken", admintoken.getTkn());
-                // result.setInfo("refreshToken", refreshToken.get());
-                CookieUtils.setCookie("refreshToken", refreshToken.get(), response);
+                result.setInfo("refreshToken", refreshToken.get());
+//                CookieUtils.setCookie("refreshToken", refreshToken.get(), response);
                 
             }
         }

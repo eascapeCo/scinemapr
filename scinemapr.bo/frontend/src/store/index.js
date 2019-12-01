@@ -24,9 +24,9 @@ export default new Vuex.Store({
     mutations: {
         LOGIN_SUCCESS(state, headers) {
             console.log('muta -> ' + JSON.stringify(headers) /*+ headers*/ );
+            document.cookie = 'refreshToken='+headers.tokenList.refreshToken;
 
             state.accessToken = headers.tokenList.accessToken;
-            state.refreshToken = headers.tokenList.refreshToken;
         },
     },
     actions: {
