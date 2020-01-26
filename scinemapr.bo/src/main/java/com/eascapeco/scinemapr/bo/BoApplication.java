@@ -8,13 +8,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication(scanBasePackages = "com.eascapeco.scinemapr")
 public class BoApplication {
-	
-	public static void main(String[] args) throws Exception {
-		SpringApplication.run(BoApplication.class, args);
-	}
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-	    return new BCryptPasswordEncoder(12);
-	}
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(BoApplication.class, args);
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(12);
+    }
 }

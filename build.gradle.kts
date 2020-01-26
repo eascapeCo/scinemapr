@@ -15,7 +15,7 @@ plugins {
     // Apply the java plugin to add support for Java
 
     //application
-	id("org.springframework.boot")  version "2.1.9.RELEASE"
+	id("org.springframework.boot")  version "2.2.2.RELEASE"
 	id("com.github.johnrengelman.shadow") version "4.0.1" apply false
 }
 
@@ -62,8 +62,11 @@ project("scinemapr.api") {
         "api"("org.mariadb.jdbc:mariadb-java-client:2.5.0")
         "api"("com.auth0:java-jwt:3.4.0")
         "api"("org.springframework.boot:spring-boot-starter-security")
+        "api"("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.1")
 
-        "testImplementation"("org.springframework.boot:spring-boot-starter-test")
+        "testImplementation"("org.springframework.boot:spring-boot-starter-test") {
+            exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+        }
     }
 
     tasks.getByName<Jar>("jar") {
