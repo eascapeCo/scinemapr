@@ -56,8 +56,7 @@ public class BoAuthController {
                 result.setMessage("Login Success");
                 result.setInfo("accessToken", admintoken.getTkn());
                 result.setInfo("refreshToken", refreshToken.get());
-//                CookieUtils.setCookie("refreshToken", refreshToken.get(), response);
-                
+                //CookieUtils.setCookie("refreshToken", refreshToken.get(), response);
             }
         }
         return result;
