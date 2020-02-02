@@ -39,9 +39,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.anyRequest().hasRole("USER")
 			.and()
 				.exceptionHandling().authenticationEntryPoint(new RestAuthenticationEntryPoint())
+			//.and()
+			//    .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
 			.and()
 				.addFilterBefore(new JWTAuthenticationFilter(jwttokenProvider), UsernamePasswordAuthenticationFilter.class);
-		super.configure(http);
+		//super.configure(http);
 	}
 	
 	@Override
