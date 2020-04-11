@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 				.authorizeRequests()
-					.antMatchers("/loginForm", "/api/admin/login").permitAll()
+					.antMatchers("/loginForm", "/api/admin/login", "/favicon.ico").permitAll()
 					.anyRequest().hasRole("USER")
 			.and()
 				.exceptionHandling().authenticationEntryPoint(new RestAuthenticationEntryPoint())
@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void init(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/static/**", "/favicon.ico");
+		web.ignoring().antMatchers("/static/**");
 		super.init(web);
 	}
 }
