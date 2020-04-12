@@ -26,7 +26,7 @@ public class DataBaseConfig {
 		SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
 		sqlSessionFactory.setDataSource(datasource);
 		sqlSessionFactory.setTypeAliasesPackage("com.eascapeco.scinemapr.api.model");
-		sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:/mapper/*.xml"));
+		sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:/mapper/*.xml"));
 		return sqlSessionFactory.getObject();
 	}
 
