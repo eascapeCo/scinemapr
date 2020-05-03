@@ -9,22 +9,24 @@
         기능 : 관리자 정보를 조회
     -->
 	<select id="selectAdmin" parameterType="Admin" resultType="Admin">
-		SELECT 
-		  A.*,
-		  (select GROUP_CONCAT(rol_nm separator ',') from adm_role ar INNER JOIN roles r ON ar.role_no = r.rol_no WHERE ar.adm_no = a.adm_no) as roleName
-		FROM ADMIN A 
-		WHERE ID = #{id} 
+		SELECT A.*
+		     , ( SELECT GROUP_CONCAT(ROL_NM SEPARATOR ',')
+		           FROM ADM_ROLE AR
+		          INNER JOIN ROLES R ON AR.ROL_NO = R.ROL_NO
+		          WHERE AR.ADM_NO = A.ADM_NO
+		       ) AS ROLENAME
+		  FROM ADMIN A
+		 WHERE ID = #{id}
 	</select>
-	
+
 	<insert id="insertRefreshToken" parameterType="AdminToken">
-	   INSERT 
-	     INTO tkn_vald
-	        ( tkn
-	        , adm_no 
-	        ) 
+	   INSERT INTO TKN_VALD
+	        ( TKN
+	        , ADM_NO
+	        )
 	   VALUES
-	        ( #{tkn}
-	        , #{adm_no}
+	        ( #{TKN}
+	        , #{ADM_NO}
 	        )
 	       
 	</insert>
