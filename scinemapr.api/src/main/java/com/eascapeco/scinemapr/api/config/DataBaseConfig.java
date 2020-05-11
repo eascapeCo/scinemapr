@@ -3,6 +3,7 @@ package com.eascapeco.scinemapr.api.config;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.type.JdbcType;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
@@ -23,6 +24,15 @@ public class DataBaseConfig {
 
 	@Bean
 	public SqlSessionFactory sqlSessionFactory(DataSource datasource) throws Exception {
+        // mybatis 설정
+        org.apache.ibatis.session.Configuration config = new org.apache.ibatis.session.Configuration();
+        config.setJdbcTypeForNull(JdbcType.VARCHAR);
+        config.setAggressiveLazyLoading(true);
+        config.setUseGeneratedKeys(false);
+        config.setDefaultStatementTimeout(25000);
+        config.setMapUnderscoreToCamelCase(true);
+        config.setUseColumnLabel(true);
+	    
 		SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
 		sqlSessionFactory.setDataSource(datasource);
 		sqlSessionFactory.setTypeAliasesPackage("com.eascapeco.scinemapr.api.model");
