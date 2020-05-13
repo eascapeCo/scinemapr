@@ -37,6 +37,7 @@ public class DataBaseConfig {
 		sqlSessionFactory.setDataSource(datasource);
 		sqlSessionFactory.setTypeAliasesPackage("com.eascapeco.scinemapr.api.model");
 		sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:/mapper/*.xml"));
+		sqlSessionFactory.setConfiguration(config);
 		return sqlSessionFactory.getObject();
 	}
 
