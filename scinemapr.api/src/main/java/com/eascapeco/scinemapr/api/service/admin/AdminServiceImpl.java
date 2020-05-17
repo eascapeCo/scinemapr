@@ -24,7 +24,7 @@ public class AdminServiceImpl implements AdminService {
     private final Logger log = LoggerFactory.getLogger(AdminServiceImpl.class);
 
     @Autowired
-    private AdminMapper adminDao;
+    public AdminMapper adminDao;
 
     @Override
     public Admin getAdmin(Admin admin) {
