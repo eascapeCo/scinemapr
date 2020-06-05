@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eascapeco.scinemapr.api.dao.menu.MenuMapper">
+
+	<!--
+        작성자 : JaeHan-Kim
+        작성일 : 2020. 05. 05
+        기능 : 관리자 정보를 조회
+    -->
+	<select id="selectMenu" parameterType="Menu" resultType="Menu">
+		SELECT
+			M.mnu_no,
+			M.pre_mnu_no,
+			M.mnu_name,
+			M.mnu_lv,
+			M.url_adr,
+			M.use_yn,
+			M.reg_date,
+			M.reg_no,
+			M.mod_date,
+			M.mod_no
+		FROM MENU M
+	</select>
+
+	<insert id="createMenu" parameterType="Menu">
+		INSERT INTO Menu
+	    (
+			mnu_no,
+			pre_mnu_no,
+			mnu_name,
+			mnu_lv,
+			url_adr,
+			use_yn,
+			reg_date,
+			reg_no,
+			mod_date,
+			mod_no
+	    )
+	   	VALUES
+	   	(
+			#{mnuNo},
+			#{rolNo},
+			#{preMnuNo},
+			#{mnuName},
+			#{mnuLv},
+			#{urlAdr},
+			#{useYn},
+			#{regDate},
+			#{regNo},
+			#{modNo}
+		)
+	</insert>
+
+	<update id="updateMenu" parameterType="Menu">
+		UPDATE MENU SET
+			mnu_name = #{mnuName}
+		WHERE
+			mnu_no = #{mnuNo}
+	</update>
+
+</mapper>
