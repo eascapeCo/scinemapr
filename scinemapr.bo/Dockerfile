@@ -17,4 +17,4 @@ ARG JAR_FILE=build/libs/scinemapr.bo-1.0.0.jar
 ADD ${JAR_FILE} scinemapr.bo.jar
 
 # Run the jar file
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/scinemapr.bo.jar","--spring.profiles.active=local"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/scinemapr.bo.jar","--spring.profiles.active=dev"]
