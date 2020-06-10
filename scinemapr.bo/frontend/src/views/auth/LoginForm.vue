@@ -23,10 +23,10 @@
               <v-spacer></v-spacer>
             </v-toolbar>
             <v-card-text>
-              <v-form>
+              <v-form ref="form">
                 <v-text-field
-                  label="Login"
-                  name="login"
+                  label="User"
+                  name="user"
                   type="text"
                 ></v-text-field>
 
@@ -40,9 +40,9 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <router-link to="/">
-                <v-btn color="primary">Login</v-btn>
-              </router-link>
+              <!-- <router-link to="/"> -->
+                <v-btn color="primary" @click="callLogin">Login</v-btn>
+              <!-- </router-link> -->
             </v-card-actions>
           </v-card>
         </v-col>
@@ -53,8 +53,30 @@
 
 <script>
 export default {
-  props: {
-    source: String
+  name: 'login',
+  data () {
+    return {
+      loginError: false,
+      user: '',
+      password: '',
+      error: false,
+      errors: []
+    }
+  },
+  methods: {
+    callLogin: () => {
+      // this.errors = []
+      this.$store.dispatch('login', {
+        user: this.user,
+        password: this.password
+      }).then(() => {
+        this.$router.push('/views/grid')
+      }).catch(error => {
+        this.loginError = true
+        this.errors.push(error)
+        this.error = true
+      })
+    }
   }
 }
 </script>
