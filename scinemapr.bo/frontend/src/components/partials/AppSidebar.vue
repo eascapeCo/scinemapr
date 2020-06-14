@@ -6,43 +6,37 @@
       clipped
   >
 -->
-    <v-list>
+  <v-list>
     <v-list-group
-        prepend-icon="mdi-view-dashboard"
+      prepend-icon="mdi-view-dashboard"
+      v-for="menu in menus"
+      :key="menu.mnuName"
     >
-        <template v-slot:activator>
+      <template v-slot:activator>
         <v-list-item-content>
-            <v-list-item-title>Ao1</v-list-item-title>
+          <v-list-item-title v-text="menu.mnuName"></v-list-item-title>
         </v-list-item-content>
-        </template>
-    </v-list-group>
-
-    <v-list-group
-        prepend-icon="mdi-view-dashboard"
+      </template>
+      <v-list-group
         no-action
-    >
+        sub-group
+        v-for="secondMenu in menu.subMenus"
+        :key="secondMenu.mnuName"
+      >
         <template v-slot:activator>
-        <v-list-item-content>
-            <v-list-item-title>Ao2</v-list-item-title>
-        </v-list-item-content>
+          <v-list-item-content>
+            <v-list-item-title v-text="secondMenu.mnuName"></v-list-item-title>
+          </v-list-item-content>
         </template>
-        <v-list-item link>
-        <v-list-item-content>
-            <v-list-item-title>Ao2 - 1</v-list-item-title>
-        </v-list-item-content>
+        <v-list-item
+          link
+          v-for="thirdMenu in secondMenu.subMenus"
+          :key="thirdMenu.mnuName"
+        >
+          <v-list-item-title v-text="thirdMenu.mnuName"></v-list-item-title>
         </v-list-item>
-        <v-list-item link>
-        <v-list-item-content>
-            <v-list-item-title>Ao2 - 2</v-list-item-title>
-        </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
-        <v-list-item-content>
-            <v-list-item-title>Ao2 - 3</v-list-item-title>
-        </v-list-item-content>
-        </v-list-item>
+      </v-list-group>
     </v-list-group>
-
     <v-list-group
         prepend-icon="mdi-view-dashboard"
         no-action
@@ -70,41 +64,44 @@
         </v-list-group>
         <v-list-item link>
         <v-list-item-content>
-            <v-list-item-title>Ao3 - 2</v-list-item-title>
+            <v-list-item-title @click="test">Ao3 - 2</v-list-item-title>
         </v-list-item-content>
         </v-list-item>
+        <v-list-item link>
+          <v-list-item-content>
+            <v-list-item-title @click="test">Ao3 - 3</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
     </v-list-group>
-
     <v-list-group
-        prepend-icon="mdi-view-dashboard"
-        no-action
+      prepend-icon="mdi-view-dashboard"
+      no-action
     >
-        <template v-slot:activator>
+      <template v-slot:activator>
         <v-list-item-content>
-            <v-list-item-title>sample</v-list-item-title>
+          <v-list-item-title>sample</v-list-item-title>
         </v-list-item-content>
-        </template>
-        <v-list-item link>
+      </template>
+      <v-list-item link>
         <v-list-item-content>
-            <v-list-item-title>
+          <v-list-item-title>
             <router-link to="/">
-                main
+              main
             </router-link>
-            </v-list-item-title>
+          </v-list-item-title>
         </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
+      </v-list-item>
+      <v-list-item link>
         <v-list-item-content>
-            <v-list-item-title>
+          <v-list-item-title>
             <router-link to="/grid">
-                grid
+              grid
             </router-link>
-            </v-list-item-title>
+          </v-list-item-title>
         </v-list-item-content>
-        </v-list-item>
+      </v-list-item>
     </v-list-group>
-
-    </v-list>
+  </v-list>
 <!-- </v-navigation-drawer> -->
 </template>
 
@@ -112,69 +109,20 @@
 export default {
   name: 'AppSidebar',
   created () {
-    this.getMenuList()
+    this.$axios.get('/api/menus')
+      .then((res) => {
+        this.menus = res.data[0].subMenus
+      })
   },
-  data () {
-    return {
-      items: [
-        {
-          action: 'local_activity',
-          title: 'Attractions',
-          items: [
-            { title: 'List Item' }
-          ]
-        },
-        {
-          action: 'restaurant',
-          title: 'Dining',
-          active: true,
-          items: [
-            { title: 'Breakfast & brunch' },
-            { title: 'New American' },
-            { title: 'Sushi' }
-          ]
-        },
-        {
-          action: 'school',
-          title: 'Education',
-          items: [
-            { title: 'List Item' }
-          ]
-        },
-        {
-          action: 'directions_run',
-          title: 'Family',
-          items: [
-            { title: 'List Item' }
-          ]
-        },
-        {
-          action: 'healing',
-          title: 'Health',
-          items: [
-            { title: 'List Item' }
-          ]
-        },
-        {
-          action: 'content_cut',
-          title: 'Office',
-          items: [
-            { title: 'List Item' }
-          ]
-        },
-        {
-          action: 'local_offer',
-          title: 'Promotions',
-          items: [
-            { title: 'List Item' }
-          ]
-        }
-      ]
-    }
-  },
+  data: () => ({
+    menus: []
+  }),
   methods: {
     getMenuList: function () {
       console.log('11')
+    },
+    test: function () {
+      console.log(this.menus)
     }
   }
 }

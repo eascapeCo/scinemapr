@@ -11,7 +11,7 @@
             <form>
               <v-subheader>Form</v-subheader>
               <v-text-field v-model="name" label="Name" />
-
+              <v-select v-model="useYn" :items="[true, false]" label="사용여부"></v-select>
               <v-btn class="mr-4" @click="submit">submit</v-btn>
               <v-btn>clear</v-btn>
             </form>
@@ -52,7 +52,8 @@
 export default {
   name: 'GirdSample',
   data: () => ({
-    name: null
+    name: null,
+    useYn: false
   }),
   methods: {
     submit: function () {

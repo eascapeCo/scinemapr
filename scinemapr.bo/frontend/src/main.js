@@ -6,6 +6,7 @@ import vuetify from './plugins/vuetify'
 import axios from 'axios'
 
 Vue.prototype.$axios = axios
+Vue.prototype.$store = store
 Vue.config.productionTip = false
 
 new Vue({
