@@ -9,6 +9,7 @@
         기능 : 관리자 정보를 조회
     -->
 	<select id="selectMenu" parameterType="Menu" resultType="Menu">
+        /* Menu.selectMenu */
 		SELECT
 			M.mnu_no,
 			M.pre_mnu_no,
@@ -21,12 +22,12 @@
 			M.mod_date,
 			M.mod_no
 		FROM MENU M
+		ORDER BY M.PRE_MNU_NO
 	</select>
 
-	<insert id="createMenu" parameterType="Menu">
+	<insert id="createMenu" parameterType="Menu" useGeneratedKeys="true" keyProperty="mnuNo">
 		INSERT INTO Menu
 	    (
-			mnu_no,
 			pre_mnu_no,
 			mnu_name,
 			mnu_lv,
@@ -39,8 +40,6 @@
 	    )
 	   	VALUES
 	   	(
-			#{mnuNo},
-			#{rolNo},
 			#{preMnuNo},
 			#{mnuName},
 			#{mnuLv},
@@ -48,13 +47,17 @@
 			#{useYn},
 			#{regDate},
 			#{regNo},
+			#{modDate},
 			#{modNo}
 		)
 	</insert>
 
 	<update id="updateMenu" parameterType="Menu">
 		UPDATE MENU SET
-			mnu_name = #{mnuName}
+			mnu_name = #{mnuName},
+			url_adr = #{urlAdr},
+			mod_date = #{modDate},
+			mod_no = #{modNo}
 		WHERE
 			mnu_no = #{mnuNo}
 	</update>

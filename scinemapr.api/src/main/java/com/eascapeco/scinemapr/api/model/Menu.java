@@ -1,20 +1,29 @@
 package com.eascapeco.scinemapr.api.model;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.List;
 
 public class Menu implements Serializable {
 
     private Integer mnuNo;
-    private int rolNo;
+    @Min(0)
     private int preMnuNo;
+    @NotBlank(message = "메뉴명은 필수 입니다.")
     private String mnuName;
+    @Min(0) @Max(3)
     private int mnuLv;
+    @NotBlank(message = "URL은 필수 입니다.")
     private String urlAdr;
     private boolean useYn;
     private String regDate;
     private int regNo;
     private String modDate;
     private int modNo;
+    private List<Menu> subMenus;
+
 
     public Integer getMnuNo() {
         return mnuNo;
@@ -22,14 +31,6 @@ public class Menu implements Serializable {
 
     public void setMnuNo(Integer mnuNo) {
         this.mnuNo = mnuNo;
-    }
-
-    public int getRolNo() {
-        return rolNo;
-    }
-
-    public void setRolNo(int rolNo) {
-        this.rolNo = rolNo;
     }
 
     public int getPreMnuNo() {
@@ -104,11 +105,18 @@ public class Menu implements Serializable {
         this.modNo = modNo;
     }
 
+    public List<Menu> getSubMenus() {
+        return subMenus;
+    }
+
+    public void setSubMenus(List<Menu> subMenus) {
+        this.subMenus = subMenus;
+    }
+
     @Override
     public String toString() {
         return "Menu{" +
                 "mnuNo=" + mnuNo +
-                ", rolNo=" + rolNo +
                 ", preMnuNo=" + preMnuNo +
                 ", mnuName='" + mnuName + '\'' +
                 ", mnuLv=" + mnuLv +

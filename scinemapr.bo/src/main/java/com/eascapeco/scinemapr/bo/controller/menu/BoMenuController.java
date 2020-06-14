@@ -2,17 +2,23 @@ package com.eascapeco.scinemapr.bo.controller.menu;
 
 import com.eascapeco.scinemapr.api.model.Menu;
 import com.eascapeco.scinemapr.api.service.menu.MenuService;
+import com.eascapeco.scinemapr.bo.controller.auth.BoAuthController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class BoMenuController {
+
+    private final Logger log = LoggerFactory.getLogger(BoMenuController.class);
 
     @Autowired
     private MenuService menuService;
@@ -26,11 +32,27 @@ public class BoMenuController {
             System.out.println(m.getMnuName());
         }
 
-        return this.menuService.getMenuList(null);
+        return list;
     }
 
     @PostMapping("/menus")
-    public Menu menu2() {
-        return new Menu();
+    public ResponseEntity<Menu> saveMenu(@RequestBody @Valid Menu menu) {
+
+        Menu savedMenu = this.menuService.createMenu(menu);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{mnuNo}")
+                .buildAndExpand(savedMenu.getMnuNo())
+                .toUri();
+        log.info("menu {} ", menu.toString());
+
+        return ResponseEntity.created(location).build();
     }
+/*
+    @PutMapping("/menus/${mnuNo}")
+    public ResponseEntity<Menu> updateMenu(@PathVariable Integer mnuNo, @RequestBody Menu menu) {
+        return null;
+    }
+*/
+
 }

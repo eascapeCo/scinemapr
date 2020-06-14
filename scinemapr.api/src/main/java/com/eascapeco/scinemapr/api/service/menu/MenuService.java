@@ -2,9 +2,14 @@ package com.eascapeco.scinemapr.api.service.menu;
 
 import com.eascapeco.scinemapr.api.dao.menu.MenuMapper;
 import com.eascapeco.scinemapr.api.model.Menu;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,16 +23,29 @@ public class MenuService {
 
     @Autowired
     private MenuMapper menuMapper;
+
     /**
      * 메뉴를 생성
      * @return
      */
-    public Menu createMenu() {
-        return null;
+    public Menu createMenu(Menu menu) {
+/*
+        if () {
+
+        }
+*/
+        menu.setModNo(menu.getRegNo());
+        menu.setRegDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        menu.setModDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+
+        System.out.println(menu.toString());
+        this.menuMapper.createMenu(menu);
+
+        return menu;
     }
 
     public List<Menu> getMenuList(Menu menu) {
-        List<Menu> list = this.menuMapper.selectMenu(menu);
+        List<Menu> menus = this.menuMapper.selectMenu(menu);
         //System.out.println(list.toString());
 /*
         System.out.println("list size " + list.size());
@@ -39,6 +57,28 @@ public class MenuService {
         }
 
  */
-        return list;
+        return this.getDispMenuList(menus, 0);
+    }
+
+    /**
+     *
+     * @param menuList
+     * @param preMnuNo
+     * @return
+     */
+    private List<Menu> getDispMenuList(List<Menu> menuList, int preMnuNo) {
+        List<Menu> rv = new ArrayList<>();
+
+        for (Menu menu : menuList) {
+            if (menu.getPreMnuNo() == preMnuNo) {
+                Menu copyMenu = new Menu();
+                BeanUtils.copyProperties(menu, copyMenu);
+
+                copyMenu.setSubMenus(this.getDispMenuList(menuList, copyMenu.getMnuNo()));
+                rv.add(copyMenu);
+            }
+        }
+
+        return rv;
     }
 }
