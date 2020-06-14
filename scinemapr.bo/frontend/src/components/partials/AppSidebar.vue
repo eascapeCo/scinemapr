@@ -9,6 +9,7 @@
   <v-list>
     <v-list-group
       prepend-icon="mdi-view-dashboard"
+      no-action
       v-for="menu in menus"
       :key="menu.mnuName"
     >
@@ -17,6 +18,7 @@
           <v-list-item-title v-text="menu.mnuName"></v-list-item-title>
         </v-list-item-content>
       </template>
+      <!--
       <v-list-group
         no-action
         sub-group
@@ -36,6 +38,43 @@
           <v-list-item-title v-text="thirdMenu.mnuName"></v-list-item-title>
         </v-list-item>
       </v-list-group>
+      -->
+        <span
+          v-for="secondMenu in menu.subMenus"
+          :key="secondMenu.mnuName"
+        >
+          <template v-if="secondMenu.subMenus.length !== 0">
+            <v-list-group
+              no-action
+              sub-group
+            >
+              <template v-slot:activator>
+                <v-list-item-content>
+                  <v-list-item-title v-text="secondMenu.mnuName"></v-list-item-title>
+                </v-list-item-content>
+              </template>
+              <v-list-item
+                link
+                v-for="thirdMenu in secondMenu.subMenus"
+                :key="thirdMenu.mnuName"
+              >
+                <v-list-item-title v-text="thirdMenu.mnuName"></v-list-item-title>
+              </v-list-item>
+            </v-list-group>
+          </template>
+          <template v-if="secondMenu.subMenus.length === 0">
+            <v-list-item link>
+              <v-list-item-content>
+                <v-list-item-title v-text="secondMenu.mnuName"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+        </span>
+      <v-list-item link>
+        <v-list-item-content>
+          <v-list-item-title @click="test">Ao3 - 3</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list-group>
     <v-list-group
         prepend-icon="mdi-view-dashboard"
@@ -111,7 +150,7 @@ export default {
   created () {
     this.$axios.get('/api/menus')
       .then((res) => {
-        this.menus = res.data[0].subMenus
+        this.menus = res.data
       })
   },
   data: () => ({

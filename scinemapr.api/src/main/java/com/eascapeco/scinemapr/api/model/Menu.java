@@ -23,7 +23,7 @@ public class Menu implements Serializable {
     private String modDate;
     private int modNo;
     private List<Menu> subMenus;
-
+    private Integer admNo;
 
     public Integer getMnuNo() {
         return mnuNo;
@@ -111,6 +111,14 @@ public class Menu implements Serializable {
 
     public void setSubMenus(List<Menu> subMenus) {
         this.subMenus = subMenus;
+    }
+
+    public Integer getAdmNo() {
+        return admNo;
+    }
+
+    public void setAdmNo(Integer admNo) {
+        this.admNo = admNo;
     }
 
     @Override

@@ -28,9 +28,6 @@ public class BoMenuController {
         System.out.println("get menu");
 
         List<Menu> list = this.menuService.getMenuList(null);
-        for (Menu m : list) {
-            System.out.println(m.getMnuName());
-        }
 
         return list;
     }

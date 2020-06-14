@@ -22,6 +22,16 @@
 			M.mod_date,
 			M.mod_no
 		FROM MENU M
+		WHERE
+			M.USE_YN = 'Y'
+			<if test="admNo != null">
+			AND EXISTS (
+					SELECT 1
+					FROM MENU_ROLES MR
+					WHERE MR.ROL_NO IN ( SELECT AR.ROL_NO FROM ADM_ROLE AR WHERE AR.ADM_NO = #{admNo})
+					  AND MR.MNU_NO = M.MNU_NO
+				)
+			</if>
 		ORDER BY M.PRE_MNU_NO
 	</select>
 

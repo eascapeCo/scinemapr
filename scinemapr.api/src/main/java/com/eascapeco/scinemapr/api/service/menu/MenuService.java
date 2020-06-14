@@ -44,8 +44,11 @@ public class MenuService {
         return menu;
     }
 
-    public List<Menu> getMenuList(Menu menu) {
-        List<Menu> menus = this.menuMapper.selectMenu(menu);
+    public List<Menu> getMenuList(Integer admNo) {
+        Menu param = new Menu();
+        param.setAdmNo(1);
+
+        List<Menu> menus = this.menuMapper.selectMenu(param);
         //System.out.println(list.toString());
 /*
         System.out.println("list size " + list.size());
@@ -57,11 +60,11 @@ public class MenuService {
         }
 
  */
-        return this.getDispMenuList(menus, 0);
+        return this.getDispMenuList(menus, 1);
     }
 
     /**
-     *
+     * 실제 노출할 메뉴 목륵 정보를 변환함
      * @param menuList
      * @param preMnuNo
      * @return
