@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 public interface AdminMapper {
-	public Admin selectAdmin(Admin admin);
+    public Admin selectAdmin(Admin admin);
 
     public void insertRefreshToken(AdminToken adminTkn);
 }

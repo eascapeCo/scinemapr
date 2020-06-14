@@ -32,8 +32,8 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class DataBaseConfig {
 
-	@Bean
-	public SqlSessionFactory sqlSessionFactory(DataSource datasource) throws Exception {
+    @Bean
+    public SqlSessionFactory sqlSessionFactory(DataSource datasource) throws Exception {
         // mybatis 설정
         org.apache.ibatis.session.Configuration config = new org.apache.ibatis.session.Configuration();
         config.setJdbcTypeForNull(JdbcType.VARCHAR);
@@ -42,15 +42,15 @@ public class DataBaseConfig {
         config.setDefaultStatementTimeout(25000);
         config.setMapUnderscoreToCamelCase(true);
         config.setUseColumnLabel(true);
-	    
-		SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
-		sqlSessionFactory.setDataSource(datasource);
-		sqlSessionFactory.setTypeAliasesPackage("com.eascapeco.scinemapr.api.model");
-		sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:/mapper/*.xml"));
-		sqlSessionFactory.setConfiguration(config);
 
-		return sqlSessionFactory.getObject();
-	}
+        SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
+        sqlSessionFactory.setDataSource(datasource);
+        sqlSessionFactory.setTypeAliasesPackage("com.eascapeco.scinemapr.api.model");
+        sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:/mapper/*.xml"));
+        sqlSessionFactory.setConfiguration(config);
+
+        return sqlSessionFactory.getObject();
+    }
 
     @Bean
     public SqlSessionTemplate sqlSession(SqlSessionFactory sqlSessionFactory) {
