@@ -25,26 +25,26 @@
           <v-list-group
             no-action
             sub-group
-            v-bind:key="secondMenu.mnuName"
+            v-bind:key="secondMenu.mnuNo"
           >
             <template v-slot:activator>
               <v-list-item-content>
-                <v-list-item-title v-text="secondMenu.mnuName"></v-list-item-title>
+                <v-list-item-title v-text="secondMenu.mnuName" v-on:click="test(secondMenu.mnuName)"></v-list-item-title>
               </v-list-item-content>
             </template>
             <v-list-item
               link
               v-for="thirdMenu in secondMenu.subMenus"
-              :key="thirdMenu.mnuName"
+              :key="thirdMenu.mnuNo"
             >
-              <v-list-item-title v-text="thirdMenu.mnuName"></v-list-item-title>
+              <v-list-item-title v-text="thirdMenu.mnuName" v-on:click="test(thirdMenu.mnuName)"></v-list-item-title>
             </v-list-item>
           </v-list-group>
         </template>
         <template v-else>
-          <v-list-item link v-bind:key="secondMenu.mnuName">
+          <v-list-item link v-bind:key="secondMenu.mnuNo">
             <v-list-item-content>
-              <v-list-item-title v-text="secondMenu.mnuName"></v-list-item-title>
+              <v-list-item-title v-text="secondMenu.mnuName" v-on:click="test(secondMenu.mnuName)"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </template>
@@ -98,8 +98,9 @@ export default {
     getMenuList: function () {
       console.log('11')
     },
-    test: function () {
-      console.log(this.menus)
+    test: function (url) {
+      console.log(url)
+      console.log(this.$route)
     }
   }
 }
