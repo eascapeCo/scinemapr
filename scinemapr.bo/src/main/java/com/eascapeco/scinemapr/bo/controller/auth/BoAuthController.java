@@ -38,27 +38,25 @@ public class BoAuthController {
     JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/api/admin/login")
-    public Result login(@RequestBody Admin admin, HttpServletRequest request, HttpServletResponse response) {
+    public void login(@RequestBody Admin admin, HttpServletRequest request, HttpServletResponse response) {
         log.debug("id {}", admin.getId());
         log.debug("pwd {}", admin.getPwd());
 
-        CookieUtils.expireCookie("refreshToken", request, response);
+//        CookieUtils.expireCookie("refreshToken", request, response);
         
         AdminToken admintoken = jwtTokenProvider.createJwtToken(admin.getId(), admin.getPwd());
 
-        Result result = new Result();
-        if (!admintoken.getTkn().isEmpty()) {
+        if (admintoken.getTkn() != null) {
             Optional<String> refreshToken = jwtTokenProvider.refreshJwtToken(admintoken);
             
             if(refreshToken.isPresent()) {
                 log.debug("token {}", admintoken.getTkn());
-                result.setCode("200");
-                result.setMessage("Login Success");
-                result.setInfo("accessToken", admintoken.getTkn());
-                result.setInfo("refreshToken", refreshToken.get());
-                //CookieUtils.setCookie("refreshToken", refreshToken.get(), response);
+                response.addHeader("accessToken",  "Bearer " + admintoken.getTkn());
+                response.addHeader("refreshToken",  "Bearer " + refreshToken.get());
+                response.setStatus(200);
             }
+        } else {
+            response.setStatus(403);
         }
-        return result;
     }
 }

@@ -16,22 +16,35 @@ import org.springframework.security.core.userdetails.UserDetails;
 @SuppressWarnings("serial")
 public class Admin implements UserDetails, Serializable{
 	
-    private Integer adm_no;			// 관리자 번호
+    private Integer admNo;		// 관리자 번호
     private String id;			// 아이디
     private String pwd;			// 비밀번호
     private String regDate;		// 생성일
     private String modDate;		// 수정일
     private Integer modNo;		// 수정자 
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "admNo=" + admNo +
+                ", id='" + id + '\'' +
+                ", pwd='" + pwd + '\'' +
+                ", regDate='" + regDate + '\'' +
+                ", modDate='" + modDate + '\'' +
+                ", modNo=" + modNo +
+                ", roleName='" + roleName + '\'' +
+                ", authorities=" + authorities +
+                '}';
+    }
+
+
+
     private String roleName;	// 권한
     private Collection<GrantedAuthority> authorities;
 
-    public Integer getNo() {
-        return adm_no;
-    }
+    public Integer getAdmNo() { return admNo; }
 
-    public void setNo(Integer no) {
-        this.adm_no = no;
-    }
+    public void setAdmNo(Integer admNo) { this.admNo = admNo; }
 
     public String getId() {
         return id;
@@ -84,7 +97,7 @@ public class Admin implements UserDetails, Serializable{
 	// Admin 모델 복사
     public void CopyData(Admin param)
     {
-        this.adm_no = param.getNo();
+        this.admNo = param.getAdmNo();
         this.id = param.getId();
         this.pwd = param.getPwd();
         this.regDate = param.getRegDate();

@@ -27,8 +27,8 @@ public class AdminServiceImpl implements AdminService {
     public AdminMapper adminDao;
 
     @Override
-    public Admin getAdmin(Admin admin) {
-        Admin adminInfo = adminDao.selectAdmin(admin);
+    public Admin getAdmin(String id) {
+        Admin adminInfo = adminDao.selectAdmin(id);
 
         return adminInfo;
     }

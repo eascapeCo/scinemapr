@@ -25,13 +25,14 @@
             <v-card-text>
               <v-form ref="form">
                 <v-text-field
+                  v-model="user"
                   label="User"
                   name="user"
                   type="text"
                 ></v-text-field>
 
                 <v-text-field
-                  id="password"
+                  v-model="password"
                   label="Password"
                   name="password"
                   type="password"
@@ -52,6 +53,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'login',
   data () {
@@ -64,13 +66,13 @@ export default {
     }
   },
   methods: {
-    callLogin: () => {
+    callLogin () {
       // this.errors = []
-      this.$store.dispatch('login', {
-        user: this.user,
-        password: this.password
+      this.$store.dispatch('LOGIN', {
+        id: this.user,
+        pwd: this.password
       }).then(() => {
-        this.$router.push('/views/grid')
+        this.$router.push('/')
       }).catch(error => {
         this.loginError = true
         this.errors.push(error)

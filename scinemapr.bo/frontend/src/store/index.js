@@ -22,11 +22,17 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    login: ({ commit }, { id, pwd }) => {
+    LOGIN: ({ commit }, { id, pwd }) => {
       console.log('id -> ' + id + 'pwd -> ' + pwd)
       return axios.post('/api/admin/login', { id, pwd })
-        .then((res) => res)
-        .catch((error) => error)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((error) => {
+          if (error.request.status === 403) {
+            alert('ID나 비밀번호가 다릅니다.')
+          }
+        })
     }
   },
   modules: {

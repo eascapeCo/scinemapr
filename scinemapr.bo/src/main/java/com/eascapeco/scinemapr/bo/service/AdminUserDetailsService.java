@@ -24,9 +24,8 @@ public class AdminUserDetailsService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Admin admin = new Admin();
-		admin.setId(username);
-		Admin adminInfo = adminDao.selectAdmin(admin);
+
+		Admin adminInfo = adminDao.selectAdmin(username);
 		adminInfo.setAuthorities(AuthorityUtils.commaSeparatedStringToAuthorityList(adminInfo.getRoleName()));
 		return adminInfo;
 	}

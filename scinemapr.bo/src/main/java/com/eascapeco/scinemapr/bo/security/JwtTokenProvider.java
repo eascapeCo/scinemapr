@@ -40,36 +40,35 @@ public class JwtTokenProvider {
      * @return
      */
     public AdminToken createJwtToken(String id, String pwd) {
-        Admin param = new Admin();
-        param.setId(id);
-        
-        Admin findAdmin = adminService.getAdmin(param);
-        
+        String name = "";
+
+        Admin findAdmin = adminService.getAdmin(id);
+
         AdminToken adminToken = new AdminToken();
-        
-        System.out.println(pwd);
-        System.out.println(findAdmin.getPwd());
-        System.out.println(passwordEncoder.matches(pwd, findAdmin.getPwd()));
-        
-        // 비밀번호 일치 검사
-        if (!passwordEncoder.matches(pwd, findAdmin.getPwd())) {
-            throw new RuntimeException();
+
+        if (findAdmin != null) {
+
+            // 비밀번호 일치 검사
+            if (!passwordEncoder.matches(pwd, findAdmin.getPwd())) {
+                adminToken.setTkn(null);
+                return adminToken;
+//                throw new RuntimeException();
+            }
+
+            // 계정 잠김 여부 추가 필요
+
+            // 토큰 생성
+            String token = JWT.create().withClaim("adminNo", findAdmin.getAdmNo())
+                              .withClaim("name", findAdmin.getUsername())
+                              .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
+                              .withIssuedAt(Date.from(LocalDateTime.now().plusSeconds(1800).atZone(ZoneId.systemDefault()).toInstant()))
+                              .sign(Algorithm.HMAC256("secret"));
+
+            adminToken.setAdm_no(findAdmin.getAdmNo());
+            adminToken.setTkn(token);
+
+            System.out.println(adminToken.getTkn());
         }
-        
-        
-        // 계정 잠김 여부 추가 필요
-        
-        // 토큰 생성
-        String token = JWT.create().withClaim("adminNo", findAdmin.getNo())
-                                    .withClaim("name", findAdmin.getUsername())
-                                    .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
-                                    .withIssuedAt(Date.from(LocalDateTime.now().plusSeconds(1800).atZone(ZoneId.systemDefault()).toInstant()))
-                                    .sign(Algorithm.HMAC256("secret"));
-        
-        adminToken.setAdm_no(findAdmin.getNo());
-        adminToken.setTkn(token);
-        
-        System.out.println(token);
         return adminToken;
     }
     
@@ -77,11 +76,9 @@ public class JwtTokenProvider {
      * 리프레쉬 토큰 생성 메소드
      * 
      * @param admintoken
-     * @param pwd
      * @return Optional
      */
     public Optional<String> refreshJwtToken(AdminToken admintoken) {
-        
 //         RefreshToken 생성
         String refreshToken = JWT.create().withClaim("adminNo", admintoken.getAdm_no())
                                           .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
