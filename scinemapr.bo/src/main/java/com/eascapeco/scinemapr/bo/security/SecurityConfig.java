@@ -19,7 +19,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private JwtTokenProvider jwttokenProvider;
-	
+
+	@Autowired
+	private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
 	/*
     @Bean
     @Override
@@ -35,10 +38,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 				.authorizeRequests()
-					.antMatchers("/loginForm", "/api/admin/login", "/favicon.ico", "/api/menus", "/api/menu").permitAll()
+					.antMatchers("/loginForm", "/api/admin/login", "/favicon.ico", "/api/menus", "/api/menus/*").permitAll()
 					.anyRequest().hasRole("USER")
 			.and()
-				.exceptionHandling().authenticationEntryPoint(new RestAuthenticationEntryPoint())
+				.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint)
 			//.and()
 			//    .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
 			.and()

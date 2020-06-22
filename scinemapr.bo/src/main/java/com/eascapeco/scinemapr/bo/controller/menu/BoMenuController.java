@@ -1,6 +1,7 @@
 package com.eascapeco.scinemapr.bo.controller.menu;
 
 import com.eascapeco.scinemapr.api.model.Menu;
+import com.eascapeco.scinemapr.api.model.Result;
 import com.eascapeco.scinemapr.api.service.menu.MenuService;
 import com.eascapeco.scinemapr.bo.controller.auth.BoAuthController;
 import org.slf4j.Logger;
@@ -32,8 +33,17 @@ public class BoMenuController {
         return list;
     }
 
+    @GetMapping("/menus/{id}")
+    public Menu getMenu(@PathVariable Integer id) {
+
+
+        return this.menuService.getMenu(id);
+    }
+
     @PostMapping("/menus")
     public ResponseEntity<Menu> saveMenu(@RequestBody @Valid Menu menu) {
+
+        log.info("{}", menu);
 
         Menu savedMenu = this.menuService.createMenu(menu);
 
@@ -45,11 +55,19 @@ public class BoMenuController {
 
         return ResponseEntity.created(location).build();
     }
-/*
-    @PutMapping("/menus/${mnuNo}")
-    public ResponseEntity<Menu> updateMenu(@PathVariable Integer mnuNo, @RequestBody Menu menu) {
-        return null;
+
+    @PutMapping("/menus/{id}")
+    public ResponseEntity<Menu> updateMenu(@PathVariable Integer id, @RequestBody Menu menu) {
+        log.info("{}", menu);
+        log.info("{}", id);
+        Menu updateMenu = this.menuService.updateMenu(id, menu);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{mnuNo}")
+                .buildAndExpand(updateMenu.getMnuNo())
+                .toUri();
+
+        return ResponseEntity.created(location).build();
     }
-*/
 
 }

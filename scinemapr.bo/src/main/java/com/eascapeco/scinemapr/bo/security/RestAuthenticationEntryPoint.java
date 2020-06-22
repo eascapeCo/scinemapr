@@ -12,7 +12,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 
 import com.eascapeco.scinemapr.api.model.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	@Override
