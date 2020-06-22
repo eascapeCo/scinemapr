@@ -2,8 +2,8 @@ package com.eascapeco.scinemapr.bo.security;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,12 +15,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
+
+	private static final long serialVersionUID = -7858869558953243875L;
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException authException) throws IOException, ServletException {
-		//response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "zxcz");
+			AuthenticationException authException) throws IOException {
+
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.setContentType("application/json;charset=utf-8");
 
