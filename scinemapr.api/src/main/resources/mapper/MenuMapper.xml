@@ -8,8 +8,8 @@
         작성일 : 2020. 05. 05
         기능 : 관리자 정보를 조회
     -->
-	<select id="selectMenu" parameterType="Menu" resultType="Menu">
-        /* Menu.selectMenu */
+	<select id="selectMenus" parameterType="Menu" resultType="Menu">
+        /* Menu.selectMenus */
 		SELECT
 			M.mnu_no,
 			M.pre_mnu_no,
@@ -23,7 +23,7 @@
 			M.mod_no
 		FROM MENU M
 		WHERE
-			M.USE_YN = 'Y'
+			M.USE_YN = #{useYn}
 			<if test="admNo != null">
 			AND EXISTS (
 					SELECT 1
@@ -33,6 +33,30 @@
 				)
 			</if>
 		ORDER BY M.PRE_MNU_NO
+	</select>
+
+	<!--
+		작성자 : JaeHan-Kim
+		작성일 : 2020. 06.19
+		기능 : 관리자 정보를 조회
+	-->
+	<select id="selectMenu" parameterType="Integer" resultType="Menu">
+		/* Menu.selectMenu */
+		SELECT
+			M.mnu_no,
+			M.pre_mnu_no,
+			M.mnu_name,
+			M.mnu_lv,
+			M.url_adr,
+			M.use_yn,
+			M.reg_date,
+			M.reg_no,
+			M.mod_date,
+			M.mod_no
+		FROM MENU M
+		WHERE
+			M.USE_YN = true
+			AND M.MNU_NO = #{mnuNo}
 	</select>
 
 	<insert id="createMenu" parameterType="Menu" useGeneratedKeys="true" keyProperty="mnuNo">

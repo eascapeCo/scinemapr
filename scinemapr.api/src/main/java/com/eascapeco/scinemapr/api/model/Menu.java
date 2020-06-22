@@ -1,5 +1,7 @@
 package com.eascapeco.scinemapr.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -15,7 +17,7 @@ public class Menu implements Serializable {
     private String mnuName;
     @Min(0) @Max(3)
     private int mnuLv;
-    @NotBlank(message = "URL은 필수 입니다.")
+    // @NotBlank(message = "URL은 필수 입니다.")
     private String urlAdr;
     private boolean useYn;
     private String regDate;
@@ -23,7 +25,10 @@ public class Menu implements Serializable {
     private String modDate;
     private int modNo;
     private List<Menu> subMenus;
+    @JsonIgnore
     private Integer admNo;
+    @JsonIgnore
+    private String createType;
 
     public Integer getMnuNo() {
         return mnuNo;
@@ -119,6 +124,14 @@ public class Menu implements Serializable {
 
     public void setAdmNo(Integer admNo) {
         this.admNo = admNo;
+    }
+
+    public String getCreateType() {
+        return createType;
+    }
+
+    public void setCreateType(String createType) {
+        this.createType = createType;
     }
 
     @Override

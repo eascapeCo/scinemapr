@@ -29,11 +29,9 @@ public class MenuService {
      * @return
      */
     public Menu createMenu(Menu menu) {
-/*
-        if () {
 
-        }
-*/
+
+
         menu.setModNo(menu.getRegNo());
         menu.setRegDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
         menu.setModDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
@@ -44,23 +42,43 @@ public class MenuService {
         return menu;
     }
 
+    /**
+     * 메뉴 번호롤 메뉴 정보 조회
+     * @param mnuNo
+     * @return
+     */
+    public Menu getMenu(Integer mnuNo) {
+        return this.menuMapper.selectMenu(mnuNo);
+    }
+
+    /**
+     * 관리자가 접근 가능한 메뉴 목록을 조회
+     * @param admNo
+     * @return
+     */
     public List<Menu> getMenuList(Integer admNo) {
         Menu param = new Menu();
-        param.setAdmNo(1);
+        param.setUseYn(true);
+        //param.setAdmNo(1);
 
-        List<Menu> menus = this.menuMapper.selectMenu(param);
-        //System.out.println(list.toString());
-/*
-        System.out.println("list size " + list.size());
-        System.out.println("list size " + list.isEmpty());
+        List<Menu> menus = this.menuMapper.selectMenus(param);
 
-        for (Menu m : list) {
-            System.out.println("1");
-            System.out.println(m.toString());
-        }
-
- */
         return this.getDispMenuList(menus, 1);
+    }
+
+    public Menu updateMenu(Integer mnuNo, Menu menu) {
+
+        Menu updateMenu = new Menu();
+
+        updateMenu.setMnuNo(mnuNo);
+        updateMenu.setMnuName(menu.getMnuName());
+        updateMenu.setUrlAdr(menu.getUrlAdr());
+        updateMenu.setModNo(1);
+        updateMenu.setModDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+
+        this.menuMapper.updateMenu(updateMenu);
+
+        return updateMenu;
     }
 
     /**

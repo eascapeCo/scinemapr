@@ -15,7 +15,9 @@ import java.util.List;
 @Mapper
 @Repository
 public interface MenuMapper {
-    List<Menu> selectMenu(Menu menu);
+    List<Menu> selectMenus(Menu menu);
+
+    Menu selectMenu(Integer mnuNo);
 
     void createMenu(Menu menu);
 
