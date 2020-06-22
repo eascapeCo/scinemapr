@@ -8,14 +8,20 @@
             tile
             outlined
           >
-            <v-treeview
-              v-model="selection"
-              :items="items"
-              :selection-type="selectionType"
-              selectable
-              return-object
-              open-all
-            ></v-treeview>
+            <v-treeview :items="menus"
+                        item-text="mnuName"
+                        item-children="subMenus"
+                        item-key="mnuNo"
+                        activatable
+                        :open-all=false
+                        @update:active="selectMenu"
+            >
+              <!--
+              <template slot="label" slot-scope="{ item }">
+                <span @click="selectMenu(item)">{{ item.mnuName }}</span>
+              </template>
+              -->
+            </v-treeview>
           </v-card>
         </v-col>
         <v-col>
@@ -25,9 +31,13 @@
             outlined
           >
             <form>
-              <v-text-field v-model="mnuName" label="메뉴명" />
-              <v-text-field v-model="urlAdr" label="메뉴 URL" />
-              <v-select v-model="useYn" :items="[true, false]" label="사용여부"></v-select>
+              <v-text-field v-model="data.mnuName" label="메뉴명" />
+              <v-text-field v-model="data.urlAdr" label="메뉴 URL" />
+              <v-select v-model="data.useYn" :items="[true, false]" label="사용여부"></v-select>
+              <v-radio-group v-model="data.createType" row>
+                <v-radio label="동일레벨 생성" value="siblingLevel"></v-radio>
+                <v-radio label="하위레벨 생성" value=siblingLevelsubLevel></v-radio>
+              </v-radio-group>
               <v-btn class="mr-4" @click="save">등록</v-btn>
               <v-btn class="mr-4" @click="update">수정</v-btn>
             </form>
@@ -40,39 +50,60 @@
 
 <script>
 export default {
-  name: 'GirdSample',
+  name: 'menuView',
+  created () {
+    this.$axios.get('/api/menus')
+      .then((res) => {
+        this.menus = res.data
+      })
+  },
   data: () => ({
-    selectionType: 'independent',
-    selection: [],
-    items: [
-      {
-        id: 1,
-        name: 'Root',
-        children: [
-          { id: 2, name: 'Child #1' },
-          { id: 3, name: 'Child #2' },
-          {
-            id: 4,
-            name: 'Child #3',
-            children: [
-              { id: 5, name: 'Grandchild #1' },
-              { id: 6, name: 'Grandchild #2' }
-            ]
-          }
-        ]
-      }
-    ],
-    mnuName: null,
-    urlAdr: null,
-    useYn: false
+    menus: [],
+    data: {
+      mnuNo: 0,
+      preMnuNo: 0,
+      mnuLv: 0,
+      mnuName: null,
+      urlAdr: null,
+      useYn: true,
+      createType: null
+    }
   }),
   methods: {
     save: function () {
       console.log('submit')
       console.log(this.mnuName)
+      console.log(this.menus)
     },
     update: function () {
       console.log('submit')
+      console.log(this.data)
+
+      this.$axios.put('/api/menus/' + this.data.mnuNo, this.data)
+        .then((res) => {
+          console.log(res)
+        })
+    },
+    selectMenu: function (item) {
+      console.log('test')
+      console.log(item[0])
+      console.log(this.active)
+      const mnuNo = item[0]
+      if (typeof mnuNo === 'undefined') {
+        this.data.mnuName = null
+        this.data.preMnuNo = 0
+        this.data.mnuLv = 0
+        this.data.urlAdr = null
+        this.data.useYn = true
+        this.data.createType = null
+        return
+      }
+
+      this.$axios.get('/api/menus/' + mnuNo)
+        .then((res) => {
+          console.log(res)
+          this.data = res.data
+        })
     }
   }
 }

@@ -29,7 +29,12 @@
           >
             <template v-slot:activator>
               <v-list-item-content>
-                <v-list-item-title v-text="secondMenu.mnuName" v-on:click="test(secondMenu.mnuName)"></v-list-item-title>
+                <template v-if="secondMenu.subMenus.length !== 0">
+                  <v-list-item-title v-text="secondMenu.mnuName"></v-list-item-title>
+                </template>
+                <template v-else>
+                  <v-list-item-title v-text="secondMenu.mnuName"  v-on:click="test(secondMenu.urlAdr)"></v-list-item-title>
+                </template>
               </v-list-item-content>
             </template>
             <v-list-item
@@ -37,14 +42,14 @@
               v-for="thirdMenu in secondMenu.subMenus"
               :key="thirdMenu.mnuNo"
             >
-              <v-list-item-title v-text="thirdMenu.mnuName" v-on:click="test(thirdMenu.mnuName)"></v-list-item-title>
+              <v-list-item-title v-text="thirdMenu.mnuName" v-on:click="test(thirdMenu.urlAdr)"></v-list-item-title>
             </v-list-item>
           </v-list-group>
         </template>
         <template v-else>
           <v-list-item link v-bind:key="secondMenu.mnuNo">
             <v-list-item-content>
-              <v-list-item-title v-text="secondMenu.mnuName" v-on:click="test(secondMenu.mnuName)"></v-list-item-title>
+              <v-list-item-title v-text="secondMenu.mnuName" v-on:click="test(secondMenu.urlAdr)"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </template>
@@ -101,6 +106,11 @@ export default {
     test: function (url) {
       console.log(url)
       console.log(this.$route)
+      this.$router.push(url).catch(error => {
+        if (error.name !== 'NavigationDuplicated') {
+          throw error
+        }
+      })
     }
   }
 }
