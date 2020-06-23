@@ -15,15 +15,15 @@ plugins {
     // Apply the java plugin to add support for Java
 
     //application
-	id("org.springframework.boot")  version "2.2.2.RELEASE"
-	id("com.github.johnrengelman.shadow") version "4.0.1" apply false
+    id("org.springframework.boot")  version "2.2.2.RELEASE"
+    id("com.github.johnrengelman.shadow") version "4.0.1" apply false
 }
 
 allprojects {
-	group = "com.eascapeco.sinemapr"
+    group = "com.eascapeco.sinemapr"
     version = "1.0.0"
-	
-	repositories {
+
+    repositories {
         mavenCentral()
     }
 }
@@ -42,11 +42,11 @@ subprojects {
 
 project("scinemapr.core") {
     dependencies {
-		"api"("org.apache.commons:commons-lang3:3.9")
+        "api"("org.apache.commons:commons-lang3:3.9")
     }
 
     tasks.getByName<Jar>("jar") {
-	    enabled = true
+        enabled = true
     }
 
 }
@@ -70,34 +70,34 @@ project("scinemapr.api") {
     }
 
     tasks.getByName<Jar>("jar") {
-	    enabled = true
+        enabled = true
     }
 
 }
 
 project("scinemapr.bo") {
     apply(plugin = "war")
-	
+
     dependencies {
         "api"(project(":scinemapr.api"))
 
-    	"api"("org.springframework.boot:spring-boot-starter-thymeleaf")
+        "api"("org.springframework.boot:spring-boot-starter-thymeleaf")
         //"api"("org.springframework.boot:spring-boot-starter-security")
         "runtime"("org.springframework.boot:spring-boot-starter-tomcat")
         
         "testImplementation"("org.springframework.boot:spring-boot-starter-test")
-	}
+    }
 
     tasks.getByName<BootJar>("bootJar") {
         mainClassName = "com.eascapeco.scinemapr.bo.BoApplication"
     }
 
     tasks.getByName<BootWar>("bootWar") {
-    	mainClassName = "com.eascapeco.scinemapr.bo.BoApplication"
+        mainClassName = "com.eascapeco.scinemapr.bo.BoApplication"
     }
 /*
     tasks.getByName<BootRun>("bootRun") {
-	    sourceResources(sourceSets["main"])
+        sourceResources(sourceSets["main"])
     }
  */
 }
