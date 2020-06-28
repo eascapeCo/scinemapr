@@ -15,24 +15,48 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    LOGIN_SUCCESS: (state, headers) => {
+    LOGIN_SUCCESS: function (state, headers) {
+      state.loginSuccess = true
+      // state.userName = headers.userName
+      // state.userPass = headers.userPass
+      console.log(state.accessToken)
+
       console.log('muta -> ' + JSON.stringify(headers))
-      document.cookie = 'refreshToken=' + headers.tokenList.refreshToken
-      state.accessToken = headers.tokenList.accessToken
+      console.log('muta -> ' + JSON.stringify(state))
+      // document.cookie = 'refreshToken=' + headers.tokenList.refreshToken
+      // state.accessToken = headers.tokenList.accessToken
+    },
+    LOGIN_ERROR: function (state, headers) {
+      state.loginError = true
+      state.userName = headers.userName1
     }
   },
   actions: {
     LOGIN: ({ commit }, { id, pwd }) => {
-      console.log('id -> ' + id + 'pwd -> ' + pwd)
-      return axios.post('/api/admin/login', { id, pwd })
-        .then((res) => {
-          console.log(res)
-        })
-        .catch((error) => {
-          if (error.request.status === 403) {
-            alert('ID나 비밀번호가 다릅니다.')
-          }
-        })
+      return new Promise((resolve, reject) => {
+        console.log('id -> ' + id + 'pwd -> ' + pwd)
+        return axios.post('/api/admin/login', { id, pwd })
+          .then((res) => {
+            console.log(res)
+            console.log('accessToken: ' + res.headers.accesstoken)
+            // console.log('Response: ' + response.data + 'Status Code: ' + response.status)
+            if (res.status === 200) {
+              console.log('Login Successful')
+              commit('LOGIN_SUCCESS', {
+                accessToken: 'Bearer ' + res.headers.accesstoken,
+                refreshToken: 'Bearer ' + res.headers.refreshtoken
+              })
+            }
+            resolve(res)
+          })
+          .catch((error) => {
+            console.log('Error: ' + error)
+            commit('LOGIN_ERROR', {
+              userName: id
+            })
+            reject(new Error('Invalid credentials!'))
+          })
+      })
     }
   },
   modules: {

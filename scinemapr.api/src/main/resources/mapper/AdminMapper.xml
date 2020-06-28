@@ -19,14 +19,14 @@
 		 WHERE ID = #{id}
 	</select>
 
-	<insert id="insertRefreshToken" parameterType="AdminToken">
+	<insert id="insertRefreshToken" parameterType="RefreshToken">
 	   INSERT INTO TKN_VALD
 	        ( tkn
 	        , adm_no
 	        )
 	   VALUES
-	        ( #{tkn}
-	        , #{adm_no}
+	        ( #{refreshToken}
+	        , #{admno}
 	        )
 	       
 	</insert>

@@ -14,82 +14,39 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @date 2019. 10. 10
  */
 @SuppressWarnings("serial")
-public class AdminToken implements UserDetails, Serializable{
-	
-    private Integer adm_no;			// 관리자 번호
-    private String id;			// 아이디
-    private String tkn;       // 토큰
+public class AdminToken implements Serializable{
 
-    private Collection<GrantedAuthority> authorities;
+    private static final long serialVersionUID = -8091879091924046844L;
+    private final String access_token;
+    private final String refresh_token;
+    private final String errorCode;
+    private final String errorMessage;
 
-    public String getId() {
-        return id;
+    public AdminToken(String access_token, String refresh_token, String errorCode,
+                       String errorMessage) {
+        this.access_token = access_token;
+        this.refresh_token = refresh_token;
+        this.errorCode = errorCode; // 00 성공, 107 파라미터 오류, 502 accessToken 발급 오류, 99 알수 없는 오류
+        this.errorMessage = errorMessage; // 00 성공, 107 파라미터 오류, 502 accessToken 발급 오류, 99 알수 없는 오류
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-
-	@Override
-	public Collection<GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return authorities;
-	}
-
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return this.getId();
-	}
-
-	public void setAuthorities(Collection<GrantedAuthority> authorities) {
-		this.authorities = authorities;
-	}
-
-    @Override
-    public boolean isAccountNonExpired() {
-        // TODO Auto-generated method stub
-        return false;
+    public String getAccess_token() {
+        return access_token;
     }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        // TODO Auto-generated method stub
-        return false;
+    public String getRefresh_token() {
+        return refresh_token;
     }
 
-    public Integer getAdm_no() {
-        return adm_no;
+    public String getErrorCode() {
+        return errorCode;
     }
 
-    public void setAdm_no(Integer adm_no) {
-        this.adm_no = adm_no;
-    }
-
-    public String getTkn() {
-        return tkn;
-    }
-
-    public void setTkn(String tkn) {
-        this.tkn = tkn;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public String getPassword() {
-        // TODO Auto-generated method stub
-        return null;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 }

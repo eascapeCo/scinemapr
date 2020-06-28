@@ -1,5 +1,6 @@
 package com.eascapeco.scinemapr.bo.security;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,76 +22,50 @@ import com.eascapeco.scinemapr.api.model.AdminToken;
 import com.eascapeco.scinemapr.api.service.admin.AdminService;
 
 @Component
-public class JwtTokenProvider {
+public class JwtTokenProvider implements Serializable {
 
-    static final long EXPIRATIONTIME = 864_000_000; // 10 days
-    // static final String SECRET = "ThisIsASecret";
-    static final String TOKEN_PREFIX = "Bearer";
-    static final String HEADER_STRING = "Authorization";
-    
-    @Autowired
-    private AdminService adminService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    static final long JWT_TOKEN_EXP = 1 * (30 * 60); // 30 mins
+    static final long JWT_REFRESH_TOKEN_EXP = 30 * (60 * 60 * 24); // 30 days
+
+//    @Value("${jwt.secret}")
+    private String secret = "escapeCoperation";
+
+//    @Autowired
+//    private AdminService adminService;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
     
     /**
      * 토큰을 생성하는 메서드
      * 
      * @param id
-     * @param pwd
      * @return
      */
-    public AdminToken createJwtToken(String id, String pwd) {
-        String name = "";
+    public String createJwtToken(String id) {
 
-        Admin findAdmin = adminService.getAdmin(id);
+        // 토큰 생성
+        String token = JWT.create().withSubject(id)
+                          .withIssuedAt(new Date(System.currentTimeMillis()))
+                          .withExpiresAt(new Date(System.currentTimeMillis() + JWT_TOKEN_EXP * 1000))
+                          .sign(Algorithm.HMAC256(secret));
 
-        AdminToken adminToken = new AdminToken();
-
-        if (findAdmin != null) {
-
-            // 비밀번호 일치 검사
-            if (!passwordEncoder.matches(pwd, findAdmin.getPwd())) {
-                adminToken.setTkn(null);
-                return adminToken;
-//                throw new RuntimeException();
-            }
-
-            // 계정 잠김 여부 추가 필요
-
-            // 토큰 생성
-            String token = JWT.create().withClaim("adminNo", findAdmin.getAdmNo())
-                              .withClaim("name", findAdmin.getUsername())
-                              .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
-                              .withIssuedAt(Date.from(LocalDateTime.now().plusSeconds(1800).atZone(ZoneId.systemDefault()).toInstant()))
-                              .sign(Algorithm.HMAC256("secret"));
-
-            adminToken.setAdm_no(findAdmin.getAdmNo());
-            adminToken.setTkn(token);
-
-            System.out.println(adminToken.getTkn());
-        }
-        return adminToken;
+        return token;
     }
     
     /**
      * 리프레쉬 토큰 생성 메소드
      * 
-     * @param admintoken
+     * @param id
      * @return Optional
      */
-    public Optional<String> refreshJwtToken(AdminToken admintoken) {
+    public String refreshJwtToken(String id) {
 //         RefreshToken 생성
-        String refreshToken = JWT.create().withClaim("adminNo", admintoken.getAdm_no())
-                                          .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
-                                          .withExpiresAt(Date.from(LocalDateTime.now().plusDays(14).atZone(ZoneId.systemDefault()).toInstant()))
-                                          .sign(Algorithm.HMAC256("secret"));
+        String refreshToken = JWT.create().withSubject(id)
+                                          .withIssuedAt(new Date(System.currentTimeMillis()))
+                                          .withExpiresAt(new Date(System.currentTimeMillis() + JWT_REFRESH_TOKEN_EXP * 1000))
+                                          .sign(Algorithm.HMAC256(secret));
         
-        admintoken.setTkn(refreshToken);
-        
-        adminService.insertRefreshToken(admintoken);
-
-        return Optional.of(refreshToken);
+        return refreshToken;
     }
     
     /**

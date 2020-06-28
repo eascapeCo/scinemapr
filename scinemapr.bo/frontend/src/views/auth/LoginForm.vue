@@ -67,12 +67,12 @@ export default {
   },
   methods: {
     callLogin () {
-      // this.errors = []
+      this.errors = []
       this.$store.dispatch('LOGIN', {
         id: this.user,
         pwd: this.password
       }).then(() => {
-        this.$router.push('/')
+        // this.$router.push('/')
       }).catch(error => {
         this.loginError = true
         this.errors.push(error)
