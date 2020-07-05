@@ -41,8 +41,6 @@ public class BoAuthController {
 
     private final Logger log = LoggerFactory.getLogger(BoAuthController.class);
 
-//    @Autowired
-//    private AuthenticationManager authenticationManager;
     @Autowired
     private AdminService adminService;
     @Autowired

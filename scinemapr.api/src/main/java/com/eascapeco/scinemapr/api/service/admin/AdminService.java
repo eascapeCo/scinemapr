@@ -12,6 +12,7 @@ import org.springframework.aop.IntroductionAwareMethodMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,8 +42,7 @@ public class AdminService {
         } else {
             // 비밀번호 일치 검사
             if (!passwordEncoder.matches(admin.getPwd(), adminInfo.getPwd())) {
-                throw new UsernameNotFoundException("Passwords do not match.");
-//                adminInfo.setAuthorities(null);
+                throw new BadCredentialsException("Passwords do not match.");
             }
         }
         return adminInfo;
@@ -52,5 +52,4 @@ public class AdminService {
         adminDao.insertRefreshToken(tkn);
 
     }
-
 }

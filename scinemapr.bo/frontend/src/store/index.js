@@ -6,45 +6,48 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    accessToken: null,
-    refreshToken: null
+    access_token: sessionStorage.getItem('access_token'),
+    refresh_token: sessionStorage.getItem('refresh_token'),
+    expires_in: '',
+    claims: JSON.parse(sessionStorage.getItem('claims')),
+    intervalId: null
   },
   getters: {
-    getJwt: function (state) {
-      return state.accessToken
+    getTokenExpiresIn (state) {
+      return state.expires_in
+    },
+    getIntervalId (state) {
+      return state.intervalId
+    },
+    getClaims (state) {
+      return state.claims
     }
   },
   mutations: {
-    LOGIN_SUCCESS: function (state, headers) {
+    LOGIN_SUCCESS: function (state, data) {
       state.loginSuccess = true
-      // state.userName = headers.userName
-      // state.userPass = headers.userPass
-      console.log(state.accessToken)
+      sessionStorage.setItem('access_token', data.access_token)
+      sessionStorage.setItem('refresh_token', data.refresh_token)
 
-      console.log('muta -> ' + JSON.stringify(headers))
-      console.log('muta -> ' + JSON.stringify(state))
-      // document.cookie = 'refreshToken=' + headers.tokenList.refreshToken
-      // state.accessToken = headers.tokenList.accessToken
+      state.access_token = data.access_token
+      state.refresh_token = data.refresh_token
+      state.expires_in = data.expires_in
     },
-    LOGIN_ERROR: function (state, headers) {
+    LOGIN_ERROR: function (state, data) {
       state.loginError = true
-      state.userName = headers.userName1
+      state.userName = data.userName
     }
   },
   actions: {
     LOGIN: ({ commit }, { id, pwd }) => {
       return new Promise((resolve, reject) => {
-        console.log('id -> ' + id + 'pwd -> ' + pwd)
         return axios.post('/api/admin/login', { id, pwd })
           .then((res) => {
             console.log(res)
-            console.log('accessToken: ' + res.headers.accesstoken)
-            // console.log('Response: ' + response.data + 'Status Code: ' + response.status)
             if (res.status === 200) {
-              console.log('Login Successful')
               commit('LOGIN_SUCCESS', {
-                accessToken: 'Bearer ' + res.headers.accesstoken,
-                refreshToken: 'Bearer ' + res.headers.refreshtoken
+                accessToken: 'Bearer ' + res.data.access_token,
+                refreshToken: 'Bearer ' + res.data.refresh_token
               })
             }
             resolve(res)

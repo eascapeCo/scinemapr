@@ -28,6 +28,7 @@ public class JWTAuthenticationService {
         try {
             access_token = jwtTokenProvider.createJwtToken(admin.getId());
             refresh_token = jwtTokenProvider.refreshJwtToken(admin.getId());
+            expires_in = jwtTokenProvider.getExpiresIn(access_token);
 
             if (refresh_token != null && !refresh_token.isEmpty()) {
                 RefreshToken tkn = new RefreshToken();
@@ -36,27 +37,22 @@ public class JWTAuthenticationService {
 
                 adminService.insertRefreshToken(tkn);
             } else {
-                System.out.println("88");
                 throw new BadCredentialsException("INVALID_CREDENTIALS");
             }
         } catch (DisabledException e) {
-            System.out.println("1");
             errorCode = "107";
             errorMessage = "USER_DISABLED";
         } catch (BadCredentialsException e) {
-            System.out.println("2");
             errorCode = "107";
             errorMessage = "INVALID_CREDENTIALS";
         } catch (UsernameNotFoundException unfe) {
-            System.out.println("3");
             errorCode = "99";
             errorMessage = unfe.getMessage();
         } catch (Exception e) {
-            System.out.println("4");
             errorCode = "502";
             errorMessage = e.getMessage();
         }
         // 00 성공, 107 파라미터 오류, 502 accessToken 발급 오류, 99 알수 없는 오류
-        return new AdminToken(access_token, refresh_token, errorCode, errorMessage);
+        return new AdminToken(access_token, refresh_token, expires_in, errorCode, errorMessage);
     }
 }

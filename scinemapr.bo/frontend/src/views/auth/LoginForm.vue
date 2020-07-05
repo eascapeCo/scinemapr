@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <v-container
       class="fill-height"
       fluid
@@ -23,7 +23,7 @@
               <v-spacer></v-spacer>
             </v-toolbar>
             <v-card-text>
-              <v-form ref="form">
+              <!-- <v-form ref="form"> -->
                 <v-text-field
                   v-model="user"
                   label="User"
@@ -37,19 +37,17 @@
                   name="password"
                   type="password"
                 ></v-text-field>
-              </v-form>
+              <!-- </v-form> -->
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <!-- <router-link to="/"> -->
-                <v-btn color="primary" @click="callLogin">Login</v-btn>
-              <!-- </router-link> -->
+              <v-btn color="primary" @click="callLogin">Login</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
     </v-container>
-  </v-content>
+  </v-main>
 </template>
 
 <script>
@@ -72,11 +70,13 @@ export default {
         id: this.user,
         pwd: this.password
       }).then(() => {
-        // this.$router.push('/')
+        this.$router.push('/')
       }).catch(error => {
         this.loginError = true
         this.errors.push(error)
         this.error = true
+
+        this.$alert('ID나 비밀번호를 확인하세요')
       })
     }
   }
