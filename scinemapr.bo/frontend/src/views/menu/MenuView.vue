@@ -33,10 +33,12 @@
             <form>
               <v-text-field v-model="data.mnuName" label="메뉴명" />
               <v-text-field v-model="data.urlAdr" label="메뉴 URL" />
-              <v-select v-model="data.useYn" :items="[true, false]" label="사용여부"></v-select>
+              <v-select v-model="data.useYn" :items="[true, false]" label="사용 여부"></v-select>
+              <v-select v-model="data.useYn" :items="[true, false]" label="전시 여부"></v-select>
+              <v-text-field v-model="data.dpSequence" label="전시 순서" />
               <v-radio-group v-model="data.createType" row>
-                <v-radio label="동일레벨 생성" value="siblingLevel"></v-radio>
-                <v-radio label="하위레벨 생성" value=siblingLevelsubLevel></v-radio>
+                <v-radio label="동일 레벨 생성" value="siblingLevel"></v-radio>
+                <v-radio label="하위 레벨 생성" value=siblingLevelsubLevel></v-radio>
               </v-radio-group>
               <v-btn class="mr-4" @click="save">등록</v-btn>
               <v-btn class="mr-4" @click="update">수정</v-btn>
@@ -66,6 +68,8 @@ export default {
       mnuName: null,
       urlAdr: null,
       useYn: true,
+      dpYn: true,
+      dpSequence: 1,
       createType: null
     }
   }),

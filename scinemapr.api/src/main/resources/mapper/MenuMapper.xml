@@ -17,6 +17,8 @@
 			M.mnu_lv,
 			M.url_adr,
 			M.use_yn,
+			M.dp_yn,
+			M.dp_sequence,
 			M.reg_date,
 			M.reg_no,
 			M.mod_date,
@@ -24,6 +26,9 @@
 		FROM MENU M
 		WHERE
 			M.USE_YN = #{useYn}
+			<if test="dpYn">
+			AND M.DP_YN = #{dpYn}
+			</if>
 			<if test="admNo != null">
 			AND EXISTS (
 					SELECT 1
@@ -32,7 +37,7 @@
 					  AND MR.MNU_NO = M.MNU_NO
 				)
 			</if>
-		ORDER BY M.PRE_MNU_NO
+		ORDER BY M.DP_SEQUENCE, M.PRE_MNU_NO
 	</select>
 
 	<!--
@@ -49,6 +54,8 @@
 			M.mnu_lv,
 			M.url_adr,
 			M.use_yn,
+			M.dp_yn,
+			M.dp_sequence,
 			M.reg_date,
 			M.reg_no,
 			M.mod_date,
@@ -60,6 +67,7 @@
 	</select>
 
 	<insert id="createMenu" parameterType="Menu" useGeneratedKeys="true" keyProperty="mnuNo">
+		/* Menu.createMenu */
 		INSERT INTO Menu
 	    (
 			pre_mnu_no,
@@ -67,6 +75,8 @@
 			mnu_lv,
 			url_adr,
 			use_yn,
+			dp_yn,
+			dp_sequence,
 			reg_date,
 			reg_no,
 			mod_date,
@@ -79,6 +89,8 @@
 			#{mnuLv},
 			#{urlAdr},
 			#{useYn},
+			#{dpYn},
+			#{dpSequence},
 			#{regDate},
 			#{regNo},
 			#{modDate},
@@ -87,9 +99,12 @@
 	</insert>
 
 	<update id="updateMenu" parameterType="Menu">
+		/* Menu.updateMenu */
 		UPDATE MENU SET
 			mnu_name = #{mnuName},
 			url_adr = #{urlAdr},
+			dp_yn = #{dpYn},
+			dp_sequence = #{dpSequence},
 			mod_date = #{modDate},
 			mod_no = #{modNo}
 		WHERE

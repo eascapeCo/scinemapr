@@ -20,6 +20,8 @@ public class Menu implements Serializable {
     // @NotBlank(message = "URL은 필수 입니다.")
     private String urlAdr;
     private boolean useYn;
+    private boolean dpYn;
+    private int dpSequence;
     private String regDate;
     private int regNo;
     private String modDate;
@@ -132,6 +134,22 @@ public class Menu implements Serializable {
 
     public void setCreateType(String createType) {
         this.createType = createType;
+    }
+
+    public boolean isDpYn() {
+        return dpYn;
+    }
+
+    public void setDpYn(boolean dpYn) {
+        this.dpYn = dpYn;
+    }
+
+    public int getDpSequence() {
+        return dpSequence;
+    }
+
+    public void setDpSequence(int dpSequence) {
+        this.dpSequence = dpSequence;
     }
 
     @Override

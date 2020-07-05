@@ -59,7 +59,11 @@ public class MenuService {
     public List<Menu> getMenuList(Integer admNo) {
         Menu param = new Menu();
         param.setUseYn(true);
-        //param.setAdmNo(1);
+
+        if (admNo != null) {
+            param.setAdmNo(admNo);
+            param.setDpYn(true);
+        }
 
         List<Menu> menus = this.menuMapper.selectMenus(param);
 
@@ -73,6 +77,8 @@ public class MenuService {
         updateMenu.setMnuNo(mnuNo);
         updateMenu.setMnuName(menu.getMnuName());
         updateMenu.setUrlAdr(menu.getUrlAdr());
+        updateMenu.setDpYn(menu.isDpYn());
+        updateMenu.setDpSequence(menu.getDpSequence());
         updateMenu.setModNo(1);
         updateMenu.setModDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
 

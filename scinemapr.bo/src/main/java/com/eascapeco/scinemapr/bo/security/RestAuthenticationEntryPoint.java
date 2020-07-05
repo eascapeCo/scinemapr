@@ -33,10 +33,12 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint, S
 		ObjectMapper mapper = new ObjectMapper();
 		
 		String test = mapper.writeValueAsString(result);
-		
+
+		System.out.println(request.getContentType());
 		System.out.println(test);
 		PrintWriter out = response.getWriter();
 		out.print(test);
+		//response.sendRedirect("/error");
 	}
 
 }
