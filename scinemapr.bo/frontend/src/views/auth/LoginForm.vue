@@ -29,6 +29,9 @@
                   label="User"
                   name="user"
                   type="text"
+                  :rules="nameRules"
+                  counter="15"
+                  :
                 ></v-text-field>
 
                 <v-text-field
@@ -41,7 +44,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" @click="callLogin">Login</v-btn>
+              <v-btn color="primary" :disabled="!valid" @click="callLogin">Login</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -54,15 +57,19 @@
 
 export default {
   name: 'login',
-  data () {
-    return {
-      loginError: false,
-      user: '',
-      password: '',
-      error: false,
-      errors: []
-    }
-  },
+  data: () => ({
+    loginError: false,
+    user: '',
+    password: '',
+    error: false,
+    errors: [],
+    valid: true,
+    nameRules: [
+      v => !!v || 'User is required',
+      v => (v && v.length <= 10) || 'User must be valid',
+      v => (v && v.length >= 4) || 'User must be valid'
+    ]
+  }),
   methods: {
     callLogin () {
       this.errors = []

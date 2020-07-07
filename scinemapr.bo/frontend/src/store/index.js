@@ -26,8 +26,8 @@ export default new Vuex.Store({
   mutations: {
     LOGIN_SUCCESS: function (state, data) {
       state.loginSuccess = true
-      sessionStorage.setItem('access_token', data.access_token)
-      sessionStorage.setItem('refresh_token', data.refresh_token)
+      sessionStorage.setItem('access_token', data.accessToken)
+      sessionStorage.setItem('refresh_token', data.refreshToken)
 
       state.access_token = data.access_token
       state.refresh_token = data.refresh_token
@@ -36,6 +36,22 @@ export default new Vuex.Store({
     LOGIN_ERROR: function (state, data) {
       state.loginError = true
       state.userName = data.userName
+    },
+    LOGOUT: function (state, data) {
+      /* eslint-disable no-console */
+      // console.log("delToken....")
+      sessionStorage.removeItem('access_token')
+      sessionStorage.removeItem('refresh_token')
+      sessionStorage.removeItem('claims')
+      if (state.access_token) {
+        state.access_token = null
+      }
+      if (state.refresh_token) {
+        state.expires_in = null
+      }
+      if (state.claims) {
+        state.claims = null
+      }
     }
   },
   actions: {
@@ -60,6 +76,9 @@ export default new Vuex.Store({
             reject(new Error('Invalid credentials!'))
           })
       })
+    },
+    destroySetJwtExpiresInScheduler (context) {
+      clearInterval(context.getters.getIntervalId)
     }
   },
   modules: {
