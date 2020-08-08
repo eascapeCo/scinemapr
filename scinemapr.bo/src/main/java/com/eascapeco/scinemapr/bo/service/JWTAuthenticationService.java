@@ -8,6 +8,7 @@ import com.eascapeco.scinemapr.bo.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class JWTAuthenticationService {
     @Autowired
     private AdminService adminService;
 
-    public AdminToken getToken(Admin admin) {
+    public AdminToken getTokens(String id) {
         String access_token = null;
         String refresh_token = null;
         String expires_in = null;
@@ -26,13 +27,14 @@ public class JWTAuthenticationService {
         String errorMessage = "SUCCESS";
 
         try {
-            access_token = jwtTokenProvider.createJwtToken(admin.getId());
-            refresh_token = jwtTokenProvider.refreshJwtToken(admin.getId());
+            access_token = jwtTokenProvider.createJwtToken(id);
+            refresh_token = jwtTokenProvider.refreshJwtToken(id);
             expires_in = jwtTokenProvider.getExpiresIn(access_token);
 
             if (refresh_token != null && !refresh_token.isEmpty()) {
+
                 RefreshToken tkn = new RefreshToken();
-                tkn.setAdmNo(admin.getAdmNo());
+                tkn.getId(id);
                 tkn.setRefreshToken(refresh_token);
 
                 adminService.insertRefreshToken(tkn);

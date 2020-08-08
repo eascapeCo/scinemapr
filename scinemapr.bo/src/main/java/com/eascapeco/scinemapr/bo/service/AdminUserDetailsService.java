@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.eascapeco.scinemapr.api.dao.admin.AdminMapper;
 import com.eascapeco.scinemapr.api.model.Admin;
+import org.springframework.stereotype.Service;
 
 /**
  * 
@@ -17,6 +18,7 @@ import com.eascapeco.scinemapr.api.model.Admin;
  * @author jaehankim
  *
  */
+@Service
 public class AdminUserDetailsService implements UserDetailsService {
 	
 	@Autowired

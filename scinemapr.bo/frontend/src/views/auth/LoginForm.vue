@@ -29,11 +29,10 @@
                   label="User"
                   name="user"
                   type="text"
-                  :rules="nameRules"
                   counter="15"
-                  :
+                  :rules="nameRules"
+                  required
                 ></v-text-field>
-
                 <v-text-field
                   v-model="password"
                   label="Password"
@@ -66,7 +65,7 @@ export default {
     valid: true,
     nameRules: [
       v => !!v || 'User is required',
-      v => (v && v.length <= 10) || 'User must be valid',
+      v => (v && v.length <= 15) || 'User must be valid',
       v => (v && v.length >= 4) || 'User must be valid'
     ]
   }),

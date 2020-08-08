@@ -81,4 +81,5 @@ public class JwtTokenProvider implements Serializable {
     public String getExpiresIn(String token) {
         return Long.toString(Math.abs(JWT.decode(token).getExpiresAt().getTime() - new Date(System.currentTimeMillis()).getTime() / 1000));
     }
+
 }
