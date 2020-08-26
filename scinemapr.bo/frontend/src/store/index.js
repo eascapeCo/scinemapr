@@ -59,7 +59,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         return axios.post('/api/admin/login', { id, pwd })
           .then((res) => {
-            console.log(res)
+            console.log(res.data)
             if (res.status === 200) {
               commit('LOGIN_SUCCESS', {
                 accessToken: 'Bearer ' + res.data.access_token,

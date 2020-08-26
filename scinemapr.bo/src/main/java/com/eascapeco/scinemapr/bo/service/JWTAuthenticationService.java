@@ -19,7 +19,7 @@ public class JWTAuthenticationService {
     @Autowired
     private AdminService adminService;
 
-    public AdminToken getTokens(String id) {
+    public AdminToken getTokens(UserDetails chkAdm) {
         String access_token = null;
         String refresh_token = null;
         String expires_in = null;
@@ -27,16 +27,17 @@ public class JWTAuthenticationService {
         String errorMessage = "SUCCESS";
 
         try {
-            access_token = jwtTokenProvider.createJwtToken(id);
-            refresh_token = jwtTokenProvider.refreshJwtToken(id);
+            access_token = jwtTokenProvider.createJwtToken(((Admin) chkAdm).getId());
+            refresh_token = jwtTokenProvider.refreshJwtToken(((Admin) chkAdm).getId());
             expires_in = jwtTokenProvider.getExpiresIn(access_token);
 
             if (refresh_token != null && !refresh_token.isEmpty()) {
 
                 RefreshToken tkn = new RefreshToken();
-                tkn.getId(id);
+                tkn.setAdmNo(((Admin) chkAdm).getAdmNo());
                 tkn.setRefreshToken(refresh_token);
 
+//                Refresh Token 저장
                 adminService.insertRefreshToken(tkn);
             } else {
                 throw new BadCredentialsException("INVALID_CREDENTIALS");
@@ -51,6 +52,7 @@ public class JWTAuthenticationService {
             errorCode = "99";
             errorMessage = unfe.getMessage();
         } catch (Exception e) {
+            e.printStackTrace();
             errorCode = "502";
             errorMessage = e.getMessage();
         }

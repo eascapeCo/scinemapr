@@ -76,6 +76,7 @@ export default {
         id: this.user,
         pwd: this.password
       }).then(() => {
+        console.log('success')
         this.$router.push('/')
       }).catch(error => {
         this.loginError = true

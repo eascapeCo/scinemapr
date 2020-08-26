@@ -1,15 +1,15 @@
 package com.eascapeco.scinemapr.api.model;
 
 public class RefreshToken {
-    private String id;
+    private int admNo;
     private String refreshToken;
 
-    public String getId(String username) {
-        return id;
+    public int getAdmNo() {
+        return admNo;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setAdmNo(int admNo) {
+        this.admNo = admNo;
     }
 
     public String getRefreshToken() {

@@ -53,11 +53,11 @@ public class BoAuthController {
     @PostMapping("/api/admin/login")
     public ResponseEntity<?> login(@RequestBody Admin admin, HttpServletRequest request, HttpServletResponse response) throws Exception {
         authenticate(admin.getId(), admin.getPassword());
-        adminUserDetailsService.loadUserByUsername(admin.getId());
-        return ResponseEntity.ok(jwtAuthenticationService.getTokens(admin.getId()));
+        UserDetails chkAdmin = adminUserDetailsService.loadUserByUsername(admin.getId());
+        return ResponseEntity.ok(jwtAuthenticationService.getTokens(chkAdmin));
     }
-
     // 인증
+
     private void authenticate(String username, String password) throws Exception {
         System.out.println(authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password)));
 

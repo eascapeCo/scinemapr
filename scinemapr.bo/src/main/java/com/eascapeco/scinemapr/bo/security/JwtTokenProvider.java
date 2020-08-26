@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
 import com.eascapeco.scinemapr.api.model.Admin;
 import com.eascapeco.scinemapr.api.model.AdminToken;
 import com.eascapeco.scinemapr.api.service.admin.AdminService;
@@ -80,6 +81,16 @@ public class JwtTokenProvider implements Serializable {
 
     public String getExpiresIn(String token) {
         return Long.toString(Math.abs(JWT.decode(token).getExpiresAt().getTime() - new Date(System.currentTimeMillis()).getTime() / 1000));
+    }
+
+//     retrieve username from jwt token
+    public String getUsernameFromToken(String token) {
+        return getClaimFromToken(token);
+    }
+
+    public String getClaimFromToken(String token) {
+        return JWT.decode(token).getSubject();
+//        return claimsResolver.apply(claims);
     }
 
 }
