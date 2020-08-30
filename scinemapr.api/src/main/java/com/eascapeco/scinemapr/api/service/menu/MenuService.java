@@ -3,6 +3,8 @@ package com.eascapeco.scinemapr.api.service.menu;
 import com.eascapeco.scinemapr.api.dao.menu.MenuMapper;
 import com.eascapeco.scinemapr.api.model.Menu;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ import java.util.List;
 @Service
 public class MenuService {
 
+    private final Logger log = LoggerFactory.getLogger(MenuService.class);
+
     @Autowired
     private MenuMapper menuMapper;
 
@@ -30,14 +34,14 @@ public class MenuService {
      */
     public Menu createMenu(Menu menu) {
 
-
+        Menu parentMenu = this.menuMapper.selectMenu(menu.getMnuNo());
 
         menu.setModNo(menu.getRegNo());
         menu.setRegDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
         menu.setModDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
 
-        System.out.println(menu.toString());
-        this.menuMapper.createMenu(menu);
+        log.info("{}", menu);
+        //this.menuMapper.createMenu(menu);
 
         return menu;
     }
