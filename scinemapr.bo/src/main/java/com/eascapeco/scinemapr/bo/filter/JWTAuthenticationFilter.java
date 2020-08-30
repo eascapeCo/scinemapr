@@ -29,7 +29,6 @@ import org.springframework.web.filter.GenericFilterBean;
 import com.eascapeco.scinemapr.api.util.CookieUtils;
 import com.eascapeco.scinemapr.bo.security.JwtTokenProvider;
 import org.springframework.web.filter.OncePerRequestFilter;
-import sun.text.normalizer.ICUBinary;
 
 /**
  * JWT Authentication Filter
@@ -55,12 +54,12 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
 	@Override
 	public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
+		log.info("{}", request.getRequestURL());
 		final String requestTokenHeader = request.getHeader(JWT_TOKEN_HEADER_PARAM);
 
 		String username = null;
 		String jwtToken = null;
-
+		log.info("filter");
 		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
 			jwtToken = requestTokenHeader.substring(7);
 
