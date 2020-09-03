@@ -46,7 +46,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
 	@Override
 	public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
+		log.info("{}", request.getRequestURL());
 		final String requestTokenHeader = request.getHeader(JWT_TOKEN_HEADER_PARAM);
 
 		String username = null;
@@ -54,6 +54,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
 		log.info("requestTokenHeader : " + requestTokenHeader);
 
+		log.info("filter");
 		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
 
 			System.out.println(requestTokenHeader.startsWith("Bearer "));

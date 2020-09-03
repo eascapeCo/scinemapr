@@ -63,8 +63,8 @@ export default {
     menus: [],
     data: {
       mnuNo: 0,
-      preMnuNo: 0,
-      mnuLv: 0,
+      preMnuNo: 1,
+      mnuLv: 1,
       mnuName: null,
       urlAdr: null,
       useYn: true,
@@ -76,8 +76,16 @@ export default {
   methods: {
     save: function () {
       console.log('submit')
-      console.log(this.mnuName)
-      console.log(this.menus)
+      console.log(this.data)
+      if (this.data.createType === null) {
+        alert('!!')
+        return false
+      }
+      console.log('save')
+      this.$axios.post('/api/menus')
+        .then((res) => {
+          console.log(res)
+        })
     },
     update: function () {
       console.log('submit')

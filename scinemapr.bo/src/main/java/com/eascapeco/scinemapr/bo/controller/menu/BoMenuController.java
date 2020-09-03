@@ -40,7 +40,7 @@ public class BoMenuController {
         return this.menuService.getMenu(id);
     }
 
-    @PostMapping("/menus")
+    @PostMapping("/menuss")
     public ResponseEntity<Menu> saveMenu(@RequestBody @Valid Menu menu) {
 
         log.info("{}", menu);

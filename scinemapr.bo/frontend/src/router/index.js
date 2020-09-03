@@ -20,7 +20,8 @@ const routes = [
     component: MainView,
     children: [
       { path: 'grid', component: () => import(/* webpackChunkName: "about" */ '../views/sample/GirdSample.vue') },
-      { path: 'menuForm', component: () => import(/* webpackChunkName: "about" */ '../views/menu/MenuView.vue') }
+      { path: 'menuForm', component: () => import(/* webpackChunkName: "about" */ '../views/menu/MenuView.vue') },
+      { path: 'rolesList', component: () => import(/* webpackChunkName: "about" */ '../views/roles/RolesList') }
     ]
   },
   {
