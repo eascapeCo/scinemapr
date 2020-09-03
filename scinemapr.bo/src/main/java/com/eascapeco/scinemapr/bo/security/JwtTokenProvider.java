@@ -1,26 +1,12 @@
 package com.eascapeco.scinemapr.bo.security;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.Claim;
-import com.eascapeco.scinemapr.api.model.Admin;
-import com.eascapeco.scinemapr.api.model.AdminToken;
-import com.eascapeco.scinemapr.api.service.admin.AdminService;
 
 @Component
 public class JwtTokenProvider implements Serializable {
@@ -92,5 +78,6 @@ public class JwtTokenProvider implements Serializable {
         return JWT.decode(token).getSubject();
 //        return claimsResolver.apply(claims);
     }
+
 
 }
