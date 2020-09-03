@@ -2,11 +2,33 @@
   <div class="rolesList">
     <v-container>
       asd
-      <ag-grid-vue domLayout="autoHeight"
-                   class="ag-theme-alpine"
-                   :columnDefs="columnDefs"
-                   :rowData="rowData">
-      </ag-grid-vue>
+      <v-row>
+        <v-col>
+          <v-card
+            class="mt-2 pa-2"
+          >asd
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-card
+            class="pa-2"
+          >
+            <ag-grid-vue domLayout="autoHeight"
+                         class="ag-theme-alpine-dark mt-10"
+                         :columnDefs="columnDefs"
+                         :rowData="rowData">
+            </ag-grid-vue>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary">Share</v-btn>
+              <v-btn>Explore</v-btn>
+            </v-card-actions>
+          </v-card>
+
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
