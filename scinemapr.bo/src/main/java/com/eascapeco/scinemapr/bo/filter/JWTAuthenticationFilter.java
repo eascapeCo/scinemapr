@@ -4,29 +4,21 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.eascapeco.scinemapr.bo.controller.auth.BoAuthController;
 import com.eascapeco.scinemapr.bo.service.AdminUserDetailsService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.GenericFilterBean;
 
-import com.eascapeco.scinemapr.api.util.CookieUtils;
 import com.eascapeco.scinemapr.bo.security.JwtTokenProvider;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -59,13 +51,18 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
 		String username = null;
 		String jwtToken = null;
+
+		log.info("requestTokenHeader : " + requestTokenHeader);
+
 		log.info("filter");
 		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+
+			System.out.println(requestTokenHeader.startsWith("Bearer "));
 			jwtToken = requestTokenHeader.substring(7);
 
 			try {
 				username = jwtTokenProvider.getUsernameFromToken(jwtToken);
-				log.info("유저명 " + username);
+				filterChain.doFilter(request, response);
 			} catch (IllegalArgumentException e) {
 				System.out.println("Unable to get JWT Token");
 			} catch (JWTVerificationException e) {
@@ -77,9 +74,11 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 		}
 		// Once we get the token validate it.
 //		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-		if (username != null) {
-			UserDetails userDetails = this.adminUserDetailsService.loadUserByUsername(username);
-			// if token is valid configure Spring Security to manually set authentication
+		UserDetails userDetails = null;
+		if (!StringUtils.isEmpty(username)) {
+			System.out.println("username : " + username);
+			userDetails = adminUserDetailsService.loadUserByUsername(username);
+//			 if token is valid configure Spring Security to manually set authentication
 //			if (jwtTokenProvider.validateToken(jwtToken, userDetails)) {
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 						userDetails, null, userDetails.getAuthorities());
@@ -89,7 +88,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 				// that the current user is authenticated. So it passes the
 				// Spring Security Configurations successfully.
 				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-//			}
+			filterChain.doFilter(request, response);
 		}
 		filterChain.doFilter(request, response);
 	}
