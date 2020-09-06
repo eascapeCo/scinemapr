@@ -40,9 +40,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 	private JwtTokenProvider jwtTokenProvider;
 	@Autowired
 	private AdminUserDetailsService adminUserDetailsService;
-	public JWTAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
-		this.jwtTokenProvider = jwtTokenProvider;
-	}
 
 	@Override
 	public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -62,7 +59,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
 			try {
 				username = jwtTokenProvider.getUsernameFromToken(jwtToken);
-				filterChain.doFilter(request, response);
+			//	filterChain.doFilter(request, response);
 			} catch (IllegalArgumentException e) {
 				System.out.println("Unable to get JWT Token");
 			} catch (JWTVerificationException e) {

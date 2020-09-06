@@ -1,6 +1,6 @@
 <template>
   <div class="menuView">
-    <v-container>
+    <v-container fluid>
       <v-row>
         <v-col>
           <v-card
@@ -54,7 +54,12 @@
 export default {
   name: 'menuView',
   created () {
-    this.$axios.get('/api/menus')
+    const config = {
+      headers: {
+        'X-Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU5OTI4NDg0OSwiaWF0IjoxNTk5MjgzMDQ5fQ.4xRCf8U2NJpiUg6wAjr2-KbHR_jB9qlK6qJujp4CGqk'
+      }
+    }
+    this.$axios.get('/api/menus', null, config)
       .then((res) => {
         this.menus = res.data
       })
