@@ -1,4 +1,4 @@
-package com.eascapeco.scinemapr.bo.controller.exception;
+package com.eascapeco.scinemapr.api.model;
 
 public class ErrorResponse {
     private String code;

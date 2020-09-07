@@ -1,6 +1,7 @@
 package com.eascapeco.scinemapr.api.service.menu;
 
 import com.eascapeco.scinemapr.api.dao.menu.MenuMapper;
+import com.eascapeco.scinemapr.api.exception.BadRequestException;
 import com.eascapeco.scinemapr.api.model.Menu;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -35,6 +36,10 @@ public class MenuService {
     public Menu createMenu(Menu menu) {
 
         Menu parentMenu = this.menuMapper.selectMenu(menu.getMnuNo());
+
+        if (parentMenu == null) {
+            throw new BadRequestException("!!!!");
+        }
 
         menu.setModNo(menu.getRegNo());
         menu.setRegDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));

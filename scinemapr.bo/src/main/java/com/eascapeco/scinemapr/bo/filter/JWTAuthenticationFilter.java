@@ -85,7 +85,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 // that the current user is authenticated. So it passes the
                 // Spring Security Configurations successfully.
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            filterChain.doFilter(request, response);
+            //filterChain.doFilter(request, response);
         }
         filterChain.doFilter(request, response);
     }
