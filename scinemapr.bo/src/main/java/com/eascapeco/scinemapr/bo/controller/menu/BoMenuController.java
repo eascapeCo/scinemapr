@@ -1,5 +1,6 @@
 package com.eascapeco.scinemapr.bo.controller.menu;
 
+import com.eascapeco.scinemapr.api.model.Admin;
 import com.eascapeco.scinemapr.api.model.Menu;
 import com.eascapeco.scinemapr.api.model.Result;
 import com.eascapeco.scinemapr.api.service.menu.MenuService;
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -41,8 +43,10 @@ public class BoMenuController {
     }
 
     @PostMapping("/menus")
-    public ResponseEntity<Menu> saveMenu(@RequestBody @Valid Menu menu) {
+    public ResponseEntity<Menu> saveMenu(@AuthenticationPrincipal Admin loginUser, @RequestBody @Valid Menu menu) {
 
+        log.info("user name -> {}", loginUser.getUsername());
+        log.info("user admNo -> {}", loginUser.getAdmNo());
         log.info("{}", menu);
 
         Menu savedMenu = this.menuService.createMenu(menu);

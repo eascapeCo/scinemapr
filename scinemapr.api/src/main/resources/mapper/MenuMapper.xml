@@ -3,112 +3,112 @@
 
 <mapper namespace="com.eascapeco.scinemapr.api.dao.menu.MenuMapper">
 
-	<!--
+    <!--
         작성자 : JaeHan-Kim
         작성일 : 2020. 05. 05
         기능 : 관리자 정보를 조회
     -->
-	<select id="selectMenus" parameterType="Menu" resultType="Menu">
+    <select id="selectMenus" parameterType="Menu" resultType="Menu">
         /* Menu.selectMenus */
-		SELECT
-			M.mnu_no,
-			M.pre_mnu_no,
-			M.mnu_name,
-			M.mnu_lv,
-			M.url_adr,
-			M.use_yn,
-			M.dp_yn,
-			M.dp_sequence,
-			M.reg_date,
-			M.reg_no,
-			M.mod_date,
-			M.mod_no
-		FROM MENU M
-		WHERE
-			M.USE_YN = #{useYn}
-			<if test="dpYn">
-			AND M.DP_YN = #{dpYn}
-			</if>
-			<if test="admNo != null">
-			AND EXISTS (
-					SELECT 1
-					FROM MENU_ROLES MR
-					WHERE MR.ROL_NO IN ( SELECT AR.ROL_NO FROM ADM_ROLE AR WHERE AR.ADM_NO = #{admNo})
-					  AND MR.MNU_NO = M.MNU_NO
-				)
-			</if>
-		ORDER BY M.DP_SEQUENCE, M.PRE_MNU_NO
-	</select>
+        SELECT
+            M.mnu_no,
+            M.pre_mnu_no,
+            M.mnu_name,
+            M.mnu_lv,
+            M.url_adr,
+            M.use_yn,
+            M.dp_yn,
+            M.dp_sequence,
+            M.reg_date,
+            M.reg_no,
+            M.mod_date,
+            M.mod_no
+        FROM MENU M
+        WHERE
+            M.USE_YN = #{useYn}
+            <if test="dpYn">
+            AND M.DP_YN = #{dpYn}
+            </if>
+            <if test="admNo != null">
+            AND EXISTS (
+                    SELECT 1
+                    FROM MENU_ROLES MR
+                    WHERE MR.ROL_NO IN ( SELECT AR.ROL_NO FROM ADM_ROLE AR WHERE AR.ADM_NO = #{admNo})
+                      AND MR.MNU_NO = M.MNU_NO
+                )
+            </if>
+        ORDER BY M.DP_SEQUENCE, M.PRE_MNU_NO
+    </select>
 
-	<!--
-		작성자 : JaeHan-Kim
-		작성일 : 2020. 06.19
-		기능 : 관리자 정보를 조회
-	-->
-	<select id="selectMenu" parameterType="Integer" resultType="Menu">
-		/* Menu.selectMenu */
-		SELECT
-			M.mnu_no,
-			M.pre_mnu_no,
-			M.mnu_name,
-			M.mnu_lv,
-			M.url_adr,
-			M.use_yn,
-			M.dp_yn,
-			M.dp_sequence,
-			M.reg_date,
-			M.reg_no,
-			M.mod_date,
-			M.mod_no
-		FROM MENU M
-		WHERE
-			M.USE_YN = true
-			AND M.MNU_NO = #{mnuNo}
-	</select>
+    <!--
+        작성자 : JaeHan-Kim
+        작성일 : 2020. 06.19
+        기능 : 관리자 정보를 조회
+    -->
+    <select id="selectMenu" parameterType="Integer" resultType="Menu">
+        /* Menu.selectMenu */
+        SELECT
+            M.mnu_no,
+            M.pre_mnu_no,
+            M.mnu_name,
+            M.mnu_lv,
+            M.url_adr,
+            M.use_yn,
+            M.dp_yn,
+            M.dp_sequence,
+            M.reg_date,
+            M.reg_no,
+            M.mod_date,
+            M.mod_no
+        FROM MENU M
+        WHERE
+            M.USE_YN = true
+            AND M.MNU_NO = #{mnuNo}
+    </select>
 
-	<insert id="createMenu" parameterType="Menu" useGeneratedKeys="true" keyProperty="mnuNo">
-		/* Menu.createMenu */
-		INSERT INTO Menu
-	    (
-			pre_mnu_no,
-			mnu_name,
-			mnu_lv,
-			url_adr,
-			use_yn,
-			dp_yn,
-			dp_sequence,
-			reg_date,
-			reg_no,
-			mod_date,
-			mod_no
-	    )
-	   	VALUES
-	   	(
-			#{preMnuNo},
-			#{mnuName},
-			#{mnuLv},
-			#{urlAdr},
-			#{useYn},
-			#{dpYn},
-			#{dpSequence},
-			#{regDate},
-			#{regNo},
-			#{modDate},
-			#{modNo}
-		)
-	</insert>
+    <insert id="createMenu" parameterType="Menu" useGeneratedKeys="true" keyProperty="mnuNo">
+        /* Menu.createMenu */
+        INSERT INTO Menu
+        (
+            pre_mnu_no,
+            mnu_name,
+            mnu_lv,
+            url_adr,
+            use_yn,
+            dp_yn,
+            dp_sequence,
+            reg_date,
+            reg_no,
+            mod_date,
+            mod_no
+        )
+           VALUES
+           (
+            #{preMnuNo},
+            #{mnuName},
+            #{mnuLv},
+            #{urlAdr},
+            #{useYn},
+            #{dpYn},
+            #{dpSequence},
+            #{regDate},
+            #{regNo},
+            #{modDate},
+            #{modNo}
+        )
+    </insert>
 
-	<update id="updateMenu" parameterType="Menu">
-		/* Menu.updateMenu */
-		UPDATE MENU SET
-			mnu_name = #{mnuName},
-			url_adr = #{urlAdr},
-			dp_yn = #{dpYn},
-			dp_sequence = #{dpSequence},
-			mod_date = #{modDate},
-			mod_no = #{modNo}
-		WHERE
-			mnu_no = #{mnuNo}
-	</update>
+    <update id="updateMenu" parameterType="Menu">
+        /* Menu.updateMenu */
+        UPDATE MENU SET
+            mnu_name = #{mnuName},
+            url_adr = #{urlAdr},
+            dp_yn = #{dpYn},
+            dp_sequence = #{dpSequence},
+            mod_date = #{modDate},
+            mod_no = #{modNo}
+        WHERE
+            mnu_no = #{mnuNo}
+    </update>
 
 </mapper>

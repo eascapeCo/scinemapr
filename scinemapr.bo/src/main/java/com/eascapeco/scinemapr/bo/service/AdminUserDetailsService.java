@@ -20,16 +20,16 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AdminUserDetailsService implements UserDetailsService {
-	
-	@Autowired
-	private AdminMapper adminDao;
-	
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		Admin adminInfo = adminDao.selectAdmin(username);
-		adminInfo.setAuthorities(AuthorityUtils.commaSeparatedStringToAuthorityList(adminInfo.getRoleName()));
-		return adminInfo;
-	}
-	
+    @Autowired
+    private AdminMapper adminDao;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        Admin adminInfo = adminDao.selectAdmin(username);
+        adminInfo.setAuthorities(AuthorityUtils.commaSeparatedStringToAuthorityList(adminInfo.getRoleName()));
+        return adminInfo;
+    }
+    
 }

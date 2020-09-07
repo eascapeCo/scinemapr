@@ -16,53 +16,53 @@ import com.eascapeco.scinemapr.bo.filter.JWTAuthenticationFilter;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
-	@Autowired
-	private JwtTokenProvider jwttokenProvider;
 
-	@Autowired
-	private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    @Autowired
+    private JwtTokenProvider jwttokenProvider;
 
-	@Autowired
-	private JWTAuthenticationFilter jwtAuthenticationFilter;
+    @Autowired
+    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
-	/*
+    @Autowired
+    private JWTAuthenticationFilter jwtAuthenticationFilter;
+
+    /*
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-	*/
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.httpBasic().disable()
-			.cors().and()
-			.csrf().disable()
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			.and()
-				.authorizeRequests()
-				.antMatchers("/loginForm", "/api/admin/login", "/favicon.ico", "/api/menus", "/api/roles", "/error").permitAll()
-			.and()
-				.authorizeRequests()
-				.anyRequest()
-				.authenticated()
-			.and()
-				.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint)
-			.and()
-				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-		//super.configure(http);
-	}
-	
-	@Override
-	public void init(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/js/**", "/css/**");
-		super.init(web);
-	}
+    */
 
-	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .httpBasic().disable()
+            .cors().and()
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+                .authorizeRequests()
+                .antMatchers("/loginForm", "/api/admin/login", "/favicon.ico", "/api/menus", "/api/roles", "/error").permitAll()
+            .and()
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated()
+            .and()
+                .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint)
+            .and()
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+    
+    @Override
+    public void init(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/js/**", "/css/**");
+        super.init(web);
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 }
