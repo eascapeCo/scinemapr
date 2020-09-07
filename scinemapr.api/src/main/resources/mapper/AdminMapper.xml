@@ -8,26 +8,26 @@
         작성일 : 2019. 10. 10
         기능 : 관리자 정보를 조회
     -->
-	<select id="selectAdmin" parameterType="String" resultType="Admin">
-		SELECT A.*
-		     , ( SELECT GROUP_CONCAT(ROL_NM SEPARATOR ',')
-		           FROM ADM_ROLE AR
-		          INNER JOIN ROLES R ON AR.ROL_NO = R.ROL_NO
-		          WHERE AR.ADM_NO = A.ADM_NO
-		       ) AS ROLENAME
-		  FROM ADMIN A
-		 WHERE ID = #{id}
-	</select>
+    <select id="selectAdmin" parameterType="String" resultType="Admin">
+        SELECT A.*
+             , ( SELECT GROUP_CONCAT(ROL_NM SEPARATOR ',')
+                   FROM ADM_ROLE AR
+                  INNER JOIN ROLES R ON AR.ROL_NO = R.ROL_NO
+                  WHERE AR.ADM_NO = A.ADM_NO
+               ) AS ROLENAME
+          FROM ADMIN A
+         WHERE ID = #{id}
+    </select>
 
-	<insert id="insertRefreshToken" parameterType="RefreshToken">
-	   INSERT INTO TKN_VALD
-	        ( tkn
-	        , adm_no
-	        )
-	   VALUES
-	        ( #{refreshToken}
-	        , #{admNo}
-	        )
-	       
-	</insert>
+    <insert id="insertRefreshToken" parameterType="RefreshToken">
+       INSERT INTO TKN_VALD
+            ( tkn
+            , adm_no
+            )
+       VALUES
+            ( #{refreshToken}
+            , #{admNo}
+            )
+           
+    </insert>
 </mapper>

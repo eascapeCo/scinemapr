@@ -10,6 +10,8 @@ import java.util.List;
 
 public class Menu implements Serializable {
 
+    private static final long serialVersionUID = 2805850376459412143L;
+
     private Integer mnuNo;
     @Min(0)
     private int preMnuNo;
