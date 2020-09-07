@@ -26,7 +26,7 @@ public class BoMenuController {
 
     @GetMapping("/menus")
     public List<Menu> retriveAllmenu() {
-        System.out.println("get menu");
+        log.info("get menu");
 
         List<Menu> list = this.menuService.getMenuList(null);
 
