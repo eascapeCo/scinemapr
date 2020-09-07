@@ -45,6 +45,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint, S
 
         response.getWriter().write(test);
         response.getWriter().flush();
+        response.getWriter().close();
         //PrintWriter out = response.getWriter();
         //out.print(test);
         //response.sendRedirect("/error");
