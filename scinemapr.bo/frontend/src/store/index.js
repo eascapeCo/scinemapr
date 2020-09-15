@@ -1,17 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    access_token: sessionStorage.getItem('access_token'),
-    refresh_token: sessionStorage.getItem('refresh_token'),
+    access_token: '',
+    refresh_token: '',
     expires_in: '',
     // claims: JSON.parse(sessionStorage.getItem('claims')),
     intervalId: null
   },
+  plugins: [
+    // paths는 값을 유지해야할 값만 넣어줌
+    createPersistedState({ paths: ['access_token', 'refresh_token'] })
+  ],
   getters: {
     getTokenExpiresIn (state) {
       return state.expires_in
@@ -26,8 +31,12 @@ export default new Vuex.Store({
   mutations: {
     LOGIN_SUCCESS: function (state, data) {
       state.loginSuccess = true
-      sessionStorage.setItem('access_token', data.accessToken)
-      sessionStorage.setItem('refresh_token', data.refreshToken)
+
+      state.access_token = data.accessToken
+      state.refresh_token = data.refreshToken
+
+      // sessionStorage.setItem('access_token', data.accessToken)
+      // sessionStorage.setItem('refresh_token', data.refreshToken)
 
       console.log('CHK >> ' + JSON.stringify(state))
 
