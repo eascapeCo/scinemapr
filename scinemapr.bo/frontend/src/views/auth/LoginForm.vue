@@ -76,8 +76,7 @@ export default {
         id: this.user,
         pwd: this.password
       }).then(() => {
-        this.$store.dispatch('getAllClaimsFromToken', this.user)
-        // this.$router.push('/')
+        this.$router.push('/')
       }).catch(error => {
         this.loginError = true
         this.errors.push(error)

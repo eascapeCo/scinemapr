@@ -91,10 +91,16 @@
 export default {
   name: 'AppSidebar',
   created () {
-    this.$axios.get('/api/menus')
-      .then((res) => {
-        this.menus = res.data
-      })
+    this.$axios.get('/api/menus', {
+      headers: {
+        Authorization: this.$store.state.access_token,
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      this.menus = res.data
+    }).catch(err => {
+      console.error(err)
+    })
   },
   data: () => ({
     menus: []

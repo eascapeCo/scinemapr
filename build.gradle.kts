@@ -60,9 +60,11 @@ project("scinemapr.api") {
         "api"("org.springframework.boot:spring-boot-starter-aop")
         "api"("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0")
         "api"("org.mariadb.jdbc:mariadb-java-client:2.5.0")
-        "api"("com.auth0:java-jwt:3.4.0")
         "api"("org.springframework.boot:spring-boot-starter-security")
         "api"("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.1")
+        "api"("io.jsonwebtoken:jjwt-api:0.11.2")
+        "runtime"("io.jsonwebtoken:jjwt-impl:0.11.2")
+        "runtime"("io.jsonwebtoken:jjwt-jackson:0.11.2")
 
         "testImplementation"("org.springframework.boot:spring-boot-starter-test") {
             exclude(group = "org.junit.vintage", module = "junit-vintage-engine")

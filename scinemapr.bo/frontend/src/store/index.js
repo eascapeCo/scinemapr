@@ -7,8 +7,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    access_token: '',
-    refresh_token: '',
+    access_token: sessionStorage.getItem('access_token'),
+    refresh_token: sessionStorage.getItem('refresh_token'),
     expires_in: '',
     // claims: JSON.parse(sessionStorage.getItem('claims')),
     intervalId: null
@@ -35,13 +35,9 @@ export default new Vuex.Store({
       state.access_token = data.accessToken
       state.refresh_token = data.refreshToken
 
-      // sessionStorage.setItem('access_token', data.accessToken)
-      // sessionStorage.setItem('refresh_token', data.refreshToken)
+      sessionStorage.setItem('access_token', data.accessToken)
+      sessionStorage.setItem('refresh_token', data.refreshToken)
 
-      console.log('CHK >> ' + JSON.stringify(state))
-
-      // state.access_token = data.access_token
-      // state.refresh_token = data.refresh_token
       // state.expires_in = data.expires_in
 
       // console.log('CHK >> ' + JSON.stringify(state))
@@ -80,7 +76,6 @@ export default new Vuex.Store({
           }
         })
           .then((res) => {
-            console.log(res.data)
             if (res.status === 200) {
               commit('LOGIN_SUCCESS', {
                 accessToken: 'Bearer ' + res.data.access_token,
@@ -96,28 +91,6 @@ export default new Vuex.Store({
             })
             reject(new Error('Invalid credentials!'))
           })
-      })
-    },
-    getAllClaimsFromToken (context, username) {
-      /* eslint-disable no-console */
-      console.log('확인용 : ' + JSON.stringify(context.state))
-      axios({
-        method: 'post',
-        url: '/api/admin/claims',
-        data: {
-          username: username
-        },
-        headers: {
-          'X-Authorization': context.state.access_token,
-          'Content-Type': 'application/json'
-        }
-      }).then(result => {
-        // sessionStorage.setItem('claims', JSON.stringify(result.data))
-        // context.commit('setAllClaims', result.data)
-        // context.dispatch('setJwtExpiresIn')
-        console.log(result)
-      }).catch(error => {
-        console.log(error)
       })
     },
     destroySetJwtExpiresInScheduler (context) {

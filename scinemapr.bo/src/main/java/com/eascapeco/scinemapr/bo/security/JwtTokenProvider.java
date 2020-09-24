@@ -1,79 +1,82 @@
 package com.eascapeco.scinemapr.bo.security;
 
 import java.io.Serializable;
-import java.sql.PseudoColumnUsage;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
-
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
+import java.util.*;
 import com.eascapeco.scinemapr.api.model.Admin;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
+
+import javax.crypto.SecretKey;
 
 @Component
 public class JwtTokenProvider implements Serializable {
 
+    private final Logger log = LoggerFactory.getLogger(JwtTokenProvider.class);
+
     static final long JWT_TOKEN_EXP = 1 * (30 * 60); // 30 mins
     static final long JWT_REFRESH_TOKEN_EXP = 30 * (60 * 60 * 24); // 30 days
 
-//    @Value("${jwt.secret}")
-    private final String secret = "escapeCoperation";
+    SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256); //or HS384 or HS512
 
 //    @Autowired
 //    private AdminService adminService;
 //    @Autowired
 //    private PasswordEncoder passwordEncoder;
 
-    public String generateToken(Admin chkAdm) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("id", chkAdm.getId());
-        claims.put("admNo", chkAdm.getAdmNo());
-        claims.put("roles", chkAdm.getAuthorities());
-        return createJwtToken(claims, chkAdm);
-    }
-
     /**
      * 토큰을 생성하는 메서드
-     * 
-     * @param id
-     * @param claims
+     *
+     * @param map
+     * @param admin
      * @return
      */
-    public String createJwtToken(Map<String, Object> claims, Admin admin) {
+//    public String createJwtToken(List<String> li, Admin admin) {
+    public String createJwtToken(Map<String, Object> map, Admin admin) {
+        return Jwts.builder().setClaims(map)
+                   .setIssuedAt(new Date(System.currentTimeMillis()))
+                   .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_EXP * 1000))
+                   .signWith(key, SignatureAlgorithm.HS256)
+                   .compact();
 
-//        토큰 생성
-        return JWT.create().withHeader(claims)
-                           .withIssuedAt(new Date(System.currentTimeMillis()))
-                           .withExpiresAt(new Date(System.currentTimeMillis() + JWT_TOKEN_EXP * 1000))
-                           .sign(Algorithm.HMAC256(secret));
+        /*return JWT.create().withClaim("id", admin.getId())
+                             .withClaim("admNo", admin.getAdmNo())
+                             .withClaim("roles", li)
+                             .withIssuer("JaeHan")
+                             .withIssuedAt(new Date(System.currentTimeMillis()))
+                             .withExpiresAt(new Date(System.currentTimeMillis() + JWT_TOKEN_EXP * 1000))
+                             .sign(Algorithm.HMAC256(secret));*/
     }
-    
+
     /**
      * 리프레쉬 토큰 생성 메소드
-     * 
-     * @param Admin
+     *
+     * @param map
      * @return Optional
      */
-    public String refreshJwtToken(Admin admin) {
-//         RefreshToken 생성
-        String refreshToken = JWT.create().withClaim("id", admin.getId())
-                                          .withIssuedAt(new Date(System.currentTimeMillis()))
-                                          .withExpiresAt(new Date(System.currentTimeMillis() + JWT_REFRESH_TOKEN_EXP * 1000))
-                                          .sign(Algorithm.HMAC256(secret));
-        
-        return refreshToken;
+    public String refreshJwtToken(Map<String, Object> map) {
+        return Jwts.builder().setClaims(map)
+                             .setIssuedAt(new Date(System.currentTimeMillis()))
+                             .setExpiration(new Date(System.currentTimeMillis() + JWT_REFRESH_TOKEN_EXP * 1000))
+                             .signWith(key, SignatureAlgorithm.HS256)
+                             .compact();
+
+        /*return JWT.create().withClaim("id", admin.getId())
+                             .withIssuer("JaeHan")
+                             .withIssuedAt(new Date(System.currentTimeMillis()))
+                             .withExpiresAt(new Date(System.currentTimeMillis() + JWT_REFRESH_TOKEN_EXP * 1000))
+                             .sign(Algorithm.HMAC256(secret));*/
     }
-    
+
     /**
      * JWT 토큰으로 인증 정보를 조회
-     * 
+     *
      * @param token
      * @return
      */
@@ -81,33 +84,117 @@ public class JwtTokenProvider implements Serializable {
         return new UsernamePasswordAuthenticationToken(null, "", null);
     }
 
-    public String getExpiresIn(String token) {
-        return Long.toString(Math.abs(JWT.decode(token).getExpiresAt().getTime() - new Date(System.currentTimeMillis()).getTime() / 1000));
+    /**
+     * JWT 토큰 생성 시작
+     *
+     * @param chkAdm
+     * @return
+     */
+    public String generateToken(Admin chkAdm) {
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("admId", chkAdm.getId());
+        map.put("admNo", chkAdm.getAdmNo());
+        map.put("roles", chkAdm.getAuthorities());
+
+/*
+        List<String> li = new ArrayList<>();
+        for (GrantedAuthority a: chkAdm.getAuthorities()) {
+            li.add(a.getAuthority());
+        }*/
+        return refreshJwtToken(map);
     }
 
-//     retrieve username from jwt token
+    /**
+     * JWT 토큰 생성 시작
+     *
+     * @param chkAdm
+     * @return
+     */
+    public String genRefreshToken(Admin chkAdm) {
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("admNo", chkAdm.getAdmNo());
+
+        return createJwtToken(map, chkAdm);
+    }
+
+    /**
+     * check if the token has expired
+     *
+     * @param token
+     * @return
+     */
+    public Boolean isTokenExpired(String token) {
+        final Date expiration = getExpirationDateFromToken(token);
+        return expiration.before(new Date());
+    }
+
+    /**
+     * retrieve username from jwt token
+     *
+     * @param token
+     * @return
+     */
+//
     public String getUsernameFromToken(String token) {
-        return getClaimFromToken(token);
+        return getClaimFromToken(token).get("admId").toString();
+
+//        return getClaimFromToken(token, Claims::getSubject);
     }
 
-    public String getClaimFromToken(String token) {
+    /**
+     * retrieve admin number from jwt token
+     *
+     * @param token
+     * @return
+     */
+    public int getAdminNoFromToken(String token) {
+        return (int) getClaimFromToken(token).get("admNo");
+    }
+
+    /**
+     * retrieve expiration date from jwt token
+     *
+     * @param token
+     * @return
+     */
+    public Date getExpirationDateFromToken(String token) {
+        return getClaimFromToken(token).getExpiration();
+    }
+
+
+    public Claims getClaimFromToken(String token) {
         return getAllClaimsFromToken(token);
     }
 
-    // for retrieveing any information from token we will need the secret key
-    public String getAllClaimsFromToken(String token) {
+    /**
+     * for retrieveing any information from token we will need the secret key
+     *
+     * @param token
+     * @return
+     */
+    public Claims getAllClaimsFromToken(String token) {
 
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret))
-//                .withIssuer("aa22vv")
-                .acceptExpiresAt(5 * 60)
-                .build();
+        return Jwts.parserBuilder().setSigningKey(key)
+                            .build().parseClaimsJws(token).getBody();
+    }
 
-//        DecodedJWT jwt = verifier.verify(token);
-        JWT jwt = new JWT();
-        DecodedJWT dJwt = jwt.decodeJwt(token);
+    /**
+     * validate token
+     *
+     * @param token
+     * @param admin
+     * @return
+     */
+    //
+    public Boolean validateToken(String token, Admin admin) {
+        // InvalidTokenException
+        final int admNo = getAdminNoFromToken(token);
+        return (admNo == admin.getAdmNo() && !isTokenExpired(token));
+    }
 
-        System.out.println("token : " + token);
-        System.out.println("JWT.decode(token) : " + dJwt.getHeaderClaim("id"));
-        return dJwt.getHeaderClaim("id").toString();
+    public String getExpiresIn(String token) {
+        return Long.toString(Math.abs(getClaimFromToken(token).getExpiration().getTime() - new Date(System.currentTimeMillis()).getTime() / 1000));
     }
 }
