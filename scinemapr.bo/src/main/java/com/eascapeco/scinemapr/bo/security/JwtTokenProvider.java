@@ -179,7 +179,7 @@ public class JwtTokenProvider implements Serializable {
         return Jwts.parserBuilder().setSigningKey(key)
                             .build().parseClaimsJws(token).getBody();
     }
-    
+
     /**
      * validate token
      *
