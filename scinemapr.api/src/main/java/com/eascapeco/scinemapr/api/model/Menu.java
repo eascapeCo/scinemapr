@@ -1,6 +1,7 @@
 package com.eascapeco.scinemapr.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -15,7 +16,7 @@ public class Menu implements Serializable {
     private Integer mnuNo;
     @Min(0)
     private int preMnuNo;
-    @NotBlank(message = "메뉴명은 필수 입니다.")
+    // @NotBlank(message = "메뉴명은 필수 입니다.")
     private String mnuName;
     @Min(0) @Max(3)
     private int mnuLv;
@@ -31,7 +32,7 @@ public class Menu implements Serializable {
     private List<Menu> subMenus;
     @JsonIgnore
     private Integer admNo;
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String createType;
 
     public Integer getMnuNo() {

@@ -19,12 +19,13 @@
                          class="ag-theme-alpine-dark mt-10"
                          :gridOptions="gridOptions"
                          :columnDefs="columnDefs"
-                         :rowData="rowData">
+                         :rowData="rowData"
+                         :frameworkComponents="frameworkComponents">
             </ag-grid-vue>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="primary">Share</v-btn>
-              <v-btn>Explore</v-btn>
+              <v-btn v-on:click="rolesPopup">Explore</v-btn>
             </v-card-actions>
           </v-card>
 
@@ -36,12 +37,13 @@
 
 <script>
 import { AgGridVue } from 'ag-grid-vue'
+import RolesButton from '@/components/roles/rolesButton.vue'
 
 export default {
   name: 'rolesList',
   created () {
     console.log(1)
-    this.$axios.get('/api/menus')
+    this.$axios.get('/api/roles')
       .then((res) => {
         this.rowData = res.data
         this.gridApi.setRowData(res.data)
@@ -53,7 +55,8 @@ export default {
     data: {
       gridOptions: null,
       columnDefs: null,
-      rowData: null
+      rowData: [],
+      frameworkComponents: null
     }
   }),
   components: {
@@ -61,41 +64,61 @@ export default {
   },
   beforeMount () {
     console.log(2)
-    this.gridOptions = {}
+    this.gridOptions = {
+      suppressCellSelection: false
+    }
     this.columnDefs = [
-      { headerName: 'mnuNo', field: 'mnuNo' },
-      { headerName: 'preMnuNo', field: 'preMnuNo' },
-      { headerName: 'mnuName', field: 'mnuName' },
-      { headerName: 'mnuLv', field: 'mnuLv' },
-      { headerName: 'urlAdr', field: 'urlAdr' },
-      { headerName: 'useYn', field: 'useYn' },
-      { headerName: 'dpYn', field: 'dpYn' },
-      { headerName: 'dpSequence', field: 'dpSequence' },
+      { headerName: 'rolNo', field: 'rolNo' },
+      { headerName: 'rolNm', field: 'rolNm' },
+      { headerName: 'roles', field: 'roles', cellRenderer: this.test },
       { headerName: 'regDate', field: 'regDate' },
       { headerName: 'regNo', field: 'regNo' },
       { headerName: 'modDate', field: 'modDate' },
       { headerName: 'modNo', field: 'modNo' }
     ]
-    this.rowData = [
-      {
-        mnuNo: 1,
-        preMnuNo: 1,
-        mnuName: 'menu',
-        mnuLv: 1,
-        urlAdr: '/asda',
-        useYn: true,
-        dpYn: true,
-        dpSequence: 1,
-        regDate: '2020-08-26',
-        regNo: 1,
-        odDate: '2020-08-25',
-        modNo: 1
-      }
-    ]
+    this.rowData = []
+    this.frameworkComponents = {
+      rolresButton: RolesButton
+    }
+  },
+  methods: {
+    test: function (param) {
+      console.log('test!!')
+      console.log(param)
+      console.log(param.data.rolNo)
+      // const sellData = param.data
+      // console.log(this.data)
+      // return '<button color="primary" v-on:click="this.rolesPopup">권한보기</button>'
+      // this.rolesPopup()
+      /*
+      const propsObj = {
+        props: {
+          overlap: true,
+          left: true,
+          color: 'success',
+        },
+      };
+      const icon = createElement('v-icon', { props: { color: 'success', large: true } }, 'account_circle');
+      const span = document('span', { slot: 'badge' }, '5');
+      return document.createElement('v-badge', propsObj, [span, icon])
+      */
+      // const html = document.createElement('v-btn', '1123123')
+      // html.innerHTML('123123')
+      // return '<button type="button" class="v-btn v-btn--contained theme--dark v-size--default primary"><span class="v-btn__content">Share</span></button>'
+      console.log(this.frameworkComponents.rolresButton.template)
+      return this.frameworkComponents.rolresButton.template
+    },
+    rolesPopup: function (createElement) {
+      console.log('1')
+      // console.log(createElement('v-btn', 1))
+      this.gridApi.refreshCells()
+      console.log(this.frameworkComponents.rolresButton.template)
+    }
   },
   mounted () {
     console.log(3)
     this.gridApi = this.gridOptions.api
+    // this.gridOptions.api.sizeColumnsToFit()
   }
 }
 </script>

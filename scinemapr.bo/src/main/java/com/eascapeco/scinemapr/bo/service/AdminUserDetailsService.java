@@ -1,5 +1,8 @@
 package com.eascapeco.scinemapr.bo.service;
 
+import com.eascapeco.scinemapr.api.service.roles.RolesService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +24,9 @@ import java.util.Arrays;
  */
 @Service
 public class AdminUserDetailsService implements UserDetailsService {
+
+
+    private final Logger log = LoggerFactory.getLogger(AdminUserDetailsService.class);
 
     @Autowired
     private AdminMapper adminDao;

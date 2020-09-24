@@ -43,11 +43,13 @@ public class BoMenuController {
     }
 
     @PostMapping("/menus")
-    public ResponseEntity<Menu> saveMenu(@AuthenticationPrincipal Admin loginUser, @RequestBody @Valid Menu menu) {
-
+    public ResponseEntity<Menu> saveMenu(/*@AuthenticationPrincipal Admin loginUser, */@RequestBody @Valid Menu menu) {
+        /*
         log.info("user name -> {}", loginUser.getUsername());
         log.info("user admNo -> {}", loginUser.getAdmNo());
+         */
         log.info("{}", menu);
+        log.info("!@# {}", menu.getCreateType());
 
         Menu savedMenu = this.menuService.createMenu(menu);
 

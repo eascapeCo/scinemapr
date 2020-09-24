@@ -1,5 +1,6 @@
 package com.eascapeco.scinemapr.api.service.menu;
 
+import com.eascapeco.scinemapr.api.constants.ApiConstants;
 import com.eascapeco.scinemapr.api.dao.menu.MenuMapper;
 import com.eascapeco.scinemapr.api.exception.BadRequestException;
 import com.eascapeco.scinemapr.api.model.Menu;
@@ -35,20 +36,48 @@ public class MenuService {
      */
     public Menu createMenu(Menu menu) {
 
-        Menu parentMenu = this.menuMapper.selectMenu(menu.getMnuNo());
 
-        if (parentMenu == null) {
+        Menu currentMenu = this.menuMapper.selectMenu(menu.getMnuNo());
+
+        if(currentMenu == null) {
             throw new BadRequestException("!!!!");
         }
 
-        menu.setModNo(menu.getRegNo());
-        menu.setRegDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
-        menu.setModDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
 
-        log.info("{}", menu);
-        //this.menuMapper.createMenu(menu);
 
-        return menu;
+        Menu savedMenu = new Menu();
+
+        savedMenu.setModNo(1);
+        savedMenu.setRegDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        savedMenu.setModDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        savedMenu.setUrlAdr(menu.getUrlAdr());
+        savedMenu.setMnuName(menu.getMnuName());
+        savedMenu.setUseYn(menu.isUseYn());
+        savedMenu.setDpYn(menu.isDpYn());
+        savedMenu.setDpSequence(menu.getDpSequence());
+
+        int currentLevel = currentMenu.getMnuLv();
+
+        // 등록하려하는 메뉴가 동일 레벨인지 하위 레벨인지를 판단
+        if(StringUtils.equals(menu.getCreateType(), "siblingLevel")) {
+            savedMenu.setPreMnuNo(currentMenu.getPreMnuNo());
+        } else if(StringUtils.equals(menu.getCreateType(), "subLevel")) {
+            savedMenu.setPreMnuNo(currentMenu.getMnuNo());
+            currentLevel++;
+        } else {
+            throw new BadRequestException("!!!!");
+        }
+
+        savedMenu.setMnuLv(currentLevel);
+
+        if(savedMenu.getMnuLv() > 3) {
+            throw new BadRequestException("메뉴 레벨은 3까지 가능합니다.");
+        }
+
+        log.info("save menu{}", savedMenu);
+        this.menuMapper.createMenu(menu);
+
+        return savedMenu;
     }
 
     /**
@@ -79,6 +108,12 @@ public class MenuService {
         return this.getDispMenuList(menus, 1);
     }
 
+    /**
+     *
+     * @param mnuNo
+     * @param menu
+     * @return
+     */
     public Menu updateMenu(Integer mnuNo, Menu menu) {
 
         Menu updateMenu = new Menu();

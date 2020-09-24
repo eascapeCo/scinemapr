@@ -1,6 +1,13 @@
 <template>
   <div class="menuView">
     <v-container fluid>
+      <v-alert
+        dense
+        border="left"
+        type="warning"
+      >
+        I'm a dense alert with the <strong>border</strong> prop and a <strong>type</strong> of warning
+      </v-alert>
       <v-row>
         <v-col>
           <v-card
@@ -38,7 +45,7 @@
               <v-text-field v-model="data.dpSequence" label="전시 순서" />
               <v-radio-group v-model="data.createType" row>
                 <v-radio label="동일 레벨 생성" value="siblingLevel"></v-radio>
-                <v-radio label="하위 레벨 생성" value=subLevel></v-radio>
+                <v-radio label="하위 레벨 생성" value="subLevel"></v-radio>
               </v-radio-group>
               <v-btn class="mr-4" @click="save">등록</v-btn>
               <v-btn class="mr-4" @click="update">수정</v-btn>
@@ -56,7 +63,7 @@ export default {
   created () {
     const config = {
       headers: {
-        'X-Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU5OTI4NDg0OSwiaWF0IjoxNTk5MjgzMDQ5fQ.4xRCf8U2NJpiUg6wAjr2-KbHR_jB9qlK6qJujp4CGqk'
+        Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU5OTI4NDg0OSwiaWF0IjoxNTk5MjgzMDQ5fQ.4xRCf8U2NJpiUg6wAjr2-KbHR_jB9qlK6qJujp4CGqk'
       }
     }
     this.$axios.get('/api/menus', config)
@@ -87,9 +94,12 @@ export default {
         return false
       }
       console.log('save')
-      this.$axios.post('/api/menus')
+      this.$axios.post('/api/menus', this.data)
         .then((res) => {
           console.log(res)
+        }).catch((error) => {
+          console.log('Error: ' + JSON.stringify(error.response))
+          console.log(error.response.data.detail)
         })
     },
     update: function () {

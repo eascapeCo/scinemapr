@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.eascapeco.scinemapr.api.model.Admin;
 import com.eascapeco.scinemapr.bo.service.AdminUserDetailsService;
 import org.apache.commons.lang3.StringUtils;
@@ -59,10 +58,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 log.info("userId : {}", username);
             } catch (IllegalArgumentException e) {
                 log.error("Unable to get JWT Token", e);
-            } catch (TokenExpiredException e) {
-                log.error("JWT Token has expired", e);
             }
-
         } else {
             log.debug("JWT Token does not begin with Bearer String");
         }

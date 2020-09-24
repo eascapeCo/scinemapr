@@ -5,7 +5,7 @@ public class Roles {
     private int rolNo;
     private String rolNm;
     private String regDate;
-    private int reg_no;
+    private int regNo;
     private String modDate;
     private int modNo;
 
@@ -33,13 +33,9 @@ public class Roles {
         this.regDate = regDate;
     }
 
-    public int getReg_no() {
-        return reg_no;
-    }
+    public int getRegNo() { return regNo; }
 
-    public void setReg_no(int reg_no) {
-        this.reg_no = reg_no;
-    }
+    public void setRegNo(int regNo) { this.regNo = regNo; }
 
     public String getModDate() {
         return modDate;
