@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -20,10 +21,10 @@ public class JwtTokenProvider implements Serializable {
 
     private final Logger log = LoggerFactory.getLogger(JwtTokenProvider.class);
 
-    static final long JWT_TOKEN_EXP = 1 * (30 * 60); // 30 mins
-    static final long JWT_REFRESH_TOKEN_EXP = 30 * (60 * 60 * 24); // 30 days
+    static final long JWT_TOKEN_EXP = 1 * (30 * 60 * 1000); // 30 mins
+    static final long JWT_REFRESH_TOKEN_EXP = 30 * (60 * 60 * 24 * 1000); // 30 days
 
-    SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256); //or HS384 or HS512
+    SecretKey key = Keys.hmacShaKeyFor("secret".getBytes());
 
 //    @Autowired
 //    private AdminService adminService;
@@ -41,7 +42,7 @@ public class JwtTokenProvider implements Serializable {
     public String createJwtToken(Map<String, Object> map, Admin admin) {
         return Jwts.builder().setClaims(map)
                    .setIssuedAt(new Date(System.currentTimeMillis()))
-                   .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_EXP * 1000))
+                   .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_EXP))
                    .signWith(key, SignatureAlgorithm.HS256)
                    .compact();
 
@@ -63,7 +64,7 @@ public class JwtTokenProvider implements Serializable {
     public String refreshJwtToken(Map<String, Object> map) {
         return Jwts.builder().setClaims(map)
                              .setIssuedAt(new Date(System.currentTimeMillis()))
-                             .setExpiration(new Date(System.currentTimeMillis() + JWT_REFRESH_TOKEN_EXP * 1000))
+                             .setExpiration(new Date(System.currentTimeMillis() + JWT_REFRESH_TOKEN_EXP))
                              .signWith(key, SignatureAlgorithm.HS256)
                              .compact();
 
@@ -95,14 +96,14 @@ public class JwtTokenProvider implements Serializable {
 
         map.put("admId", chkAdm.getId());
         map.put("admNo", chkAdm.getAdmNo());
-        map.put("roles", chkAdm.getAuthorities());
 
-/*
         List<String> li = new ArrayList<>();
         for (GrantedAuthority a: chkAdm.getAuthorities()) {
             li.add(a.getAuthority());
-        }*/
-        return refreshJwtToken(map);
+        }
+
+        map.put("roles", li);
+        return createJwtToken(map, chkAdm);
     }
 
     /**
@@ -116,7 +117,7 @@ public class JwtTokenProvider implements Serializable {
 
         map.put("admNo", chkAdm.getAdmNo());
 
-        return createJwtToken(map, chkAdm);
+        return refreshJwtToken(map);
     }
 
     /**
@@ -187,7 +188,6 @@ public class JwtTokenProvider implements Serializable {
      * @param admin
      * @return
      */
-    //
     public Boolean validateToken(String token, Admin admin) {
         // InvalidTokenException
         final int admNo = getAdminNoFromToken(token);
@@ -195,6 +195,6 @@ public class JwtTokenProvider implements Serializable {
     }
 
     public String getExpiresIn(String token) {
-        return Long.toString(Math.abs(getClaimFromToken(token).getExpiration().getTime() - new Date(System.currentTimeMillis()).getTime() / 1000));
+        return Long.toString(Math.abs(getClaimFromToken(token).getExpiration().getTime() - new Date(System.currentTimeMillis()).getTime() - 1000));
     }
 }

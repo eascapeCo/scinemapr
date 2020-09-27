@@ -63,7 +63,8 @@ export default {
   created () {
     const config = {
       headers: {
-        Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU5OTI4NDg0OSwiaWF0IjoxNTk5MjgzMDQ5fQ.4xRCf8U2NJpiUg6wAjr2-KbHR_jB9qlK6qJujp4CGqk'
+        Authorization: this.$store.state.access_token,
+        'Content-Type': 'application/json'
       }
     }
     this.$axios.get('/api/menus', config)

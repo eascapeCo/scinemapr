@@ -37,7 +37,7 @@
 
 <script>
 import { AgGridVue } from 'ag-grid-vue'
-import RolesButton from '@/components/roles/rolesButton.vue'
+// import RolesButton from '@/components/roles/rolesButton.vue'
 
 export default {
   name: 'rolesList',

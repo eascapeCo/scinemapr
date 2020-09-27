@@ -28,7 +28,7 @@ public class JWTAuthenticationService {
         try {
             access_token = jwtTokenProvider.generateToken(chkAdm);
             refresh_token = jwtTokenProvider.genRefreshToken(chkAdm);
-            expires_in = jwtTokenProvider.getExpiresIn(access_token);
+//            expires_in = jwtTokenProvider.getExpiresIn(access_token);
 
             if (refresh_token != null && !refresh_token.isEmpty()) {
 
