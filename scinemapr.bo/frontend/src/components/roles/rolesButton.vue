@@ -1,10 +1,12 @@
 <script>
-export default {
+import Vue from 'vue'
+
+export default Vue.extend({
   template: `
-      <span>
-          <button style="height: 20px; line-height: 0.5" v-on:click="invokeParentMethod" class="btn btn-info">Invoke Parent</button>
-      </span>
-  `,
+        <button type="button" class="v-btn v-btn--contained theme--dark v-size--default primary" v-on:click="invokeParentMethod">
+          <span class="v-btn__content">Share</span>
+        </button>
+    `,
   data: function () {
     return {}
   },
@@ -12,10 +14,14 @@ export default {
   mounted () {},
   methods: {
     invokeParentMethod: function () {
+      console.log('rune')
+      console.log(this.params)
+      /*
       this.params.context.componentParent.methodFromParent(
         `Row: ${this.params.node.rowIndex}, Col: ${this.params.colDef.headerName}`
       )
+      */
     }
   }
-}
+})
 </script>

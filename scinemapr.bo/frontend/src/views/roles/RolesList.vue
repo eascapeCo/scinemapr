@@ -6,7 +6,8 @@
         <v-col>
           <v-card
             class="mt-2 pa-2"
-          >asd
+          >
+            검색조건 영역
           </v-card>
         </v-col>
       </v-row>
@@ -20,7 +21,9 @@
                          :gridOptions="gridOptions"
                          :columnDefs="columnDefs"
                          :rowData="rowData"
-                         :frameworkComponents="frameworkComponents">
+                         :context="context"
+                         :frameworkComponents="frameworkComponents"
+                         :defaultColDef="defaultColDef">
             </ag-grid-vue>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -56,7 +59,9 @@ export default {
       gridOptions: null,
       columnDefs: null,
       rowData: [],
-      frameworkComponents: null
+      frameworkComponents: null,
+      context: null,
+      defaultColDef: null
     }
   }),
   components: {
@@ -64,22 +69,29 @@ export default {
   },
   beforeMount () {
     console.log(2)
+    console.log(this.rolresButton)
     this.gridOptions = {
       suppressCellSelection: false
     }
     this.columnDefs = [
       { headerName: 'rolNo', field: 'rolNo' },
       { headerName: 'rolNm', field: 'rolNm' },
-      { headerName: 'roles', field: 'roles', cellRenderer: this.test },
+      { headerName: 'roles', field: 'roles', cellRenderer: 'rolresButton' },
       { headerName: 'regDate', field: 'regDate' },
       { headerName: 'regNo', field: 'regNo' },
       { headerName: 'modDate', field: 'modDate' },
       { headerName: 'modNo', field: 'modNo' }
     ]
     this.rowData = []
+    this.context = { componentParent: this }
     this.frameworkComponents = {
       rolresButton: RolesButton
     }
+    this.defaultColDef = {
+      editable: false,
+      minWidth: 100
+    }
+    console.log(this.frameworkComponents.rolresButton)
   },
   methods: {
     test: function (param) {
@@ -105,7 +117,7 @@ export default {
       // const html = document.createElement('v-btn', '1123123')
       // html.innerHTML('123123')
       // return '<button type="button" class="v-btn v-btn--contained theme--dark v-size--default primary"><span class="v-btn__content">Share</span></button>'
-      console.log(this.frameworkComponents.rolresButton.template)
+      // console.log(this.frameworkComponents.rolresButton.template)
       return this.frameworkComponents.rolresButton.template
     },
     rolesPopup: function (createElement) {

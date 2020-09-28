@@ -17,4 +17,8 @@ import java.util.List;
 public interface RolesMapper {
 
     List<Roles> selectRoles();
+
+    Roles selectOneRoles(Integer id);
+
+    void insertRoles(Roles roles);
 }

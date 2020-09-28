@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .authorizeRequests()
-                .antMatchers("/loginForm", "/api/admin/login", "/favicon.ico", "/error").permitAll()
+                .antMatchers("/loginForm", "/api/admin/login", "/favicon.ico", "/error", "/api/menus", "/api/menus/*").permitAll()
             .and()
                 .authorizeRequests()
                 .anyRequest()

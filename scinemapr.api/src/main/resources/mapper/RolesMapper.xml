@@ -18,4 +18,31 @@
             r.mod_no
         FROM ROLES r
     </select>
+    
+    <!--
+        작성자 : JaeHan-Kim
+        작성일 : 2020. 09. 25
+        기능 : 권한 등록
+    -->
+    <insert id="insertRoles" parameterType="Roles" useGeneratedKeys="true" keyProperty="rolNo">
+        /* Roles.insertRoles */
+        INSERT INTO ROLES
+        (
+            rol_no,
+            rol_nm,
+            reg_date,
+            reg_no,
+            mod_date,
+            mod_no
+        )
+           VALUES
+           (
+            #{rolNo},
+            #{rolNm},
+            #{regDate},
+            #{regNo},
+            #{modDate},
+            #{modNo}
+        )
+    </insert>
 </mapper>
