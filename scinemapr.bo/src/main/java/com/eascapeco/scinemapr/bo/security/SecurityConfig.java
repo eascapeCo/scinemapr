@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.access.expression.WebSecurityExpressionRoot;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.eascapeco.scinemapr.bo.filter.JWTAuthenticationFilter;
@@ -16,9 +17,6 @@ import com.eascapeco.scinemapr.bo.filter.JWTAuthenticationFilter;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    private JwtTokenProvider jwttokenProvider;
 
     @Autowired
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
@@ -43,11 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .authorizeRequests()
-                .antMatchers("/loginForm", "/api/admin/login", "/favicon.ico", "/error", "/api/menus", "/api/menus/*").permitAll()
-            .and()
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/loginForm", "/api/admin/login", "/favicon.ico", "/error").permitAll()
+                .anyRequest().access("@rbacAuthorityService.hasPermission(request,authentication)")
             .and()
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint)
             .and()
