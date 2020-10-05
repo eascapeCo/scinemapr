@@ -1,6 +1,7 @@
 package com.eascapeco.scinemapr.bo.security;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 import com.eascapeco.scinemapr.api.model.Admin;
 import io.jsonwebtoken.Claims;
@@ -24,12 +25,17 @@ public class JwtTokenProvider implements Serializable {
     static final long JWT_TOKEN_EXP = 1 * (30 * 60 * 1000); // 30 mins
     static final long JWT_REFRESH_TOKEN_EXP = 30 * (60 * 60 * 24 * 1000); // 30 days
 
-    SecretKey key = Keys.hmacShaKeyFor("secret".getBytes());
+    byte[] byteKeys;
 
-//    @Autowired
-//    private AdminService adminService;
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    {
+        try {
+            byteKeys = "eascapecoscinemapr2020".getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    SecretKey key = Keys.hmacShaKeyFor(Base64.getEncoder().encodeToString(byteKeys).getBytes());
 
     /**
      * 토큰을 생성하는 메서드
