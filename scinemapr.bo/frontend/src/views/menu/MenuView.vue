@@ -107,7 +107,12 @@ export default {
       console.log('submit')
       console.log(this.data)
 
-      this.$axios.put('/api/menus/' + this.data.mnuNo, this.data)
+      this.$axios.put('/api/menus/' + this.data.mnuNo, this.data, {
+        headers: {
+          Authorization: this.$store.state.access_token,
+          'Content-Type': 'application/json'
+        }
+      })
         .then((res) => {
           console.log(res)
         })
@@ -127,7 +132,12 @@ export default {
         return
       }
 
-      this.$axios.get('/api/menus/' + mnuNo)
+      this.$axios.get('/api/menus/' + mnuNo, {
+        headers: {
+          Authorization: this.$store.state.access_token,
+          'Content-Type': 'application/json'
+        }
+      })
         .then((res) => {
           console.log(res)
           this.data = res.data

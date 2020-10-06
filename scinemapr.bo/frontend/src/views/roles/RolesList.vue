@@ -40,13 +40,18 @@
 
 <script>
 import { AgGridVue } from 'ag-grid-vue'
-// import RolesButton from '@/components/roles/rolesButton.vue'
+import RolesButton from '@/components/roles/rolesButton.vue'
 
 export default {
   name: 'rolesList',
   created () {
     console.log(1)
-    this.$axios.get('/api/roles')
+    this.$axios.get('/api/roles', {
+      headers: {
+        Authorization: this.$store.state.access_token,
+        'Content-Type': 'application/json'
+      }
+    })
       .then((res) => {
         this.rowData = res.data
         this.gridApi.setRowData(res.data)

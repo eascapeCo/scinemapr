@@ -45,4 +45,27 @@
             #{modNo}
         )
     </insert>
+    
+    <!-- 
+        작성자 : JaeHan-Kim
+        작성일 : 2020. 10. 06
+        기능 : 
+    -->
+    <select id="selectRoleMenus" parameterType="String" resultType="MenuRoles">
+        /* Roles.selectRoleMenus */
+        SELECT
+            MR.ROL_NO,
+            MR.MNU_NO,
+            MR.MNU_CREATE,
+            MR.MNU_READ,
+            MR.MNU_UPDATE,
+            MR.MNU_DELETE,
+            R.ROL_NM,
+            M.URL_ADR 
+        FROM MENU_ROLES MR
+        INNER JOIN ROLES R ON R.ROL_NO = R.ROL_NO
+        INNER JOIN MENU M ON MR.MNU_NO = M.MNU_NO
+        WHERE R.ROL_NM = #{rolNm}
+        AND M.USE_YN = TRUE
+    </select>
 </mapper>

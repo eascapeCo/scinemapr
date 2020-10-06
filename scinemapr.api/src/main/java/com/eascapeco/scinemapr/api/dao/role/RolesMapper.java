@@ -1,5 +1,6 @@
 package com.eascapeco.scinemapr.api.dao.role;
 
+import com.eascapeco.scinemapr.api.model.MenuRoles;
 import com.eascapeco.scinemapr.api.model.Roles;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -21,4 +22,6 @@ public interface RolesMapper {
     Roles selectOneRoles(Integer id);
 
     void insertRoles(Roles roles);
+
+    List<MenuRoles> selectRoleMenus(String rolNm);
 }
