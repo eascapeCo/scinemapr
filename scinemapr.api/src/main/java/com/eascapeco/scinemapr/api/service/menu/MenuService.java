@@ -75,7 +75,7 @@ public class MenuService {
         }
 
         log.info("save menu{}", savedMenu);
-        this.menuMapper.createMenu(menu);
+        this.menuMapper.createMenu(savedMenu);
 
         return savedMenu;
     }

@@ -95,7 +95,12 @@ export default {
         return false
       }
       console.log('save')
-      this.$axios.post('/api/menus', this.data)
+      this.$axios.post('/api/menus', this.data, {
+        headers: {
+          Authorization: this.$store.state.access_token,
+          'Content-Type': 'application/json'
+        }
+      })
         .then((res) => {
           console.log(res)
         }).catch((error) => {
