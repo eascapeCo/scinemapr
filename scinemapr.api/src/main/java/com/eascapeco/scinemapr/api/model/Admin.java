@@ -11,17 +11,19 @@ import org.springframework.security.core.userdetails.UserDetails;
  * 관리자 정보 model
  * 
  * @author jaehankim
- * @date 2019. 10. 10
+ * @Date 2019. 10. 10
  */
 @SuppressWarnings("serial")
 public class Admin implements UserDetails, Serializable{
 	
     private Integer admNo;		// 관리자 번호
-    private String id;			// 아이디
-    private String pwd;			// 비밀번호
-    private String regDate;		// 생성일
-    private String modDate;		// 수정일
-    private Integer modNo;		// 수정자 
+    private String  id;			// 아이디
+    private String  pwd;		// 비밀번호
+    private String  regDate;	// 아이디 등록일자
+    private String  regNo;      // 아이디 등록자 번호
+    private String  modDate;	// 최종 수정일자
+    private Integer modNo;		// 최종 수정자 번호
+    private boolean pwdExpd;    // 비밀번호 갱신 여부
 
     @Override
     public String toString() {
@@ -30,8 +32,10 @@ public class Admin implements UserDetails, Serializable{
                 ", id='" + id + '\'' +
                 ", pwd='" + pwd + '\'' +
                 ", regDate='" + regDate + '\'' +
+                ", regNo='" + regNo + '\'' +
                 ", modDate='" + modDate + '\'' +
-                ", modNo=" + modNo +
+                ", modNo=" + modNo + '\'' +
+                ", pwdExpd=" + pwdExpd + '\'' +
                 ", roleName='" + roleName + '\'' +
                 ", authorities=" + authorities +
                 '}';
@@ -70,6 +74,14 @@ public class Admin implements UserDetails, Serializable{
         this.regDate = regDate;
     }
 
+    public String getRegNo() {
+        return regNo;
+    }
+
+    public void setRegNo(String regNo) {
+        this.regNo = regNo;
+    }
+
     public String getModDate() {
         return modDate;
     }
@@ -84,6 +96,14 @@ public class Admin implements UserDetails, Serializable{
 
     public void setModNo(Integer modNo) {
         this.modNo = modNo;
+    }
+
+    public boolean isPwdExpd() {
+        return pwdExpd;
+    }
+
+    public void setPwdExpd(boolean pwdExpd) {
+        this.pwdExpd = pwdExpd;
     }
 
     public String getRoleName() {

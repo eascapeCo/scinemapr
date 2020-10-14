@@ -94,12 +94,16 @@ export default {
     this.$axios.get('/api/menus', {
       headers: {
         Authorization: this.$store.state.access_token,
+        // Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhZG1JZCI6ImFkbWluIiwicm9sZXMiOlsiQURNSU4iXSwiYWRtTm8iOjEsImlhdCI6MTYwMTg4MDM1MCwiZXhwIjoxNjAxODgyMTUwfQ.cVMgyyhNVn6VBU3YfTLC0yqkXz1WbDB11hwMGfhX0sU',
         'Content-Type': 'application/json'
       }
     }).then((res) => {
       this.menus = res.data
     }).catch(err => {
       console.error(err)
+      if (this.$alert('만료시간이 지났습니다. 로그인페이지로 이동합니다')) {
+        this.$router.push('/loginForm')
+      }
     })
   },
   data: () => ({

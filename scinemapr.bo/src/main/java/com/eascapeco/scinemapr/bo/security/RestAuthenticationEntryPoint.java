@@ -40,9 +40,6 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint, S
 
         String test = mapper.writeValueAsString(result);
 
-        System.out.println(request.getContentType());
-        System.out.println(test);
-
         response.getWriter().write(test);
         response.getWriter().flush();
         response.getWriter().close();

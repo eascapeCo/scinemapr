@@ -21,7 +21,8 @@ const routes = [
     children: [
       { path: 'grid', component: () => import(/* webpackChunkName: "about" */ '../views/sample/GirdSample.vue') },
       { path: 'menuForm', component: () => import(/* webpackChunkName: "about" */ '../views/menu/MenuView.vue') },
-      { path: 'rolesList', component: () => import(/* webpackChunkName: "about" */ '../views/roles/RolesList') }
+      { path: 'rolesList', component: () => import(/* webpackChunkName: "about" */ '../views/roles/RolesList') },
+      { path: 'adminList', component: () => import(/* webpackChunkName: "about" */ '../views/auth/AdminList.vue') }
     ]
   },
   {

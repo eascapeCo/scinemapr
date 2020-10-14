@@ -2,6 +2,8 @@ package com.eascapeco.scinemapr.bo.controller.auth;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.eascapeco.scinemapr.api.service.admin.AdminService;
 import com.eascapeco.scinemapr.bo.service.AdminUserDetailsService;
 import com.eascapeco.scinemapr.bo.service.JWTAuthenticationService;
 import org.apache.commons.lang3.StringUtils;
@@ -16,16 +18,19 @@ import org.springframework.web.bind.annotation.*;
 import com.eascapeco.scinemapr.api.model.Admin;
 import com.eascapeco.scinemapr.bo.security.JwtTokenProvider;
 
+import java.util.List;
+
 /**
  *
  * Bo 관리자 인증 Controller
  *
- * @date 2019. 11. 01
+ * @Date 2019. 11. 01
  * @author jaehankim
  *
  */
 
 @RestController
+@RequestMapping("/api/admin")
 public class BoAuthController {
 
     private final Logger log = LoggerFactory.getLogger(BoAuthController.class);
@@ -37,9 +42,9 @@ public class BoAuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private AdminService adminService;
 
-    @PostMapping("/api/admin/login")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Admin admin, HttpServletRequest request, HttpServletResponse response) throws Exception {
         authenticate(admin.getId(), admin.getPassword());
 
@@ -55,5 +60,10 @@ public class BoAuthController {
     private void authenticate(String username, String password) throws Exception {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
+    }
+
+    @GetMapping("/adminList")
+    public List<Admin> getAdminList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return adminService.getAdminList();
     }
 }
