@@ -22,16 +22,23 @@
                          :columnDefs="columnDefs"
                          :rowData="rowData"
                          :context="context"
+                         :pagination="true"
                          :frameworkComponents="frameworkComponents"
                          :defaultColDef="defaultColDef">
             </ag-grid-vue>
+            <v-card-actions class="justify-center">
+              <v-pagination
+                v-model="currentPage"
+                :length="totalPages"
+                :total-visible="7"
+              ></v-pagination>
+            </v-card-actions>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="primary">Share</v-btn>
               <v-btn v-on:click="rolesPopup">Explore</v-btn>
             </v-card-actions>
           </v-card>
-
         </v-col>
       </v-row>
     </v-container>
@@ -46,20 +53,24 @@ export default {
   name: 'rolesList',
   created () {
     console.log(1)
-    this.$axios.get('/api/roles', {
+    this.$axios.get('/api/roles?limit=3', {
       headers: {
         Authorization: this.$store.state.access_token,
         'Content-Type': 'application/json'
       }
     })
       .then((res) => {
-        this.rowData = res.data
-        this.gridApi.setRowData(res.data)
-        console.log(this.rowData)
+        this.rowData = res.data.content
+        this.currentPage = res.data.number
+        this.totalPages = res.data.totalPages
+        this.gridApi.setRowData(this.rowData)
+        console.log(res.data)
       })
   },
   data: () => ({
     menus: [],
+    currentPage: 2,
+    totalPages: 15,
     data: {
       gridOptions: null,
       columnDefs: null,
@@ -73,8 +84,6 @@ export default {
     AgGridVue
   },
   beforeMount () {
-    console.log(2)
-    console.log(this.rolresButton)
     this.gridOptions = {
       suppressCellSelection: false
     }
@@ -100,34 +109,9 @@ export default {
   },
   methods: {
     test: function (param) {
-      console.log('test!!')
-      console.log(param)
-      console.log(param.data.rolNo)
-      // const sellData = param.data
-      // console.log(this.data)
-      // return '<button color="primary" v-on:click="this.rolesPopup">권한보기</button>'
-      // this.rolesPopup()
-      /*
-      const propsObj = {
-        props: {
-          overlap: true,
-          left: true,
-          color: 'success',
-        },
-      };
-      const icon = createElement('v-icon', { props: { color: 'success', large: true } }, 'account_circle');
-      const span = document('span', { slot: 'badge' }, '5');
-      return document.createElement('v-badge', propsObj, [span, icon])
-      */
-      // const html = document.createElement('v-btn', '1123123')
-      // html.innerHTML('123123')
-      // return '<button type="button" class="v-btn v-btn--contained theme--dark v-size--default primary"><span class="v-btn__content">Share</span></button>'
-      // console.log(this.frameworkComponents.rolresButton.template)
       return this.frameworkComponents.rolresButton.template
     },
     rolesPopup: function (createElement) {
-      console.log('1')
-      // console.log(createElement('v-btn', 1))
       this.gridApi.refreshCells()
       console.log(this.frameworkComponents.rolresButton.template)
     }

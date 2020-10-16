@@ -1,6 +1,6 @@
 package com.eascapeco.scinemapr.api.model;
 
-public class Roles {
+public class Roles extends BaseModel {
 
     private int rolNo;
     private String rolNm;

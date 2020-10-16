@@ -17,11 +17,13 @@ import java.util.List;
 @Repository
 public interface RolesMapper {
 
-    List<Roles> selectRoles();
+    List<Roles> selectRoles(Roles roles);
 
     Roles selectOneRoles(Integer id);
 
     void insertRoles(Roles roles);
 
     List<MenuRoles> selectRoleMenus(String rolNm);
+    
+    int selectRolesCount(Roles roles);
 }

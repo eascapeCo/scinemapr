@@ -17,6 +17,19 @@
             r.mod_date,
             r.mod_no
         FROM ROLES r
+        ORDER BY ROL_NO ASC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+    
+    <!--
+        작성자 : JaeHan-Kim
+        작성일 : 2020. 10.16
+        기능 : 권한 목록 카운트 조회
+    -->
+    <select id="selectRolesCount" parameterType="Roles" resultType="Integer">
+        SELECT
+            COUNT(*)
+        FROM ROLES
     </select>
     
     <!--

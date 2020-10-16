@@ -58,6 +58,7 @@ project("scinemapr.api") {
 
         "api"("org.springframework.boot:spring-boot-starter-web")
         "api"("org.springframework.boot:spring-boot-starter-aop")
+        "api"("org.springframework.data:spring-data-commons")
         "api"("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0")
         "api"("org.mariadb.jdbc:mariadb-java-client:2.5.0")
         "api"("org.springframework.boot:spring-boot-starter-security")

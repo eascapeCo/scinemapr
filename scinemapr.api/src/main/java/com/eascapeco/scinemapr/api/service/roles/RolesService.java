@@ -2,9 +2,13 @@ package com.eascapeco.scinemapr.api.service.roles;
 
 import com.eascapeco.scinemapr.api.dao.role.RolesMapper;
 import com.eascapeco.scinemapr.api.model.Roles;
+import com.eascapeco.scinemapr.api.util.NewPageImpl;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,10 +23,13 @@ public class RolesService {
     @Autowired
     private RolesMapper rolesMapper;
 
-    public List<Roles> getRoles() {
-        List<Roles> r = this.rolesMapper.selectRoles();
+    public Page<Roles> getRoles(Roles roles) {
+        List<Roles> r = this.rolesMapper.selectRoles(roles);
+        int total = this.rolesMapper.selectRolesCount(roles);
+        
+        log.info("page {} / limit {} / offset {}", roles.getPage(), roles.getLimit(), roles.getOffset());
 
-        return r;
+        return new NewPageImpl<Roles>(r, roles.getPage(), roles.getLimit(), total);
     }
 
     public Roles getOneRoles(Integer id) {
