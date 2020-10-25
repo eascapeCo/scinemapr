@@ -97,10 +97,10 @@ public class MenuService {
     public List<Menu> getMenuList(Integer admNo) {
         Menu param = new Menu();
         param.setUseYn(true);
-
+        param.setDpYn(true);
         if (admNo != null) {
             param.setAdmNo(admNo);
-            param.setDpYn(true);
+
         }
 
         List<Menu> menus = this.menuMapper.selectMenus(param);
