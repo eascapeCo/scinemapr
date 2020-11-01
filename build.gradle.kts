@@ -43,6 +43,8 @@ subprojects {
 project("scinemapr.core") {
     dependencies {
         "api"("org.apache.commons:commons-lang3:3.9")
+        "compileOnly"("org.projectlombok:lombok")
+        "annotationProcessor"("org.projectlombok:lombok")
     }
 
     tasks.getByName<Jar>("jar") {
@@ -66,6 +68,8 @@ project("scinemapr.api") {
         "api"("io.jsonwebtoken:jjwt-api:0.11.2")
         "runtime"("io.jsonwebtoken:jjwt-impl:0.11.2")
         "runtime"("io.jsonwebtoken:jjwt-jackson:0.11.2")
+        "compileOnly"("org.projectlombok:lombok")
+        "annotationProcessor"("org.projectlombok:lombok")
 
         "testImplementation"("org.springframework.boot:spring-boot-starter-test") {
             exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
@@ -87,6 +91,8 @@ project("scinemapr.bo") {
         "api"("org.springframework.boot:spring-boot-starter-thymeleaf")
         //"api"("org.springframework.boot:spring-boot-starter-security")
         "runtime"("org.springframework.boot:spring-boot-starter-tomcat")
+        "compileOnly"("org.projectlombok:lombok")
+        "annotationProcessor"("org.projectlombok:lombok")
         
         "testImplementation"("org.springframework.boot:spring-boot-starter-test")
     }
