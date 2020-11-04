@@ -26,4 +26,6 @@ public interface RolesMapper {
     List<MenuRoles> selectRoleMenus(String rolNm);
     
     int selectRolesCount(Roles roles);
+
+    List<Roles> selectRoleList();
 }

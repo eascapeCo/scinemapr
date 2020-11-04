@@ -91,17 +91,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             response.getWriter().flush();
             response.getWriter().close();
 
-        } catch (IllegalArgumentException e) {
-            ErrorResponse errorResponse = new ErrorResponse(ErrorCode.BAD_REQUEST.getCode(), ErrorCode.BAD_REQUEST.getDescription(), e.getMessage());
-
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-
-            response.getWriter().write(convertObjectToJson(errorResponse));
-            response.getWriter().flush();
-            response.getWriter().close();
-
-
         }
     }
 

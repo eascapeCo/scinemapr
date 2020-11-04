@@ -1,6 +1,7 @@
 package com.eascapeco.scinemapr.api.service.roles;
 
 import com.eascapeco.scinemapr.api.dao.role.RolesMapper;
+import com.eascapeco.scinemapr.api.model.Admin;
 import com.eascapeco.scinemapr.api.model.Roles;
 import com.eascapeco.scinemapr.api.util.NewPageImpl;
 
@@ -56,5 +57,9 @@ public class RolesService {
         log.info("data -->> {}", data);
         
         return data;
+    }
+
+    public List<Roles> getRoleList() {
+        return this.rolesMapper.selectRoleList();
     }
 }

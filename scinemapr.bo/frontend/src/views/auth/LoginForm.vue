@@ -32,12 +32,14 @@
                   counter="15"
                   :rules="nameRules"
                   required
+                  @keyup.enter="callLogin"
                 ></v-text-field>
                 <v-text-field
                   v-model="password"
                   label="Password"
                   name="password"
                   type="password"
+                  @keyup.enter="callLogin"
                 ></v-text-field>
               <!-- </v-form> -->
             </v-card-text>

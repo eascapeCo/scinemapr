@@ -81,4 +81,17 @@
         WHERE R.ROL_NM = #{rolNm}
         AND M.USE_YN = TRUE
     </select>
+
+    <select id="selectRoleList" resultType="Roles">
+        /* Roles.selectRoleList */
+        SELECT
+            r.rol_no,
+            r.rol_nm,
+            r.reg_date,
+            r.reg_no,
+            r.mod_date,
+            r.mod_no
+        FROM ROLES r
+        ORDER BY ROL_NO ASC
+    </select>
 </mapper>

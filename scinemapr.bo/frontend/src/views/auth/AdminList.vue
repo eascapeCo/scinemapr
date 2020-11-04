@@ -22,16 +22,16 @@
                          :columnDefs="columnDefs"
                          :rowData="rowData"
                          :context="context"
-                         :frameworkComponents="frameworkComponents"
-                         :defaultColDef="defaultColDef">
+                         :defaultColDef="defaultColDef"
+                         :animateRows="true"
+                         :frameworkComponents="frameworkComponents">
             </ag-grid-vue>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary">Share</v-btn>
+              <v-btn color="primary"  v-on:click="test('/adminManagement')">Register</v-btn>
               <v-btn v-on:click="rolesPopup">Explore</v-btn>
             </v-card-actions>
           </v-card>
-
         </v-col>
       </v-row>
     </v-container>
@@ -41,11 +41,11 @@
 <script>
 import { AgGridVue } from 'ag-grid-vue'
 import moment from 'moment'
+// import adminManagement from './AdminManagment'
 
 export default {
   name: 'adminList',
   created () {
-    console.log('여긴타냐')
     this.$axios.get('/api/admin/adminList', {
       headers: {
         Authorization: this.$store.state.access_token,
@@ -100,31 +100,12 @@ export default {
     console.log(this.frameworkComponents.rolresButton)
   },
   methods: {
-    test: function (param) {
-      console.log('test!!')
-      console.log(param)
-      console.log(param.data.rolNo)
-      // const sellData = param.data
-      // console.log(this.data)
-      // return '<button color="primary" v-on:click="this.rolesPopup">권한보기</button>'
-      // this.rolesPopup()
-      /*
-      const propsObj = {
-        props: {
-          overlap: true,
-          left: true,
-          color: 'success',
-        },
-      };
-      const icon = createElement('v-icon', { props: { color: 'success', large: true } }, 'account_circle');
-      const span = document('span', { slot: 'badge' }, '5');
-      return document.createElement('v-badge', propsObj, [span, icon])
-      */
-      // const html = document.createElement('v-btn', '1123123')
-      // html.innerHTML('123123')
-      // return '<button type="button" class="v-btn v-btn--contained theme--dark v-size--default primary"><span class="v-btn__content">Share</span></button>'
-      // console.log(this.frameworkComponents.rolresButton.template)
-      return this.frameworkComponents.rolresButton.template
+    test: function (url) {
+      this.$router.push(url).catch(error => {
+        if (error.name !== 'NavigationDuplicated') {
+          throw error
+        }
+      })
     },
     rolesPopup: function (createElement) {
       console.log('1')
@@ -135,6 +116,9 @@ export default {
     dateFormatter: function (params) {
       console.log(params)
       return moment(params.value, 'YYYYMMDDhhmmss').format('YYYY/MM/DD HH:mm:ss')
+    },
+    register: function (params) {
+
     }
   },
   mounted () {
@@ -145,23 +129,3 @@ export default {
 }
 
 </script>
-<style lang="scss">
-.ag-theme-alpine .ag-checkbox-input-wrapper {
-  background: white;
-}
-
-.ag-theme-alpine .ag-checkbox-input-wrapper::after {
-  font-family: 'Font Awesome 5 Free';
-  font-weight: bold;
-  content: '\f00d';
-  color: red;
-}
-.ag-theme-alpine .ag-checkbox-input-wrapper.ag-checked::after {
-  content: '\f00c';
-  color: green;
-}
-.ag-theme-alpine .ag-checkbox-input-wrapper.ag-indeterminate::after {
-  content: '\f068';
-  color: gray;
-}
-</style>

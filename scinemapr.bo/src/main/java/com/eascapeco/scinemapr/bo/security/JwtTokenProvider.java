@@ -22,7 +22,7 @@ public class JwtTokenProvider implements Serializable {
 
     private final Logger log = LoggerFactory.getLogger(JwtTokenProvider.class);
 
-    static final long JWT_TOKEN_EXP = 1 * (30 * 60 * 1000); // 30 mins
+    static final long JWT_TOKEN_EXP = 24 * (60 * 60 * 1000); // 30 mins
     static final long JWT_REFRESH_TOKEN_EXP = 30 * (60 * 60 * 24 * 1000); // 30 days
 
     byte[] byteKeys;

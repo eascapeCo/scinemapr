@@ -1,12 +1,9 @@
 package com.eascapeco.scinemapr.api.dao.admin;
 
 import java.util.List;
-import java.util.Map;
 
 import com.eascapeco.scinemapr.api.model.Admin;
-import com.eascapeco.scinemapr.api.model.AdminToken;
 import com.eascapeco.scinemapr.api.model.RefreshToken;
-import com.eascapeco.scinemapr.api.model.Roles;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -24,4 +21,8 @@ public interface AdminMapper {
     public void insertRefreshToken(RefreshToken tkn);
 
     public List<Admin> selectAdminList();
+
+    int insertAdmin(Admin admin);
+
+    void insertAdmRoles(Admin admin);
 }

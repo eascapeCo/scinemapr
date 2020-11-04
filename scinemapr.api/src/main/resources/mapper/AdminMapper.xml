@@ -43,4 +43,40 @@
           FROM ADMIN
          WHERE 1=1
     </select>
+
+    <insert id="insertAdmin" parameterType="Admin"
+            useGeneratedKeys="true" keyProperty="admNo">
+        INSERT INTO ADMIN
+               ( id
+               , pwd
+               , reg_date
+               , reg_no
+               , mod_date
+               , mod_no
+               , use_yn
+               , pwd_expd
+               )
+        VALUES ( #{id}
+               , #{pwd}
+               , DATE_FORMAT(sysdate(), '%Y%m%d%H%m%s')
+               , #{regNo}
+               , DATE_FORMAT(sysdate(), '%Y%m%d%H%m%s')
+               , #{modNo}
+               , true
+               , false
+               )
+    </insert>
+
+    <insert id="insertAdmRoles" parameterType="Admin">
+        INSERT INTO ADM_ROLE
+        VALUES
+        <foreach collection="roles" item="item" separator=",">
+               ( #{admNo}
+               , ( SELECT ROL_NO
+                     FROM ROLES
+                    WHERE ROL_NM = #{item}
+                 )
+               )
+        </foreach>
+    </insert>
 </mapper>

@@ -22,6 +22,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.tools.DocumentationTool.Location;
 
 @RestController
@@ -55,5 +57,9 @@ public class BoRolesController {
                 .toUri();
         
         return ResponseEntity.created(localtion).build();
+    }
+    @GetMapping("/roleList")
+    public List<Roles> getRoleList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return rolesService.getRoleList();
     }
 }
