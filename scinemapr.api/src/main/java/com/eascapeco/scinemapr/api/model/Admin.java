@@ -13,14 +13,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * 관리자 정보 model
- * 
+ *
  * @author jaehankim
  * @Date 2019. 10. 10
  */
 @SuppressWarnings("serial")
 @Getter @Setter @ToString
 public class Admin implements UserDetails, Serializable{
-	
+
     private Integer admNo;		    // 관리자 번호
     private String  id;			    // 아이디
     private String  pwd;		    // 비밀번호
@@ -44,30 +44,30 @@ public class Admin implements UserDetails, Serializable{
     }
 
     @Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    public boolean isAccountNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    @Override
+    public boolean isAccountNonLocked() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    @Override
+    public boolean isEnabled() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 
-	public void setAuthorities(Collection<GrantedAuthority> authorities) {
-		this.authorities = authorities;
-	}
+    public void setAuthorities(Collection<GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
 }

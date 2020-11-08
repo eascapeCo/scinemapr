@@ -41,7 +41,7 @@
               <v-text-field v-model="data.mnuName" label="메뉴명" />
               <v-text-field v-model="data.urlAdr" label="메뉴 URL" />
               <v-select v-model="data.useYn" :items="[true, false]" label="사용 여부"></v-select>
-              <v-select v-model="data.useYn" :items="[true, false]" label="전시 여부"></v-select>
+              <v-select v-model="data.dpYn" :items="[true, false]" label="전시 여부"></v-select>
               <v-text-field v-model="data.dpSequence" label="전시 순서" />
               <v-radio-group v-model="data.createType" row>
                 <v-radio label="동일 레벨 생성" value="siblingLevel"></v-radio>
@@ -103,6 +103,7 @@ export default {
       })
         .then((res) => {
           console.log(res)
+          this.$router.go(this.$route.currentRoute)
         }).catch((error) => {
           console.log('Error: ' + JSON.stringify(error.response))
           console.log(error.response.data.detail)
@@ -111,7 +112,6 @@ export default {
     update: function () {
       console.log('submit')
       console.log(this.data)
-
       this.$axios.put('/api/menus/' + this.data.mnuNo, this.data, {
         headers: {
           Authorization: this.$store.state.access_token,
@@ -120,6 +120,19 @@ export default {
       })
         .then((res) => {
           console.log(res)
+          this.$router.go(this.$route.currentRoute)
+        })
+    },
+    setMenuList: function () {
+      const config = {
+        headers: {
+          Authorization: this.$store.state.access_token,
+          'Content-Type': 'application/json'
+        }
+      }
+      this.$axios.get('/api/menus', config)
+        .then((res) => {
+          this.menus = res.data
         })
     },
     selectMenu: function (item) {

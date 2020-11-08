@@ -93,8 +93,10 @@ project("scinemapr.bo") {
         "runtime"("org.springframework.boot:spring-boot-starter-tomcat")
         "compileOnly"("org.projectlombok:lombok")
         "annotationProcessor"("org.projectlombok:lombok")
-        
-        "testImplementation"("org.springframework.boot:spring-boot-starter-test")
+
+        "testImplementation"("org.springframework.boot:spring-boot-starter-test") {
+            exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+        }
     }
 
     tasks.getByName<BootJar>("bootJar") {

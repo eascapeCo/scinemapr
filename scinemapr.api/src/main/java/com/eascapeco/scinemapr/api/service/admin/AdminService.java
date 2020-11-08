@@ -12,6 +12,7 @@ import com.eascapeco.scinemapr.api.model.AdminToken;
 import com.eascapeco.scinemapr.api.model.RefreshToken;
 import com.eascapeco.scinemapr.api.model.Roles;
 import lombok.Lombok;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.IntroductionAwareMethodMatcher;
@@ -79,6 +80,10 @@ public class AdminService {
         admin.setPwd(passwordEncoder.encode("1234"));
         admin.setRegNo(regNo);
         admin.setModNo(regNo);
+
+        if (StringUtils.equals(admin.getId(), "a3")) {
+            throw new RuntimeException();
+        }
 
         AdminMapper.insertAdmin(admin);
         log.info("admNo : {}", admin.getAdmNo());

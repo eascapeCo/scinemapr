@@ -31,6 +31,7 @@
                 v-model="currentPage"
                 :length="totalPages"
                 :total-visible="7"
+                @input="getPage"
               ></v-pagination>
             </v-card-actions>
             <v-card-actions>
@@ -69,8 +70,8 @@ export default {
   },
   data: () => ({
     menus: [],
-    currentPage: 2,
-    totalPages: 15,
+    currentPage: 0,
+    totalPages: 0,
     data: {
       gridOptions: null,
       columnDefs: null,
@@ -114,6 +115,23 @@ export default {
     rolesPopup: function (createElement) {
       this.gridApi.refreshCells()
       console.log(this.frameworkComponents.rolresButton.template)
+    },
+    getPage: function (page) {
+      console.log('page -> ' + page)
+      this.currentPage = page
+      this.$axios.get('/api/roles?limit=3&page=' + this.currentPage, {
+        headers: {
+          Authorization: this.$store.state.access_token,
+          'Content-Type': 'application/json'
+        }
+      })
+        .then((res) => {
+          console.log(res.data.number)
+          this.rowData = res.data.content
+          this.currentPage = res.data.number
+          this.totalPages = res.data.totalPages
+          this.gridApi.setRowData(this.rowData)
+        })
     }
   },
   mounted () {

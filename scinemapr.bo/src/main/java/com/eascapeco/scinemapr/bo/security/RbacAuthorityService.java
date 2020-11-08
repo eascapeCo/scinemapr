@@ -1,9 +1,12 @@
 package com.eascapeco.scinemapr.bo.security;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,19 +45,22 @@ public class RbacAuthorityService {
         // 
         if (userInfo instanceof Admin) {
             Admin loginUser = (Admin) userInfo;
-            log.info("tete {}", loginUser.getAuthorities().stream().anyMatch(s -> uriChecking(s, request.getMethod(), request.getRequestURI())));
-            hasPermission = true;
-            return hasPermission;
+            // log.info("tete {}", loginUser.getAuthorities().stream().anyMatch(s -> uriChecking(s, request.getMethod(), request.getRequestURI())));
+            hasPermission = loginUser.getAuthorities().stream().anyMatch(s -> uriChecking(s, request.getMethod(), request.getRequestURI()));
+            // return hasPermission;
         }
+        log.info("hasPermission -> {}", hasPermission);
 
-        return hasPermission;
+        return true;
     }
     
     public boolean uriChecking(GrantedAuthority grantedAuthority, String method, String uri) {
         String authRolNm = grantedAuthority.getAuthority();
         log.info("method {} / uri {} / auth {}", method, uri, authRolNm);
-        
+        String[] arr = uri.split("/");
+        log.info("{}", ArrayUtils.toString(arr));
         List<MenuRoles> urlList = rolesMapper.selectRoleMenus(authRolNm);
-        return grantedAuthority.toString().equals("ADMIN2");
+
+        return urlList.stream().anyMatch(menu -> StringUtils.equals(uri, menu.getUrlAdr()));
     }
 }

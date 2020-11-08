@@ -1,0 +1,60 @@
+spring:
+  profiles:
+    active: local
+  thymeleaf:
+    prefix: classpath:static/
+    check-template-location: false
+    suffix: .html
+    mode: HTML
+    cache: false
+    template-resolver-order: 0
+
+jasypt:
+  encryptor:
+    bean: jasyptStringEncrptor
+
+---
+spring:
+  profiles: local
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ENC(9s3JnyWlQZHPLtItdRqiXxFhnIRwwf0pOxiGJFIJWhPskmgtDERYo1ulmI1fpSr27tdcLvPDSfPtSZm72ylsmn+k/4sbmMmfvSuTIwE5wDeAZQ5eqkfeTHHArehoxtMKtATyONuZdXH0FqBTBUHFcUyxhfTAfutc)
+    username: ENC(BExKINEvOG7enAdLMMoXxA==)
+    password: ENC(m0u4BaGg1P+T+AaHWPjIqY1KdrdiI7E4)
+logging:
+  level:
+    root: warn
+
+server:
+  ssl:
+    enabled: true
+    key-store: keystore.p12
+    key-store-password: 123456
+    key-store-type: PKCS12
+    key-alias: tomcat
+  port: 8443
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        secure: true
+
+---
+spring:
+  profiles: dev
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ENC(9s3JnyWlQZHPLtItdRqiXxFhnIRwwf0pOxiGJFIJWhPskmgtDERYo1ulmI1fpSr27tdcLvPDSfPtSZm72ylsmn+k/4sbmMmfvSuTIwE5wDeAZQ5eqkfeTHHArehoxtMKtATyONuZdXH0FqBTBUHFcUyxhfTAfutc)
+    username: ENC(BExKINEvOG7enAdLMMoXxA==)
+    password: ENC(m0u4BaGg1P+T+AaHWPjIqY1KdrdiI7E4)
+logging:
+  level:
+    root: warn
+
+server:
+  port: 8080
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        secure: true

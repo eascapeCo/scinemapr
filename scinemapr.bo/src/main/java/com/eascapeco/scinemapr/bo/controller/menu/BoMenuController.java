@@ -27,9 +27,9 @@ public class BoMenuController {
     private MenuService menuService;
 
     @GetMapping("/menus")
-    public List<Menu> retriveAllmenu() {
+    public List<Menu> retriveAllmenu(@AuthenticationPrincipal Admin loginUser) {
         log.info("get menu");
-
+        log.info("login user {}", loginUser.getAdmNo());
         List<Menu> list = this.menuService.getMenuList(null);
 
         return list;

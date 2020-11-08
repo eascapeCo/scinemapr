@@ -94,4 +94,17 @@
         FROM ROLES r
         ORDER BY ROL_NO ASC
     </select>
+
+    <select id="selectOneRoles" parameterType="int" resultType="Roles">
+        /* Roles.selectOneRoles */
+        SELECT
+            r.rol_no,
+            r.rol_nm,
+            r.reg_date,
+            r.reg_no,
+            r.mod_date,
+            r.mod_no
+        FROM ROLES r
+        WHERE r.rol_no = #{rolNo}
+    </select>
 </mapper>

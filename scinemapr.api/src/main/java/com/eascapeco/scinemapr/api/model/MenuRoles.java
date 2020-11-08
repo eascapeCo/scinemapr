@@ -9,6 +9,7 @@ public class MenuRoles implements Serializable {
     private int rolNo;
     private int mnuNo;
     private String rolNm;
+    private String urlAdr;
     private boolean mnuCreate;
     private boolean mnuRead;
     private boolean mnuUpdate;
@@ -56,4 +57,6 @@ public class MenuRoles implements Serializable {
     public void setMnuDelete(boolean mnuDelete) {
         this.mnuDelete = mnuDelete;
     }
+    public String getUrlAdr() { return urlAdr; }
+    public void setUrlAdr(String urlAdr) { this.urlAdr = urlAdr; }
 }
