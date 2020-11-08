@@ -69,7 +69,7 @@ export default new Vuex.Store({
         // return axios.post('/api/admin/login', { id, pwd })
         return axios({
           method: 'post',
-          url: '/api/admin/login',
+          url: '/api/login',
           data: {
             id: id,
             pwd: pwd

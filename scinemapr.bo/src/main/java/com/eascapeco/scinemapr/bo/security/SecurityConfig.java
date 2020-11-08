@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .authorizeRequests()
-                .antMatchers("/loginForm", "/api/admin/login", "/favicon.ico", "/error").permitAll()
+                .antMatchers("/loginForm", "/api/login", "/favicon.ico", "/error").permitAll()
                 .anyRequest().access("@rbacAuthorityService.hasPermission(request,authentication)")
             .and()
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint)

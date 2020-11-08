@@ -35,7 +35,7 @@ import java.util.Map;
  */
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api")
 public class BoAuthController {
 
     private final Logger log = LoggerFactory.getLogger(BoAuthController.class);
@@ -46,10 +46,6 @@ public class BoAuthController {
     private JWTAuthenticationService jwtAuthenticationService;
     @Autowired
     private AuthenticationManager authenticationManager;
-    @Autowired
-    private AdminService adminService;
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/login")
     public ResponseEntity<AdminToken> login(@RequestBody Admin admin, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -67,23 +63,5 @@ public class BoAuthController {
 //    인증
     private void authenticate(String username, String password) throws Exception {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-    }
-
-    @GetMapping("/adminList")
-    public List<Admin> getAdminList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return adminService.getAdminList();
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<AdminToken> insertAdmin(@RequestBody Admin admin, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        log.info("userId : {}, Roles : {}, RequestHeader : {}", admin.getId(), admin.getRoles(), request.getHeader("Authorization"));
-
-        String token = request.getHeader("Authorization").substring(7);
-
-        admin = adminService.insertAdmin(admin, jwtTokenProvider.getAdminNoFromToken(token));
-        adminService.insertAdmRoles(admin);
-
-
-        return ResponseEntity.ok(jwtAuthenticationService.getTokens(admin));
     }
 }

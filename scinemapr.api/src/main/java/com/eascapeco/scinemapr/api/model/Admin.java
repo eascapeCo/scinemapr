@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,6 +24,7 @@ public class Admin implements UserDetails, Serializable{
 
     private Integer admNo;		    // 관리자 번호
     private String  id;			    // 아이디
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String  pwd;		    // 비밀번호
     private String  regDate;	    // 아이디 등록일자
     private int regNo;          // 아이디 등록자 번호
@@ -34,6 +36,7 @@ public class Admin implements UserDetails, Serializable{
     private Collection<GrantedAuthority> authorities;
 
     @Override
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public String getPassword() {
         return getPwd();
     }

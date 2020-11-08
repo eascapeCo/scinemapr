@@ -46,7 +46,7 @@ import moment from 'moment'
 export default {
   name: 'adminList',
   created () {
-    this.$axios.get('/api/admin/adminList', {
+    this.$axios.get('/api/admin', {
       headers: {
         Authorization: this.$store.state.access_token,
         'Content-Type': 'application/json'

@@ -166,7 +166,7 @@ export default {
         id: this.userId,
         roles: this.selectedRoles
       }
-      this.$axios.post('/api/admin/register', data, {
+      this.$axios.post('/api/admin', data, {
         headers: {
           Authorization: this.$store.state.access_token,
           'Content-Type': 'application/json'
