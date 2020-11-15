@@ -66,13 +66,13 @@ export default new Vuex.Store({
   actions: {
     LOGIN: ({ commit }, { id, pwd }) => {
       return new Promise((resolve, reject) => {
-        // return axios.post('/api/admin/login', { id, pwd })
+        console.log(id)
         return axios({
           method: 'post',
           url: '/api/login',
           data: {
-            id: id,
-            pwd: pwd
+            username: id,
+            password: pwd
           }
         })
           .then((res) => {

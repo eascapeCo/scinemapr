@@ -52,7 +52,7 @@ public class JwtTokenProvider implements Serializable {
                    .signWith(key, SignatureAlgorithm.HS256)
                    .compact();
 
-        /*return JWT.create().withClaim("id", admin.getId())
+        /*return JWT.create().withClaim("id", admin.getUsername())
                              .withClaim("admNo", admin.getAdmNo())
                              .withClaim("roles", li)
                              .withIssuer("JaeHan")
@@ -74,7 +74,7 @@ public class JwtTokenProvider implements Serializable {
                              .signWith(key, SignatureAlgorithm.HS256)
                              .compact();
 
-        /*return JWT.create().withClaim("id", admin.getId())
+        /*return JWT.create().withClaim("id", admin.getUsername())
                              .withIssuer("JaeHan")
                              .withIssuedAt(new Date(System.currentTimeMillis()))
                              .withExpiresAt(new Date(System.currentTimeMillis() + JWT_REFRESH_TOKEN_EXP * 1000))
@@ -100,7 +100,7 @@ public class JwtTokenProvider implements Serializable {
     public String generateToken(Admin chkAdm) {
         Map<String, Object> map = new HashMap<>();
 
-        map.put("admId", chkAdm.getId());
+        map.put("admId", chkAdm.getUsername());
         map.put("admNo", chkAdm.getAdmNo());
 
         List<String> li = new ArrayList<>();

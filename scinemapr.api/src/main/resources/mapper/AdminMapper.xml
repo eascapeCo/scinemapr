@@ -16,7 +16,7 @@
                   WHERE AR.ADM_NO = A.ADM_NO
                ) AS ROLENAME
           FROM ADMIN A
-         WHERE ID = #{id}
+         WHERE USERNAME = #{username}
     </select>
 
     <insert id="insertRefreshToken" parameterType="RefreshToken">
@@ -33,7 +33,7 @@
 
     <select id="selectAdminList" resultType="Admin">
         SELECT ADM_NO
-             , ID
+             , USERNAME
              , REG_DATE
              , REG_NO
              , MOD_DATE
@@ -47,8 +47,8 @@
     <insert id="insertAdmin" parameterType="Admin"
             useGeneratedKeys="true" keyProperty="admNo">
         INSERT INTO ADMIN
-               ( id
-               , pwd
+               ( username
+               , password
                , reg_date
                , reg_no
                , mod_date
@@ -56,8 +56,8 @@
                , use_yn
                , pwd_expd
                )
-        VALUES ( #{id}
-               , #{pwd}
+        VALUES ( #{username}
+               , #{password}
                , DATE_FORMAT(sysdate(), '%Y%m%d%H%m%s')
                , #{regNo}
                , DATE_FORMAT(sysdate(), '%Y%m%d%H%m%s')

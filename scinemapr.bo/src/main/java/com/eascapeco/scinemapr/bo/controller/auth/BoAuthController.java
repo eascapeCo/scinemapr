@@ -49,13 +49,13 @@ public class BoAuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AdminToken> login(@RequestBody Admin admin, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        authenticate(admin.getId(), admin.getPassword());
+        authenticate(admin.getUsername(), admin.getPassword());
 
         Admin chkAdmin = new Admin();
 //        널체크
-        if (!StringUtils.isEmpty(admin.getId())) {
-            chkAdmin = adminUserDetailsService.loadUserByUsername(admin.getId());
+        if (!StringUtils.isEmpty(admin.getUsername())) {
+            chkAdmin = adminUserDetailsService.loadUserByUsername(admin.getUsername());
+
         }
         return ResponseEntity.ok(jwtAuthenticationService.getTokens(chkAdmin));
     }

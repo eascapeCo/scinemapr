@@ -36,6 +36,7 @@ public class AdminUserDetailsService implements UserDetailsService {
     public Admin loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Admin adminInfo = adminDao.selectAdmin(username);
+        System.out.println(adminInfo.toString());
         adminInfo.setAuthorities(AuthorityUtils.commaSeparatedStringToAuthorityList(adminInfo.getRoleName()));
 //        adminInfo.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(adminInfo.getRoleName())));
         return adminInfo;

@@ -32,13 +32,13 @@ public class AdminService {
 
     public Admin getAdmin(Admin admin) {
 
-        Admin adminInfo = AdminMapper.selectAdmin(admin.getId());
+        Admin adminInfo = AdminMapper.selectAdmin(admin.getUsername());
 
         if (adminInfo == null) {
-            throw new UsernameNotFoundException("User not found with id: " + admin.getId());
+            throw new UsernameNotFoundException("User not found with id: " + admin.getUsername());
         } else {
             // 비밀번호 일치 검사
-            if (!passwordEncoder.matches(admin.getPwd(), adminInfo.getPwd())) {
+            if (!passwordEncoder.matches(admin.getPassword(), adminInfo.getPassword())) {
                 throw new BadCredentialsException("Passwords do not match.");
             }
         }
@@ -58,7 +58,7 @@ public class AdminService {
 
         String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
-        admin.setPwd(passwordEncoder.encode(admin.getId() + currentDate));
+        admin.setPassword(passwordEncoder.encode(admin.getUsername() + currentDate));
         admin.setRegNo(regNo);
         admin.setModNo(regNo);
 

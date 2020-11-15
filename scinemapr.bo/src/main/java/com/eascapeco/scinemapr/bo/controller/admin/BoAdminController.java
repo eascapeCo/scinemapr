@@ -2,6 +2,7 @@ package com.eascapeco.scinemapr.bo.controller.admin;
 
 import com.eascapeco.scinemapr.api.model.Admin;
 import com.eascapeco.scinemapr.api.model.AdminToken;
+import com.eascapeco.scinemapr.api.model.Roles;
 import com.eascapeco.scinemapr.api.service.admin.AdminService;
 import com.eascapeco.scinemapr.bo.security.JwtTokenProvider;
 import com.eascapeco.scinemapr.bo.service.AdminUserDetailsService;
@@ -14,9 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -47,13 +50,18 @@ public class BoAdminController {
     }
 
     @PostMapping("/admin")
-    public ResponseEntity<AdminToken> insertAdmin(@RequestBody Admin admin, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        log.info("userId : {}, Roles : {}, RequestHeader : {}", admin.getId(), admin.getRoles(), request.getHeader("Authorization"));
+    public ResponseEntity<Admin> insertAdmin(@RequestBody Admin admin, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        log.info("userId : {}, Roles : {}, RequestHeader : {}", admin.getUsername(), admin.getRoles(), request.getHeader("Authorization"));
 
         String token = request.getHeader("Authorization").substring(7);
 
         adminService.insertAdmin(admin, jwtTokenProvider.getAdminNoFromToken(token));
 
-        return ResponseEntity.ok(jwtAuthenticationService.getTokens(admin));
+        URI localtion = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{rolNo}")
+                .buildAndExpand(admin.getAdmNo())
+                .toUri();
+
+        return ResponseEntity.created(localtion).build();
     }
 }

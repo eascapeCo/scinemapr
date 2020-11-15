@@ -104,6 +104,7 @@ export default {
   },
   data: () => ({
     dialog: true,
+    alert: false,
     tab: 0,
     tabs: [
       { name: 'Register', icon: 'mdi-account-outline' }
@@ -172,6 +173,12 @@ export default {
           'Content-Type': 'application/json'
         }
       }).then((res) => {
+        if (res.status === 201) {
+          if (!this.alert) {
+            this.$alert('신규 Admin이 생성되었습니다.')
+            this.alert = true
+          }
+        }
         console.log(res)
       }).catch((error) => {
         console.log('Error: ' + JSON.stringify(error.response))

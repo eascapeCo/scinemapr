@@ -73,6 +73,7 @@ export default {
   }),
   methods: {
     callLogin () {
+      console.log(this.user + ', ' + this.password)
       this.errors = []
       this.$store.dispatch('LOGIN', {
         id: this.user,
@@ -84,7 +85,7 @@ export default {
         this.errors.push(error)
         this.error = true
 
-        this.$alert('ID나 비밀번호를 확인하세요')
+        // this.$alert('ID나 비밀번호를 확인하세요')
       })
     }
   }
