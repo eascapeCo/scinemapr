@@ -14,8 +14,7 @@ export default Vue.extend({
   mounted () {},
   methods: {
     invokeParentMethod: function () {
-      console.log('rune')
-      console.log(this.params)
+      console.log(this.params.data)
       /*
       this.params.context.componentParent.methodFromParent(
         `Row: ${this.params.node.rowIndex}, Col: ${this.params.colDef.headerName}`

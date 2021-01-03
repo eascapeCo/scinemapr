@@ -44,7 +44,7 @@ public class ErrorControllerAdvice {
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity httpMessageNotReadableException(HttpMessageNotReadableException e, HttpServletRequest request) {
-    	log.error("HttpMessageNotReadableException 발생 url:{}", request.getRequestURI());
+        log.error("HttpMessageNotReadableException 발생 url:{}", request.getRequestURI());
         log.error("{}", e.getMessage());
 
         ErrorResponse errorResponse = new ErrorResponse(ErrorCode.NOT_PARAMETER.getCode(), ErrorCode.NOT_PARAMETER.getDescription());

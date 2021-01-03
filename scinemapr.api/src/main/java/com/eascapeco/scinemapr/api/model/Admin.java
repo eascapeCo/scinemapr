@@ -22,20 +22,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Getter @Setter @ToString
 public class Admin implements UserDetails, Serializable{
 
-    private Integer admNo;		    // 관리자 번호
-    private String  username;		// 아이디
+    private Integer admNo;          // 관리자 번호
+    private String  username;       // 아이디
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String  password;		// 비밀번호
-    private String  regDate;	    // 아이디 등록일자
+    private String  password;       // 비밀번호
+    private String  regDate;        // 아이디 등록일자
     private int regNo;              // 아이디 등록자 번호
-    private String  modDate;	    // 최종 수정일자
-    private int modNo;		        // 최종 수정자 번호
+    private String  modDate;        // 최종 수정일자
+    private int modNo;              // 최종 수정자 번호
     private boolean pwdExpd;        // 비밀번호 갱신 여부
     private String[] roles;         // Roles
-    private String roleName;	    // 권한
+    private String roleName;        // 권한
     private Collection<GrantedAuthority> authorities;
 
-    @Override
     public boolean isAccountNonExpired() {
         // TODO Auto-generated method stub
         return true;

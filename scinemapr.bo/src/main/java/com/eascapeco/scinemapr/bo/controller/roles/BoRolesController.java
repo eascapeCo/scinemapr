@@ -42,7 +42,8 @@ public class BoRolesController {
 
     @GetMapping("/roles/{id]")
     public Roles getOneRoles(@PathVariable Integer id) {
-        return this.rolesService.getOneRoles(id);
+        throw new RuntimeException();
+        // return this.rolesService.getOneRoles(id);
     }
 
     @PostMapping("/roles")

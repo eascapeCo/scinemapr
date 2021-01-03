@@ -48,11 +48,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
-    
+
     @Override
-    public void init(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/js/**", "/css/**");
-        super.init(web);
     }
 
     @Bean

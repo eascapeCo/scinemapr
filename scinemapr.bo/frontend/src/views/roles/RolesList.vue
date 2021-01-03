@@ -8,6 +8,29 @@
             class="mt-2 pa-2"
           >
             검색조건 영역
+            <v-layout row>
+              <v-flex xs2>
+                <v-subheader>Label here</v-subheader>
+              </v-flex>
+              <v-flex xs2>
+                <v-text-field />
+              </v-flex>
+              <v-flex xs2>
+                <v-subheader>Label here</v-subheader>
+              </v-flex>
+              <v-flex xs2>
+                <v-text-field />
+              </v-flex>
+            </v-layout>
+            <v-layout row>
+              <v-flex xs2>
+                <v-subheader>Label here</v-subheader>
+              </v-flex>
+              <v-flex xs2>
+                <v-text-field
+                ></v-text-field>
+              </v-flex>
+            </v-layout>
           </v-card>
         </v-col>
       </v-row>
@@ -22,7 +45,6 @@
                          :columnDefs="columnDefs"
                          :rowData="rowData"
                          :context="context"
-                         :pagination="true"
                          :frameworkComponents="frameworkComponents"
                          :defaultColDef="defaultColDef">
             </ag-grid-vue>
@@ -32,7 +54,7 @@
                 :length="totalPages"
                 :total-visible="7"
                 @input="getPage"
-              ></v-pagination>
+              />
             </v-card-actions>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -115,6 +137,7 @@ export default {
     rolesPopup: function (createElement) {
       this.gridApi.refreshCells()
       console.log(this.frameworkComponents.rolresButton.template)
+      console.log('!1')
     },
     getPage: function (page) {
       console.log('page -> ' + page)

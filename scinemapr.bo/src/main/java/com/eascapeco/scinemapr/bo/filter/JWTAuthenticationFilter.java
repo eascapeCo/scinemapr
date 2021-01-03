@@ -49,6 +49,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String requestTokenHeader = request.getHeader(JWT_TOKEN_HEADER_PARAM);
+        log.info("uri {}", request.getRequestURL());
         log.info("requestTokenHeader : {}", requestTokenHeader);
 
         String username = null;
