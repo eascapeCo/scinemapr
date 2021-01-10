@@ -4,14 +4,14 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import axios from 'axios'
-// import VueSimpleAlert from 'vue-simple-alert'
-import VuetifyDialog from 'vuetify-dialog'
+import VueSimpleAlert from 'vue-simple-alert'
+// import VuetifyDialog from 'vuetify-dialog'
 
 Vue.prototype.$axios = axios
 Vue.prototype.$store = store
 
-// Vue.use(VueSimpleAlert)
-Vue.use(VuetifyDialog)
+Vue.use(VueSimpleAlert)
+// Vue.use(VuetifyDialog)
 
 new Vue({
   router,

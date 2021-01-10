@@ -74,7 +74,7 @@
                       </v-col>
                     <v-spacer></v-spacer>
                     <v-col class="d-flex ml-auto" cols="12" sm="2" xsm="12">
-                      <v-btn x-large block :disabled="!valid" color="success" @click="register">Register</v-btn>
+                      <v-btn x-large block :disabled="!valid" color="success" @click="confRegi">Register</v-btn>
                     </v-col>
                   </v-row>
                 </v-form>
@@ -103,8 +103,6 @@ export default {
     })
   },
   data: () => ({
-    dialog: true,
-    alert: false,
     tab: 0,
     tabs: [
       { name: 'Register', icon: 'mdi-account-outline' }
@@ -162,9 +160,28 @@ export default {
         }
       })
     },
+    confRegi () {
+      this.$fire({
+        title: 'Are you sure?',
+        text: 'You cannot delete the account when you register as an administrator.',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, register it!'
+      }).then((result) => {
+        console.log(result)
+        if (result.value) {
+          console.log('여기 왜못들어옴')
+          this.register()
+        }
+      }).catch((err) => {
+        console.error(err)
+      })
+    },
     register () {
       const data = {
-        id: this.userId,
+        username: this.userId,
         roles: this.selectedRoles
       }
       this.$axios.post('/api/admin', data, {
@@ -174,10 +191,15 @@ export default {
         }
       }).then((res) => {
         if (res.status === 201) {
-          if (!this.alert) {
-            this.$alert('신규 Admin이 생성되었습니다.')
-            this.alert = true
-          }
+          this.$fire({
+            title: 'Success',
+            text: 'Administrator registration is complete.',
+            type: 'success'
+          }).then(r => {
+            this.$router.push('/adminList')
+          }).catch((err) => {
+            console.error(err)
+          })
         }
         console.log(res)
       }).catch((error) => {

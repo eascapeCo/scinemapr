@@ -73,7 +73,6 @@ export default {
   }),
   methods: {
     callLogin () {
-      console.log(this.user + ', ' + this.password)
       this.errors = []
       this.$store.dispatch('LOGIN', {
         id: this.user,

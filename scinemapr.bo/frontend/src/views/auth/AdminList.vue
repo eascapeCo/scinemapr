@@ -1,7 +1,7 @@
 <template>
   <div class="adminList">
     <v-container fluid>
-      asd
+      관리자 목록
       <v-row>
         <v-col>
           <v-card
@@ -41,7 +41,6 @@
 <script>
 import { AgGridVue } from 'ag-grid-vue'
 import moment from 'moment'
-// import adminManagement from './AdminManagment'
 
 export default {
   name: 'adminList',
@@ -76,19 +75,31 @@ export default {
     console.log(2)
     console.log(this.rolresButton)
     this.gridOptions = {
-      suppressCellSelection: false
+      columnDefs: this.columnDefs,
+      rowData: this.rowData
+      // suppressCellSelection: false
     }
-
     this.columnDefs = [
-      { headerName: '관리자 번호', field: 'admNo' },
-      { headerName: '관리자 아이디', field: 'id' },
-      { headerName: '등록일자', field: 'regDate', valueFormatter: this.dateFormatter },
-      { headerName: '등록자 번호', field: 'regNo' },
-      { headerName: '최종 수정 일자', field: 'modDate', valueFormatter: this.dateFormatter },
-      { headerName: '최종 수정자 번호', field: 'modNo' },
-      { headerName: '비밀번호 수정여부', fleld: 'pwdExpd', checkboxSelection: true }
+      { headerName: '관리자 번호', field: 'key' },
+      {
+        headerName: '관리자 아이디',
+        field: 'key'
+      },
+      { headerName: '등록일자', field: 'key', valueFormatter: this.dateFormatter },
+      { headerName: '등록자 번호', field: 'key' },
+      { headerName: '최종 수정 일자', field: 'key', valueFormatter: this.dateFormatter },
+      { headerName: '최종 수정자 번호', field: 'key' },
+      { headerName: '비밀번호 수정여부', fleld: 'key', checkboxSelection: true }
     ]
-    this.rowData = []
+    this.rowData = [
+      { key: 'admNo' },
+      { key: 'username' },
+      { key: 'regDate' },
+      { key: 'regNo' },
+      { key: 'modDate' },
+      { key: 'modNo' },
+      { key: 'pwdExpd' }
+    ]
     this.context = { componentParent: this }
     this.frameworkComponents = {
       // rolresButton: RolesButton

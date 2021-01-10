@@ -62,11 +62,16 @@ public class AdminService {
         admin.setRegNo(regNo);
         admin.setModNo(regNo);
 
+        log.info("admin contents : {}", admin.toString());
 //        Insert into Admin Table
         AdminMapper.insertAdmin(admin);
 //        Insert into Roles Table
         AdminMapper.insertAdmRoles(admin);
 
         return admin;
+    }
+
+    public int dupChkUsername(String username) {
+        return AdminMapper.dupChkUsername(username);
     }
 }

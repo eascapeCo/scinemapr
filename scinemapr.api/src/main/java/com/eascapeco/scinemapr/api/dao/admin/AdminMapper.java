@@ -25,4 +25,6 @@ public interface AdminMapper {
     int insertAdmin(Admin admin);
 
     void insertAdmRoles(Admin admin);
+
+    int dupChkUsername(String username);
 }

@@ -88,7 +88,6 @@
 </template>
 
 <script>
-// import { VCard, VCardActions, VCardText, VDialog, VIcon, VToolbar, VToolbarTitle, VSpacer, VBtn } from 'vuetify/lib'
 export default {
   name: 'AppSidebar',
   created () {
@@ -100,20 +99,18 @@ export default {
       }
     }).then((res) => {
       this.menus = res.data
-      this.confirm()
+      // this.confirm()
       // if (this.$alert('만료시간이 지났습니다. 로그인페이지로 이동합니다')) {
     }).catch(err => {
       console.error(err)
-      this.confirm()
-      // if (this.$alert('만료시간이 지났습니다. 로그인페이지로 이동합니다')) {
+      this.invalidTkn()
     })
   },
   data: () => ({
     menus: [],
-    title: 'Title',
-    text: 'Test confirmation',
-    type: 'warning',
-    persistent: false
+    persistent: false,
+    title: '',
+    contents: ''
   }),
   methods: {
     getMenuList: function () {
@@ -128,16 +125,15 @@ export default {
         }
       })
     },
-    confirm: async function () {
-      const r = await this.$dialog.warning({
-        text: 'Token is not valid. Please log in.',
+    invalidTkn: function () {
+      this.$fire({
         title: 'Error',
-        persistent: false
+        text: 'Token is not valid. Go to the login form.',
+        type: 'warning'
+
+      }).then(r => {
+        this.$router.push('/loginForm')
       })
-      if (r) {
-        return this.$router.push('/loginForm')
-      }
-      // this.$dialog.notify.error('핵폭탄 발사', { position: 'bottom-right' })
     }
   }
 }

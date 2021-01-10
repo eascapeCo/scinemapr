@@ -33,7 +33,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint, S
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
         Result result = new Result();
-        result.setCode("401");
+        result.setCode(401);
         result.setMessage("UNAUTHORIZED");
 
         ObjectMapper mapper = new ObjectMapper();
