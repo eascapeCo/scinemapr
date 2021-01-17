@@ -3,15 +3,14 @@ import Vue from 'vue'
 
 export default Vue.extend({
   template: `
-        <button type="button" class="v-btn v-btn--contained theme--dark v-size--default primary" v-on:click="invokeParentMethod">
-          <span class="v-btn__content">Share</span>
-        </button>
+        <div @click="link">{{this.params.data.rolNm}}</div>
     `,
-  data: function () {
-    return {}
-  },
+  data: () => ({}),
   beforeMount () {},
-  mounted () {},
+  created () {},
+  mounted () {
+    console.log(this.a)
+  },
   methods: {
     invokeParentMethod: function () {
       console.log(this.params.data)
@@ -20,6 +19,15 @@ export default Vue.extend({
         `Row: ${this.params.node.rowIndex}, Col: ${this.params.colDef.headerName}`
       )
       */
+      /*
+        <router-link to='adminForm/{{this.a.rolNo}}'>{{this.a.rolNo}}</router-link>
+        <button type="button" class="v-btn v-btn--contained theme--dark v-size--default primary" v-on:click="invokeParentMethod">
+          <span class="v-btn__content">Share - {{this.a.rolNo}}</span>
+        </button>
+      */
+    },
+    link: function () {
+      this.$router.push(`/adminForm/${this.params.data.rolNo}`)
     }
   }
 })

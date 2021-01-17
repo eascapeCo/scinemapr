@@ -131,9 +131,6 @@ export default {
     console.log(this.frameworkComponents.rolresButton)
   },
   methods: {
-    test: function (param) {
-      return this.frameworkComponents.rolresButton.template
-    },
     rolesPopup: function (createElement) {
       this.gridApi.refreshCells()
       console.log(this.frameworkComponents.rolresButton.template)
@@ -144,8 +141,8 @@ export default {
       this.currentPage = page
       this.$axios.get('/api/roles?limit=3&page=' + this.currentPage, {
         headers: {
-          Authorization: this.$store.state.access_token,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: this.$store.state.access_token
         }
       })
         .then((res) => {

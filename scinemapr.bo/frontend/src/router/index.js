@@ -23,7 +23,8 @@ const routes = [
       { path: 'menuForm', component: () => import(/* webpackChunkName: "about" */ '../views/menu/MenuView.vue') },
       { path: 'rolesList', component: () => import(/* webpackChunkName: "about" */ '../views/roles/RolesList') },
       { path: 'adminList', component: () => import(/* webpackChunkName: "about" */ '../views/auth/AdminList.vue') },
-      { path: 'adminManagement', component: () => import(/* webpackChunkName: "about" */ '../views/auth/AdminManagement.vue') }
+      { path: 'adminManagement', component: () => import(/* webpackChunkName: "about" */ '../views/auth/AdminManagement.vue') },
+      { path: 'adminForm/:id', component: () => import('@/views/auth/AdminForm') }
     ]
   },
   {
