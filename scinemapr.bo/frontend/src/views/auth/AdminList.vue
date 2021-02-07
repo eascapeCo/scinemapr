@@ -41,21 +41,26 @@
 <script>
 import { AgGridVue } from 'ag-grid-vue'
 import moment from 'moment'
+import AdminManagement from '@/components/dialog/AdminManage.vue'
 
 export default {
   name: 'adminList',
   created () {
-    this.$axios.get('/api/admin', {
-      headers: {
-        Authorization: this.$store.state.access_token,
-        'Content-Type': 'application/json'
-      }
-    })
-      .then((res) => {
-        this.rowData = res.data
-        this.gridApi.setRowData(res.data)
-        console.log(this.rowData)
-      })
+    // this.$axios.get('/api/admin', {
+    //   headers: {
+    //     Authorization: this.$store.state.access_token,
+    //     'Content-Type': 'application/json'
+    //   }
+    // })
+    //   .then((res) => {
+    //     this.rowData = res.data
+    //     this.gridApi.setRowData(res.data)
+    //     console.log(this.rowData)
+    //   })
+    console.log('123132')
+    this.$com.request('get', '/api/admin', '')
+    console.log('44564')
+    // }
   },
   data: () => ({
     menus: [],
@@ -72,43 +77,32 @@ export default {
     AgGridVue
   },
   beforeMount () {
-    console.log(2)
-    console.log(this.rolresButton)
+    // console.log(2)
+    // console.log(this.rolresButton)
     this.gridOptions = {
       columnDefs: this.columnDefs,
       rowData: this.rowData
       // suppressCellSelection: false
     }
     this.columnDefs = [
-      { headerName: '관리자 번호', field: 'key' },
-      {
-        headerName: '관리자 아이디',
-        field: 'key'
-      },
-      { headerName: '등록일자', field: 'key', valueFormatter: this.dateFormatter },
-      { headerName: '등록자 번호', field: 'key' },
-      { headerName: '최종 수정 일자', field: 'key', valueFormatter: this.dateFormatter },
-      { headerName: '최종 수정자 번호', field: 'key' },
-      { headerName: '비밀번호 수정여부', fleld: 'key', checkboxSelection: true }
+      { headerName: '관리자 번호', field: 'admNo' },
+      { headerName: '관리자 아이디', field: 'username', cellRenderer: 'adminManagement' },
+      { headerName: '등록일자', field: 'regDate', valueFormatter: this.dateFormatter },
+      { headerName: '등록자 번호', field: 'regNo' },
+      { headerName: '최종 수정 일자', field: 'modDate', valueFormatter: this.dateFormatter },
+      { headerName: '최종 수정자 번호', field: 'modNo' },
+      { headerName: '비밀번호 수정여부', fleld: 'pwdExpd', checkboxSelection: true }
     ]
-    this.rowData = [
-      { key: 'admNo' },
-      { key: 'username' },
-      { key: 'regDate' },
-      { key: 'regNo' },
-      { key: 'modDate' },
-      { key: 'modNo' },
-      { key: 'pwdExpd' }
-    ]
+    this.rowData = []
     this.context = { componentParent: this }
     this.frameworkComponents = {
-      // rolresButton: RolesButton
+      adminManagement: AdminManagement
     }
     this.defaultColDef = {
       editable: false,
       minWidth: 100
     }
-    console.log(this.frameworkComponents.rolresButton)
+    // console.log(this.frameworkComponents.adminManagement)
   },
   methods: {
     test: function (url) {
@@ -119,13 +113,11 @@ export default {
       })
     },
     rolesPopup: function (createElement) {
-      console.log('1')
-      // console.log(createElement('v-btn', 1))
       this.gridApi.refreshCells()
-      console.log(this.frameworkComponents.rolresButton.template)
+      // console.log(this.frameworkComponents.adminManagement.template)
     },
     dateFormatter: function (params) {
-      console.log(params)
+      // console.log(params)
       return moment(params.value, 'YYYYMMDDhhmmss').format('YYYY/MM/DD HH:mm:ss')
     },
     register: function (params) {
@@ -133,7 +125,6 @@ export default {
     }
   },
   mounted () {
-    console.log(3)
     this.gridApi = this.gridOptions.api
     // this.gridOptions.api.sizeColumnsToFit()
   }

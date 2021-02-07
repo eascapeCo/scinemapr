@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import createPersistedState from 'vuex-persistedstate'
+// import {user} from './api'
 
 Vue.use(Vuex)
 

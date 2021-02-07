@@ -91,6 +91,7 @@
 
 export default {
   created () {
+    console.log(this.$route.params)
     this.$axios.get('/api/roleList', {
       headers: {
         Authorization: this.$store.state.access_token,
