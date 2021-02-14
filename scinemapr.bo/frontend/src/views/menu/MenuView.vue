@@ -90,6 +90,7 @@ export default {
     save: function () {
       console.log('submit')
       console.log(this.data)
+      this.test()
       if (this.data.createType === null) {
         alert('!!')
         return false

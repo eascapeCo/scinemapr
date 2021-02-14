@@ -33,7 +33,7 @@ public class BoMenuController {
         List<Menu> list = null;
         if (loginUser != null) {
             log.info("login user {}", loginUser.getAdmNo());
-            list = this.menuService.getMenuList(null);
+            list = this.menuService.getMenuList(loginUser.getAdmNo());
         }
         return list;
     }

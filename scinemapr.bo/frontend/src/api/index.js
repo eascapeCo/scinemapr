@@ -21,18 +21,6 @@ export default {
         url: DOMAIN + url,
         data: data
       })
-        .then((res) => {
-          succ(res)
-          console.log('여긴 공통, ' + res)
-        })
-        .catch((res) => {
-          fail(res)
-          // const { status } = res.response
-          // if (status === UNAUTHORIZED) {
-          //   return onUnauthroized()
-          // }
-          // throw Error(res)
-        })
     }
   }
 }
