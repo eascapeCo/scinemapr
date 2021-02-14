@@ -45,7 +45,9 @@ import AdminManagement from '@/components/dialog/AdminManage.vue'
 
 export default {
   name: 'adminList',
+  // mount로 변경 (라이프사이클 확인)  ==>  mount는 DOM이 그려지고나서
   created () {
+    // this.rowData = []
     // this.$axios.get('/api/admin', {
     //   headers: {
     //     Authorization: this.$store.state.access_token,
@@ -57,10 +59,16 @@ export default {
     //     this.gridApi.setRowData(res.data)
     //     console.log(this.rowData)
     //   })
-    console.log('123132')
-    this.$com.request('get', '/api/admin', '')
-    console.log('44564')
-    // }
+    this.$request('get', '/api/admin', '',
+      function (res) {
+        console.log(res.data)
+        this.rowData = res.data
+        this.gridApi.setRowData(this.rowData)
+      },
+      function (e) {
+        console.log(e)
+      }
+    )
   },
   data: () => ({
     menus: [],
@@ -77,8 +85,6 @@ export default {
     AgGridVue
   },
   beforeMount () {
-    // console.log(2)
-    // console.log(this.rolresButton)
     this.gridOptions = {
       columnDefs: this.columnDefs,
       rowData: this.rowData
