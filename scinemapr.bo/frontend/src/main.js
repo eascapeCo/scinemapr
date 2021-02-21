@@ -5,7 +5,6 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import axios from 'axios'
 import VueSimpleAlert from 'vue-simple-alert'
-import common from '@/api'
 // import VuetifyDialog from 'vuetify-dialog'
 
 // axios.defaults.baseURL = process.env.VUE_APP_BACKEND_SVC_URL
@@ -22,12 +21,10 @@ Vue.prototype.$axios = axios
 Vue.prototype.$store = store
 
 Vue.use(VueSimpleAlert)
-Vue.use(common)
 
 new Vue({
   router,
   store,
   vuetify,
-  common,
   render: h => h(App)
 }).$mount('#app')

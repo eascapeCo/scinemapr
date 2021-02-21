@@ -47,6 +47,9 @@ public class BoAdminController {
 
     @GetMapping("/admin")
     public List<Admin> getAdminList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        log.info("==============================");
+        log.info("method {} / uri {} / url {}", request.getMethod(), request.getRequestURI(), request.getRequestURL());
+        log.info("==============================");
         return adminService.getAdminList();
     }
 

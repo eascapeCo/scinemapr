@@ -67,7 +67,6 @@ export default new Vuex.Store({
   actions: {
     LOGIN: ({ commit }, { id, pwd }) => {
       return new Promise((resolve, reject) => {
-        console.log(id)
         return axios({
           method: 'post',
           url: '/api/login',

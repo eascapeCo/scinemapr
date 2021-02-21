@@ -47,28 +47,22 @@ export default {
   name: 'adminList',
   // mount로 변경 (라이프사이클 확인)  ==>  mount는 DOM이 그려지고나서
   created () {
-    // this.rowData = []
-    // this.$axios.get('/api/admin', {
-    //   headers: {
-    //     Authorization: this.$store.state.access_token,
-    //     'Content-Type': 'application/json'
-    //   }
-    // })
-    //   .then((res) => {
+    this.rowData = []
+    this.$axios.get('/api/admin').then((res) => {
+      this.rowData = res.data
+      this.gridApi.setRowData(res.data)
+      console.log(this.rowData)
+    })
+    // this.$request('get', '/api/admin', '',
+    //   function (res, i) {
+    //     console.log('123123' + res)
     //     this.rowData = res.data
-    //     this.gridApi.setRowData(res.data)
-    //     console.log(this.rowData)
-    //   })
-    this.$request('get', '/api/admin', '',
-      function (res) {
-        console.log(res.data)
-        this.rowData = res.data
-        this.gridApi.setRowData(this.rowData)
-      },
-      function (e) {
-        console.log(e)
-      }
-    )
+    //     this.gridApi.setRowData(this.rowData)
+    //   },
+    //   function (e, i) {
+    //     console.log(e)
+    //   }
+    // )
   },
   data: () => ({
     menus: [],

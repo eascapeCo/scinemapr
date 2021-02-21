@@ -75,20 +75,13 @@ import RolesButton from '@/components/roles/rolesButton.vue'
 export default {
   name: 'rolesList',
   created () {
-    console.log(1)
-    this.$axios.get('/api/roles?limit=3', {
-      headers: {
-        Authorization: this.$store.state.access_token,
-        'Content-Type': 'application/json'
-      }
+    this.$axios.get('/api/roles?limit=3').then((res) => {
+      this.rowData = res.data.content
+      this.currentPage = res.data.number
+      this.totalPages = res.data.totalPages
+      this.gridApi.setRowData(this.rowData)
+      console.log(res.data)
     })
-      .then((res) => {
-        this.rowData = res.data.content
-        this.currentPage = res.data.number
-        this.totalPages = res.data.totalPages
-        this.gridApi.setRowData(this.rowData)
-        console.log(res.data)
-      })
   },
   data: () => ({
     menus: [],
@@ -137,25 +130,17 @@ export default {
       console.log('!1')
     },
     getPage: function (page) {
-      console.log('page -> ' + page)
       this.currentPage = page
-      this.$axios.get('/api/roles?limit=3&page=' + this.currentPage, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: this.$store.state.access_token
-        }
+      this.$axios.get('/api/roles?limit=3&page=' + this.currentPage).then((res) => {
+        console.log(res.data.number)
+        this.rowData = res.data.content
+        this.currentPage = res.data.number
+        this.totalPages = res.data.totalPages
+        this.gridApi.setRowData(this.rowData)
       })
-        .then((res) => {
-          console.log(res.data.number)
-          this.rowData = res.data.content
-          this.currentPage = res.data.number
-          this.totalPages = res.data.totalPages
-          this.gridApi.setRowData(this.rowData)
-        })
     }
   },
   mounted () {
-    console.log(3)
     this.gridApi = this.gridOptions.api
     // this.gridOptions.api.sizeColumnsToFit()
   }

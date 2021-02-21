@@ -173,7 +173,6 @@ export default {
       }).then((result) => {
         console.log(result)
         if (result.value) {
-          console.log('여기 왜못들어옴')
           this.register()
         }
       }).catch((err) => {
@@ -185,12 +184,7 @@ export default {
         username: this.userId,
         roles: this.selectedRoles
       }
-      this.$axios.post('/api/admin', data, {
-        headers: {
-          Authorization: this.$store.state.access_token,
-          'Content-Type': 'application/json'
-        }
-      }).then((res) => {
+      this.$axios.post('/api/admin', data).then((res) => {
         if (res.status === 201) {
           this.$fire({
             title: 'Success',

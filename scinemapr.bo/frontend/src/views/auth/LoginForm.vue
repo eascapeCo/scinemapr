@@ -84,7 +84,6 @@ export default {
         this.loginError = true
         this.errors.push(error)
         this.error = true
-
         // this.$alert('ID나 비밀번호를 확인하세요')
       })
     }
