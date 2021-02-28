@@ -13,7 +13,6 @@ export default Vue.extend({
   },
   methods: {
     invokeParentMethod: function () {
-      console.log('여기 맞냐 : ' + this.params.data)
       /*
       this.params.context.componentParent.methodFromParent(
         `Row: ${this.params.node.rowIndex}, Col: ${this.params.colDef.headerName}`

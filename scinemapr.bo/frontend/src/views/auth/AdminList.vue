@@ -55,7 +55,6 @@ export default {
     })
     // this.$request('get', '/api/admin', '',
     //   function (res, i) {
-    //     console.log('123123' + res)
     //     this.rowData = res.data
     //     this.gridApi.setRowData(this.rowData)
     //   },

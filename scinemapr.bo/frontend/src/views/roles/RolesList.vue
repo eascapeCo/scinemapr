@@ -127,7 +127,6 @@ export default {
     rolesPopup: function (createElement) {
       this.gridApi.refreshCells()
       console.log(this.frameworkComponents.rolresButton.template)
-      console.log('!1')
     },
     getPage: function (page) {
       this.currentPage = page

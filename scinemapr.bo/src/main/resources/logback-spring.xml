@@ -17,7 +17,7 @@
         <appender-ref ref="STDOUT" />
     </logger>
      -->
-    
+
     <logger name="com.eascapeco.scinemapr" level="debug"/>
     <!-- turn OFF all logging (children can override) -->
     <root level="DEBUG">

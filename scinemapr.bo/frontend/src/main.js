@@ -5,11 +5,7 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import axios from 'axios'
 import VueSimpleAlert from 'vue-simple-alert'
-// import VuetifyDialog from 'vuetify-dialog'
-
-// axios.defaults.baseURL = process.env.VUE_APP_BACKEND_SVC_URL
-axios.defaults.baseURL = 'http://localhost:3000'
-axios.defaults.headers['Content-Type'] = 'application/json'
+import api from '@/api'
 
 const local = axios.create({
   baseURL: ''
@@ -21,10 +17,12 @@ Vue.prototype.$axios = axios
 Vue.prototype.$store = store
 
 Vue.use(VueSimpleAlert)
+Vue.use(api)
 
 new Vue({
   router,
   store,
   vuetify,
+  api,
   render: h => h(App)
 }).$mount('#app')

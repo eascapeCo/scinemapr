@@ -31,10 +31,12 @@ public class BoMenuController {
         log.info("get menu");
 
         List<Menu> list = null;
+        log.info("list check : {}, login user : {}", list, loginUser);
         if (loginUser != null) {
             log.info("login user {}", loginUser.getAdmNo());
             list = this.menuService.getMenuList(loginUser.getAdmNo());
         }
+        log.info("get menu" + list);
         return list;
     }
 

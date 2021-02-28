@@ -102,7 +102,7 @@ public class MenuService {
             param.setAdmNo(admNo);
 
         }
-
+        log.info("param : {}", param);
         List<Menu> menus = this.menuMapper.selectMenus(param);
 
         return this.getDispMenuList(menus, 1);

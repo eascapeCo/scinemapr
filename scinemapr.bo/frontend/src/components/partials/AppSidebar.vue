@@ -108,11 +108,9 @@ export default {
   }),
   methods: {
     getMenuList: function () {
-      console.log('11')
     },
     test: function (url) {
       console.log(url)
-      console.log(this.$route)
       this.$router.push(url).catch(error => {
         if (error.name !== 'NavigationDuplicated') {
           throw error

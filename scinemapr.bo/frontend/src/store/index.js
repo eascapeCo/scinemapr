@@ -40,8 +40,6 @@ export default new Vuex.Store({
       sessionStorage.setItem('refresh_token', data.refreshToken)
 
       // state.expires_in = data.expires_in
-
-      // console.log('CHK >> ' + JSON.stringify(state))
     },
     LOGIN_ERROR: function (state, data) {
       state.loginError = true

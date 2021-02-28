@@ -84,7 +84,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
         } catch (ExpiredJwtException e) {
             ErrorResponse errorResponse = new ErrorResponse(ErrorCode.BAD_REQUEST.getCode(), ErrorCode.BAD_REQUEST.getDescription(), e.getMessage());
-
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 

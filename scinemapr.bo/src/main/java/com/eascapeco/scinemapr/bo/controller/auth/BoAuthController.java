@@ -50,6 +50,7 @@ public class BoAuthController {
     @PostMapping("/login")
     public ResponseEntity<AdminToken> login(@RequestBody Admin admin, HttpServletRequest request, HttpServletResponse response) throws Exception {
         authenticate(admin.getUsername(), admin.getPassword());
+        log.info("check login");
 
         Admin chkAdmin = new Admin();
 //        널체크
@@ -57,6 +58,7 @@ public class BoAuthController {
             chkAdmin = adminUserDetailsService.loadUserByUsername(admin.getUsername());
 
         }
+        log.info("check login22");
         return ResponseEntity.ok(jwtAuthenticationService.getTokens(chkAdmin));
     }
 
